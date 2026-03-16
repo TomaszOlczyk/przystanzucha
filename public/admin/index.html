@@ -7,5 +7,129 @@
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      window.CMS.init({
+        config: {
+          load_config_file: false,
+          backend: {
+            name: "github",
+            repo: "TomaszOlczyk/przystanzucha",
+            branch: "master",
+            auth_type: "pkce",
+            app_id: "Ov23lif2oBsIoXIb5uYE"
+          },
+          media_folder: "public/images",
+          public_folder: "/images",
+          locale: "pl",
+          collections: [
+            {
+              name: "settings",
+              label: "Ustawienia strony",
+              files: [{
+                name: "site",
+                label: "Dane przedszkola",
+                file: "src/content/site.json",
+                fields: [
+                  { label: "Nazwa", name: "name", widget: "string" },
+                  { label: "Slogan", name: "tagline", widget: "string" },
+                  { label: "Opis", name: "description", widget: "text" },
+                  { label: "Domena", name: "domain", widget: "string" },
+                  { label: "Telefon", name: "phone", widget: "string" },
+                  { label: "Email", name: "email", widget: "string" },
+                  { label: "Adres", name: "address", widget: "object", fields: [
+                    { label: "Ulica", name: "street", widget: "string" },
+                    { label: "Miasto", name: "city", widget: "string" },
+                    { label: "Kod pocztowy", name: "zip", widget: "string" }
+                  ]},
+                  { label: "Godziny otwarcia", name: "hours", widget: "string" },
+                  { label: "Social media", name: "social", widget: "object", fields: [
+                    { label: "Facebook URL", name: "facebook", widget: "string" },
+                    { label: "Instagram URL", name: "instagram", widget: "string" }
+                  ]},
+                  { label: "Rekrutacja otwarta", name: "recruitmentOpen", widget: "boolean" },
+                  { label: "Rok rekrutacji", name: "recruitmentYear", widget: "string" },
+                  { label: "Nawigacja", name: "navigation", widget: "list", fields: [
+                    { label: "Tekst", name: "label", widget: "string" },
+                    { label: "Link", name: "href", widget: "string" }
+                  ]}
+                ]
+              }]
+            },
+            {
+              name: "staff",
+              label: "Kadra",
+              files: [{
+                name: "staff",
+                label: "Zespół",
+                file: "src/content/staff.json",
+                fields: [
+                  { label: "Tytuł sekcji", name: "title", widget: "string" },
+                  { label: "Podtytuł", name: "subtitle", widget: "string" },
+                  { label: "Członkowie kadry", name: "members", widget: "list", fields: [
+                    { label: "Imię i nazwisko", name: "name", widget: "string" },
+                    { label: "Stanowisko", name: "role", widget: "string" },
+                    { label: "Zdjęcie", name: "image", widget: "image", required: false },
+                    { label: "Opis", name: "description", widget: "text" },
+                    { label: "Kwalifikacje", name: "qualifications", widget: "list", field: { label: "Kwalifikacja", name: "qual", widget: "string" } }
+                  ]}
+                ]
+              }]
+            },
+            {
+              name: "classrooms",
+              label: "Sala i materiały",
+              files: [{
+                name: "classrooms",
+                label: "Nasza sala",
+                file: "src/content/classrooms.json",
+                fields: [
+                  { label: "Tytuł sekcji", name: "title", widget: "string" },
+                  { label: "Podtytuł", name: "subtitle", widget: "text" },
+                  { label: "Sala", name: "room", widget: "object", fields: [
+                    { label: "Nazwa", name: "name", widget: "string" },
+                    { label: "Zdjęcie", name: "image", widget: "image", required: false },
+                    { label: "Opis", name: "description", widget: "text" },
+                    { label: "Wyposażenie", name: "features", widget: "list", field: { label: "Element", name: "feature", widget: "string" } }
+                  ]},
+                  { label: "Zastosowania sali", name: "uses", widget: "list", fields: [
+                    { label: "Nazwa", name: "name", widget: "string" },
+                    { label: "Ikona (emoji)", name: "icon", widget: "string" },
+                    { label: "Zdjęcie", name: "image", widget: "image", required: false },
+                    { label: "Opis", name: "description", widget: "text" }
+                  ]},
+                  { label: "Materiały edukacyjne", name: "materials", widget: "list", fields: [
+                    { label: "Kategoria", name: "category", widget: "string" },
+                    { label: "Ikona (emoji)", name: "icon", widget: "string" },
+                    { label: "Elementy", name: "items", widget: "list", field: { label: "Element", name: "item", widget: "string" } }
+                  ]}
+                ]
+              }]
+            },
+            {
+              name: "activities",
+              label: "Zajęcia",
+              files: [{
+                name: "activities",
+                label: "Dedykowane zajęcia",
+                file: "src/content/activities.json",
+                fields: [
+                  { label: "Tytuł sekcji", name: "title", widget: "string" },
+                  { label: "Podtytuł", name: "subtitle", widget: "text" },
+                  { label: "Etykieta (badge)", name: "badge", widget: "string" },
+                  { label: "Lista zajęć", name: "activities", widget: "list", fields: [
+                    { label: "Nazwa", name: "name", widget: "string" },
+                    { label: "Ikona (emoji)", name: "icon", widget: "string" },
+                    { label: "Zdjęcie", name: "image", widget: "image", required: false },
+                    { label: "Opis", name: "description", widget: "text" },
+                    { label: "Częstotliwość", name: "frequency", widget: "string" },
+                    { label: "Czas trwania", name: "duration", widget: "string" }
+                  ]}
+                ]
+              }]
+            }
+          ]
+        }
+      });
+    </script>
   </body>
 </html>
