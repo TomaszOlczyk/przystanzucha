@@ -1,121 +1,106 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import activitiesData from "@/content/activities.json";
 
 export const metadata: Metadata = {
-  title: "Zajęcia Dodatkowe — Przystanzucha",
+  title: "Zajęcia dla Dzieci — Przystanzucha",
   description:
-    "Wszystkie zajęcia dodatkowe wchodzą w skład czesnego. Język angielski, rytmika, plastyka, robotyka i więcej!",
+    "Dedykowane zajęcia w ramach czesnego. Angielski, rytmika, plastyka, robotyka i więcej!",
 };
 
 export default function ZajeciaPage() {
-  const activityColors = [
-    "var(--color-primary)",
-    "var(--color-accent-blue)",
-    "var(--color-accent-pink)",
-    "var(--color-secondary)",
-    "var(--color-accent-purple)",
-    "var(--color-primary)",
-    "var(--color-accent-blue)",
-    "var(--color-accent-pink)",
-    "var(--color-secondary)",
-    "var(--color-accent-purple)",
+  const colors = [
+    "#ec4899", "#6366f1", "#a855f7", "#3b82f6", "#ec4899",
+    "#6366f1", "#a855f7", "#3b82f6", "#ec4899", "#6366f1",
   ];
 
   return (
     <>
-      {/* Header */}
-      <section className="bg-gradient-to-br from-[var(--color-accent-yellow)]/20 via-[var(--color-bg)] to-[var(--color-accent-pink)]/15 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-5xl mb-4 block">🌟</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-            {activitiesData.title}
-          </h1>
-          <p className="text-lg text-[var(--color-text-light)] max-w-2xl mx-auto mb-6">
-            {activitiesData.subtitle}
-          </p>
-          <span className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--color-secondary)]/15 text-[var(--color-secondary)] font-bold text-lg">
-            ✅ {activitiesData.badge}
-          </span>
-        </div>
-      </section>
-
-      {/* Activities Grid */}
-      <section className="py-16 md:py-24">
+      <section className="pt-12 pb-16 md:pt-20 md:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activitiesData.activities.map((activity, index) => {
-              const color = activityColors[index % activityColors.length];
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-5">
+              <span className="gradient-text">Zajęcia dla dzieci</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+              {activitiesData.title}
+            </h1>
+            <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-6">
+              {activitiesData.subtitle}
+            </p>
+            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full btn-gradient font-bold text-sm">
+              {activitiesData.badge}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {activitiesData.activities.map((activity, i) => {
+              const color = colors[i % colors.length];
 
               return (
                 <div
                   key={activity.name}
-                  className="bg-white rounded-2xl p-6 shadow-sm card-hover border border-gray-50 relative overflow-hidden"
+                  className="glass-strong rounded-2xl p-6 card-hover relative overflow-hidden"
                 >
-                  {/* Decorative corner */}
                   <div
-                    className="absolute top-0 right-0 w-20 h-20 rounded-bl-[3rem] opacity-10"
+                    className="absolute top-0 right-0 w-24 h-24 rounded-bl-[4rem] opacity-10"
                     style={{ backgroundColor: color }}
                   />
-
                   <div className="relative">
-                    <div className="text-4xl mb-4">{activity.icon}</div>
-                    <h3 className="text-xl font-bold mb-2" style={{ color }}>
+                    <div className="text-3xl mb-3">{activity.icon}</div>
+                    <h3
+                      className="text-lg font-bold mb-2"
+                      style={{ color }}
+                    >
                       {activity.name}
                     </h3>
-                    <p className="text-sm text-[var(--color-text-light)] leading-relaxed mb-5">
+                    <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">
                       {activity.description}
                     </p>
-
-                    <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
-                      <div className="flex items-center gap-1.5 text-sm">
-                        <span className="text-base">📅</span>
-                        <span className="text-[var(--color-text-light)]">
-                          {activity.frequency}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-sm">
-                        <span className="text-base">⏱️</span>
-                        <span className="text-[var(--color-text-light)]">
-                          {activity.duration}
-                        </span>
-                      </div>
+                    <div className="flex items-center gap-4 pt-3 border-t border-gray-200/50 text-sm text-[var(--color-text-secondary)]">
+                      <span>📅 {activity.frequency}</span>
+                      <span>⏱️ {activity.duration}</span>
                     </div>
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* Summary banner */}
-      <section className="py-16 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent-pink)]">
-        <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {activitiesData.activities.length} zajęć w cenie czesnego! 🎉
-          </h2>
-          <p className="text-lg opacity-90 mb-8">
-            Nie musisz szukać dodatkowych zajęć po godzinach — Twoje dziecko
-            rozwija się wszechstronnie w przedszkolu.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
-            {activitiesData.activities.map((a) => (
-              <span
-                key={a.name}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium"
-              >
-                {a.icon} {a.name}
-              </span>
-            ))}
+          {/* Summary CTA */}
+          <div className="mt-16">
+            <div
+              className="rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden"
+              style={{ background: "var(--gradient-btn)" }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
+              <div className="relative">
+                <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+                  {activitiesData.activities.length} dedykowanych zajęć w ramach czesnego!
+                </h2>
+                <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">
+                  Nie musisz szukać dodatkowych zajęć po godzinach — Twoje
+                  dziecko rozwija się wszechstronnie w przedszkolu
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                  {activitiesData.activities.map((a) => (
+                    <span
+                      key={a.name}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-sm font-medium"
+                    >
+                      {a.icon} {a.name}
+                    </span>
+                  ))}
+                </div>
+                <Link
+                  href="/#kontakt"
+                  className="inline-block px-8 py-4 rounded-full bg-white text-[var(--color-purple)] font-bold text-lg hover:bg-white/90 transition-all shadow-lg"
+                >
+                  Zapisz dziecko
+                </Link>
+              </div>
+            </div>
           </div>
-
-          <a
-            href="/#rekrutacja"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[var(--color-primary)] font-bold text-lg hover:bg-gray-50 transition-all shadow-lg"
-          >
-            Zapisz dziecko ✨
-          </a>
         </div>
       </section>
     </>

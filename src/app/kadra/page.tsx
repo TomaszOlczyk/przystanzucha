@@ -1,89 +1,69 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import staffData from "@/content/staff.json";
 
 export const metadata: Metadata = {
-  title: "Kadra — Przystanzucha",
+  title: "Nasza Kadra — Przystanzucha",
   description: "Poznaj nasz zespół wykwalifikowanych pedagogów i specjalistów.",
 };
 
 export default function KadraPage() {
+  const colors = ["#ec4899", "#a855f7", "#6366f1", "#3b82f6", "#ec4899", "#a855f7"];
+  const icons = ["👩‍💼", "👩‍🏫", "👩‍🏫", "🇬🇧", "🎵", "🧠"];
+
   return (
     <>
-      {/* Header */}
-      <section className="bg-gradient-to-br from-[var(--color-accent-purple)]/15 via-[var(--color-bg)] to-[var(--color-secondary)]/10 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-5xl mb-4 block">👩‍🏫</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-            {staffData.title}
-          </h1>
-          <p className="text-lg text-[var(--color-text-light)] max-w-2xl mx-auto">
-            {staffData.subtitle}
-          </p>
-        </div>
-      </section>
-
-      {/* Staff Grid */}
-      <section className="py-16 md:py-24">
+      <section className="pt-12 pb-16 md:pt-20 md:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {staffData.members.map((member, index) => {
-              const colors = [
-                "var(--color-primary)",
-                "var(--color-secondary)",
-                "var(--color-accent-pink)",
-                "var(--color-accent-purple)",
-                "var(--color-accent-blue)",
-                "var(--color-accent-yellow)",
-              ];
-              const color = colors[index % colors.length];
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-5">
+              <span className="gradient-text">Nasza kadra</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+              {staffData.title}
+            </h1>
+            <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+              {staffData.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {staffData.members.map((member, i) => {
+              const color = colors[i % colors.length];
+              const icon = icons[i % icons.length];
 
               return (
                 <div
                   key={member.name}
-                  className="bg-white rounded-3xl overflow-hidden shadow-sm card-hover border border-gray-50"
+                  className="glass-strong rounded-2xl overflow-hidden card-hover"
                 >
-                  {/* Avatar placeholder */}
                   <div
-                    className="h-48 flex items-center justify-center text-7xl"
+                    className="h-44 flex items-center justify-center text-6xl"
                     style={{
-                      background: `linear-gradient(135deg, ${color}20, ${color}40)`,
+                      background: `linear-gradient(135deg, ${color}15, ${color}30)`,
                     }}
                   >
-                    {member.role.includes("Dyrektor")
-                      ? "👩‍💼"
-                      : member.role.includes("Psycholog")
-                      ? "🧠"
-                      : member.role.includes("muzyk")
-                      ? "🎵"
-                      : member.role.includes("angielski")
-                      ? "🇬🇧"
-                      : "👩‍🏫"}
+                    {icon}
                   </div>
-
                   <div className="p-6">
                     <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                    <p
-                      className="text-sm font-semibold mb-3"
-                      style={{ color }}
-                    >
+                    <p className="text-sm font-semibold mb-3" style={{ color }}>
                       {member.role}
                     </p>
-                    <p className="text-sm text-[var(--color-text-light)] leading-relaxed mb-4">
+                    <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">
                       {member.description}
                     </p>
-
-                    {/* Qualifications */}
                     <div className="flex flex-wrap gap-1.5">
-                      {member.qualifications.map((qual) => (
+                      {member.qualifications.map((q) => (
                         <span
-                          key={qual}
+                          key={q}
                           className="text-xs px-2.5 py-1 rounded-full font-medium"
                           style={{
-                            backgroundColor: `${color}15`,
+                            backgroundColor: `${color}12`,
                             color,
                           }}
                         >
-                          {qual}
+                          {q}
                         </span>
                       ))}
                     </div>
@@ -92,25 +72,22 @@ export default function KadraPage() {
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-[var(--color-bg-alt)]">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Chcesz poznać nas osobiście? 🤝
-          </h2>
-          <p className="text-[var(--color-text-light)] mb-8">
-            Zapraszamy na dzień otwarty — oprowdzimy Cię po przedszkolu i
-            odpowiemy na wszystkie pytania.
-          </p>
-          <a
-            href="/#rekrutacja"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--color-primary)] text-white font-bold text-lg hover:bg-[var(--color-primary-light)] transition-all shadow-lg"
-          >
-            Umów wizytę ✨
-          </a>
+          <div className="mt-16 text-center">
+            <div className="glass-strong rounded-2xl p-8 md:p-10 inline-block max-w-xl">
+              <h2 className="text-2xl font-bold mb-3">Chcesz nas poznać?</h2>
+              <p className="text-[var(--color-text-secondary)] mb-6">
+                Zapraszamy na dzień otwarty — oprowdzimy po przedszkolu i
+                odpowiemy na pytania
+              </p>
+              <Link
+                href="/#kontakt"
+                className="inline-block px-8 py-3.5 rounded-full btn-gradient font-bold"
+              >
+                Umów wizytę
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </>

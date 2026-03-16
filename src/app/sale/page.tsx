@@ -1,166 +1,135 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import classroomsData from "@/content/classrooms.json";
 
 export const metadata: Metadata = {
-  title: "Sale i Materiały — Przystanzucha",
-  description:
-    "Nowoczesne sale dydaktyczne i najlepsze materiały edukacyjne dla Twojego dziecka.",
+  title: "Nasza Sala — Przystanzucha",
+  description: "Jedna przestrzeń, wiele możliwości. Nowoczesna sala i najlepsze materiały edukacyjne.",
 };
 
 export default function SalePage() {
-  const roomColors = [
-    "var(--color-primary)",
-    "var(--color-accent-blue)",
-    "var(--color-accent-purple)",
-    "var(--color-secondary)",
-  ];
-
-  const roomEmojis = ["🌈", "🖐️", "🎵", "🌳"];
+  const useColors = ["#ec4899", "#a855f7", "#6366f1", "#3b82f6", "#ec4899", "#a855f7"];
 
   return (
     <>
-      {/* Header */}
-      <section className="bg-gradient-to-br from-[var(--color-accent-blue)]/15 via-[var(--color-bg)] to-[var(--color-accent-yellow)]/15 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-5xl mb-4 block">🏫</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-            {classroomsData.title}
-          </h1>
-          <p className="text-lg text-[var(--color-text-light)] max-w-2xl mx-auto">
-            {classroomsData.subtitle}
-          </p>
-        </div>
-      </section>
-
-      {/* Rooms */}
-      <section className="py-16 md:py-24">
+      <section className="pt-12 pb-16 md:pt-20 md:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Nasze sale 🎨
-          </h2>
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-5">
+              <span className="gradient-text">Nasza sala</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+              {classroomsData.title}
+            </h1>
+            <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+              {classroomsData.subtitle}
+            </p>
+          </div>
 
-          <div className="space-y-12">
-            {classroomsData.rooms.map((room, index) => {
-              const color = roomColors[index % roomColors.length];
-              const emoji = roomEmojis[index % roomEmojis.length];
-              const isReversed = index % 2 === 1;
+          {/* Main room showcase */}
+          <div className="glass-strong rounded-3xl p-6 md:p-10 mb-16">
+            <div className="flex flex-col md:flex-row gap-8 items-center">
+              <div
+                className="w-full md:w-1/2 h-64 md:h-80 rounded-2xl flex items-center justify-center text-8xl shrink-0"
+                style={{
+                  background: "linear-gradient(135deg, #ec489915, #a855f720, #6366f115)",
+                }}
+              >
+                🏠
+              </div>
+              <div className="w-full md:w-1/2">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3 gradient-text">
+                  {classroomsData.room.name}
+                </h2>
+                <p className="text-[var(--color-text-secondary)] leading-relaxed mb-6 text-sm">
+                  {classroomsData.room.description}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {classroomsData.room.features.map((f) => (
+                    <div key={f} className="flex items-center gap-2 text-sm">
+                      <span className="w-5 h-5 rounded-full btn-gradient flex items-center justify-center text-white text-[10px] font-bold shrink-0">
+                        ✓
+                      </span>
+                      {f}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
 
-              return (
-                <div
-                  key={room.name}
-                  className={`flex flex-col ${
-                    isReversed ? "md:flex-row-reverse" : "md:flex-row"
-                  } gap-8 items-center bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-50 card-hover`}
-                >
-                  {/* Image placeholder */}
+          {/* Uses */}
+          <div className="mb-20">
+            <h2 className="text-3xl font-extrabold text-center mb-3">
+              Jedna sala — <span className="gradient-text">wiele możliwości</span>
+            </h2>
+            <p className="text-center text-[var(--color-text-secondary)] mb-10 max-w-2xl mx-auto">
+              Nasza sala codziennie zmienia się w zależności od planu zajęć
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {classroomsData.uses.map((use, i) => {
+                const color = useColors[i % useColors.length];
+                return (
                   <div
-                    className="w-full md:w-1/2 h-64 md:h-80 rounded-2xl flex items-center justify-center text-8xl shrink-0"
-                    style={{
-                      background: `linear-gradient(135deg, ${color}15, ${color}30)`,
-                    }}
+                    key={use.name}
+                    className="glass-strong rounded-2xl p-6 card-hover"
                   >
-                    {emoji}
-                  </div>
-
-                  {/* Content */}
-                  <div className="w-full md:w-1/2">
-                    <h3 className="text-2xl font-bold mb-3" style={{ color }}>
-                      {room.name}
+                    <div className="text-3xl mb-3">{use.icon}</div>
+                    <h3 className="text-lg font-bold mb-2" style={{ color }}>
+                      {use.name}
                     </h3>
-                    <p className="text-[var(--color-text-light)] leading-relaxed mb-5">
-                      {room.description}
+                    <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+                      {use.description}
                     </p>
-                    <ul className="space-y-2">
-                      {room.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-center gap-2 text-sm"
-                        >
-                          <span
-                            className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                            style={{ backgroundColor: color }}
-                          >
-                            ✓
-                          </span>
-                          {feature}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Materials */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-extrabold text-center mb-4">
+              Materiały i narzędzia
+            </h2>
+            <p className="text-center text-[var(--color-text-secondary)] mb-10 max-w-2xl mx-auto">
+              Pracujemy z najlepszymi materiałami edukacyjnymi wspierającymi rozwój
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {classroomsData.materials.map((cat, i) => {
+                const matColors = ["#ec4899", "#a855f7", "#6366f1", "#3b82f6"];
+                const color = matColors[i % matColors.length];
+                return (
+                  <div key={cat.category} className="glass-strong rounded-2xl p-6 card-hover">
+                    <div className="text-3xl mb-3">{cat.icon}</div>
+                    <h3 className="font-bold mb-3" style={{ color }}>{cat.category}</h3>
+                    <ul className="space-y-1.5">
+                      {cat.items.map((item) => (
+                        <li key={item} className="text-sm text-[var(--color-text-secondary)] flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                          {item}
                         </li>
                       ))}
                     </ul>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Materials */}
-      <section className="py-16 md:py-24 bg-[var(--color-bg-alt)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-4">
-            Materiały i narzędzia 🧩
-          </h2>
-          <p className="text-center text-[var(--color-text-light)] mb-12 max-w-2xl mx-auto">
-            Pracujemy z najlepszymi materiałami edukacyjnymi, które wspierają
-            wszechstronny rozwój dzieci
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {classroomsData.materials.map((category, index) => {
-              const materialColors = [
-                "var(--color-primary)",
-                "var(--color-accent-pink)",
-                "var(--color-secondary)",
-                "var(--color-accent-purple)",
-              ];
-              const color = materialColors[index % materialColors.length];
-
-              return (
-                <div
-                  key={category.category}
-                  className="bg-white rounded-2xl p-6 shadow-sm card-hover border border-gray-50"
-                >
-                  <div className="text-4xl mb-3">{category.icon}</div>
-                  <h3 className="font-bold text-lg mb-4" style={{ color }}>
-                    {category.category}
-                  </h3>
-                  <ul className="space-y-2">
-                    {category.items.map((item) => (
-                      <li
-                        key={item}
-                        className="text-sm text-[var(--color-text-light)] flex items-center gap-2"
-                      >
-                        <span
-                          className="w-1.5 h-1.5 rounded-full shrink-0"
-                          style={{ backgroundColor: color }}
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
+          <div className="text-center">
+            <div className="glass-strong rounded-2xl p-8 md:p-10 inline-block max-w-xl">
+              <h2 className="text-2xl font-bold mb-3">Chcesz zobaczyć naszą salę?</h2>
+              <p className="text-[var(--color-text-secondary)] mb-6">
+                Zapraszamy na spacer po przedszkolu — przekonaj się sam!
+              </p>
+              <Link href="/#kontakt" className="inline-block px-8 py-3.5 rounded-full btn-gradient font-bold">
+                Umów wizytę
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Chcesz zobaczyć nasze sale na żywo? 👀
-          </h2>
-          <p className="text-[var(--color-text-light)] mb-8">
-            Zapraszamy na spacer po przedszkolu — przekonaj się, jak wygląda
-            codzienność w Przystanzucha!
-          </p>
-          <a
-            href="/#rekrutacja"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--color-secondary)] text-white font-bold text-lg hover:bg-[var(--color-secondary-light)] transition-all shadow-lg"
-          >
-            Umów wizytę 🏫
-          </a>
         </div>
       </section>
     </>

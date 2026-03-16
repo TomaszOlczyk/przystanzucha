@@ -20,9 +20,8 @@
   "recruitmentYear": "2026/2027",
   "navigation": [
     { "label": "Strona główna", "href": "/" },
-    { "label": "Kadra", "href": "/kadra" },
-    { "label": "Sale i materiały", "href": "/sale" },
-    { "label": "Zajęcia dodatkowe", "href": "/zajecia" },
-    { "label": "Rekrutacja", "href": "/#rekrutacja" }
+    { "label": "Nasza kadra", "href": "/kadra" },
+    { "label": "Nasza sala", "href": "/sale" },
+    { "label": "Zajęcia dla dzieci", "href": "/zajecia" }
   ]
 }
