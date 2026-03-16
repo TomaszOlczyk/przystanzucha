@@ -87,6 +87,7 @@ collections:
             fields:
               - { label: "Nazwa", name: "name", widget: "string" }
               - { label: "Ikona (emoji)", name: "icon", widget: "string" }
+              - { label: "Zdjęcie", name: "image", widget: "image", required: false }
               - { label: "Opis", name: "description", widget: "text" }
           - label: "Materiały edukacyjne"
             name: "materials"
@@ -112,6 +113,7 @@ collections:
             fields:
               - { label: "Nazwa", name: "name", widget: "string" }
               - { label: "Ikona (emoji)", name: "icon", widget: "string" }
+              - { label: "Zdjęcie", name: "image", widget: "image", required: false }
               - { label: "Opis", name: "description", widget: "text" }
               - { label: "Częstotliwość", name: "frequency", widget: "string" }
               - { label: "Czas trwania", name: "duration", widget: "string" }

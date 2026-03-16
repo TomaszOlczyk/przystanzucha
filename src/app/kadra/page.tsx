@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import staffData from "@/content/staff.json";
 
@@ -7,9 +8,10 @@ export const metadata: Metadata = {
   description: "Poznaj nasz zespół wykwalifikowanych pedagogów i specjalistów.",
 };
 
+const fallbackIcons = ["👩‍💼", "👩‍🏫", "👩‍🏫", "🇬🇧", "🎵", "🧠"];
+
 export default function KadraPage() {
   const colors = ["#ec4899", "#a855f7", "#6366f1", "#3b82f6", "#ec4899", "#a855f7"];
-  const icons = ["👩‍💼", "👩‍🏫", "👩‍🏫", "🇬🇧", "🎵", "🧠"];
 
   return (
     <>
@@ -30,21 +32,33 @@ export default function KadraPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {staffData.members.map((member, i) => {
               const color = colors[i % colors.length];
-              const icon = icons[i % icons.length];
+              const icon = fallbackIcons[i % fallbackIcons.length];
+              const hasImage = member.image && !member.image.includes("/staff/");
 
               return (
                 <div
                   key={member.name}
                   className="glass-strong rounded-2xl overflow-hidden card-hover"
                 >
-                  <div
-                    className="h-44 flex items-center justify-center text-6xl"
-                    style={{
-                      background: `linear-gradient(135deg, ${color}15, ${color}30)`,
-                    }}
-                  >
-                    {icon}
-                  </div>
+                  {hasImage ? (
+                    <div className="h-52 relative">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="h-44 flex items-center justify-center text-6xl"
+                      style={{
+                        background: `linear-gradient(135deg, ${color}15, ${color}30)`,
+                      }}
+                    >
+                      {icon}
+                    </div>
+                  )}
                   <div className="p-6">
                     <h3 className="text-xl font-bold mb-1">{member.name}</h3>
                     <p className="text-sm font-semibold mb-3" style={{ color }}>

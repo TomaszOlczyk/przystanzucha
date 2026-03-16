@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import activitiesData from "@/content/activities.json";
 
@@ -47,7 +48,18 @@ export default function ZajeciaPage() {
                     style={{ backgroundColor: color }}
                   />
                   <div className="relative">
-                    <div className="text-3xl mb-3">{activity.icon}</div>
+                    {"image" in activity && activity.image ? (
+                      <div className="h-32 -mx-6 -mt-6 mb-4 relative overflow-hidden rounded-t-2xl">
+                        <Image
+                          src={activity.image as string}
+                          alt={activity.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="text-3xl mb-3">{activity.icon}</div>
+                    )}
                     <h3
                       className="text-lg font-bold mb-2"
                       style={{ color }}
