@@ -1,0 +1,48 @@
+{
+  "title": "Nasza Kadra",
+  "subtitle": "Poznaj nasz zespół pełen pasji i doświadczenia",
+  "members": [
+    {
+      "name": "Anna Kowalska",
+      "role": "Dyrektor przedszkola",
+      "image": "/images/staff/anna.jpg",
+      "description": "Pedagog z 15-letnim doświadczeniem w edukacji przedszkolnej. Absolwentka pedagogiki na Uniwersytecie Łódzkim. Pasjonatka nowoczesnych metod nauczania i indywidualnego podejścia do każdego dziecka.",
+      "qualifications": ["Pedagogika przedszkolna", "Zarządzanie oświatą", "Terapia pedagogiczna"]
+    },
+    {
+      "name": "Marta Nowak",
+      "role": "Nauczyciel wychowania przedszkolnego",
+      "image": "/images/staff/marta.jpg",
+      "description": "Kreatywna nauczycielka, która uwielbia organizować zabawy plastyczne i muzyczne. Wierzy, że każde dziecko jest wyjątkowe i zasługuje na indywidualne podejście.",
+      "qualifications": ["Pedagogika", "Arteterapia", "Logopedia"]
+    },
+    {
+      "name": "Katarzyna Wiśniewska",
+      "role": "Nauczyciel wychowania przedszkolnego",
+      "image": "/images/staff/katarzyna.jpg",
+      "description": "Specjalistka od zajęć ruchowych i sensorycznych. Prowadzi innowacyjne zajęcia z elementami pedagogiki Montessori, wspierając naturalną ciekawość dzieci.",
+      "qualifications": ["Pedagogika Montessori", "Wychowanie fizyczne", "Integracja sensoryczna"]
+    },
+    {
+      "name": "Joanna Zielińska",
+      "role": "Nauczyciel języka angielskiego",
+      "image": "/images/staff/joanna.jpg",
+      "description": "Native-level English speaker z certyfikatem TEFL. Uczy dzieci języka angielskiego przez zabawę, piosenki i interaktywne gry. Dzieci uwielbiają jej zajęcia!",
+      "qualifications": ["Filologia angielska", "TEFL", "Metodyka nauczania dzieci"]
+    },
+    {
+      "name": "Tomasz Pawlak",
+      "role": "Nauczyciel muzyki",
+      "image": "/images/staff/tomasz.jpg",
+      "description": "Absolwent Akademii Muzycznej w Łodzi. Prowadzi zajęcia umuzykalniające, uczy gry na instrumentach i organizuje przedszkolne koncerty. Muzyka to jego życie!",
+      "qualifications": ["Edukacja muzyczna", "Rytmika", "Choreoterapia"]
+    },
+    {
+      "name": "Ewa Grabowska",
+      "role": "Psycholog dziecięcy",
+      "image": "/images/staff/ewa.jpg",
+      "description": "Doświadczony psycholog dziecięcy wspierający rozwój emocjonalny i społeczny naszych podopiecznych. Prowadzi warsztaty dla rodziców i konsultacje indywidualne.",
+      "qualifications": ["Psychologia kliniczna", "Terapia dziecięca", "Diagnoza psychologiczna"]
+    }
+  ]
+}

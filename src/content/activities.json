@@ -1,0 +1,77 @@
+{
+  "title": "Zajęcia Dodatkowe",
+  "subtitle": "Wszystkie zajęcia wchodzą w skład czesnego — bez dodatkowych opłat!",
+  "badge": "W cenie czesnego",
+  "activities": [
+    {
+      "name": "Język angielski",
+      "icon": "🇬🇧",
+      "description": "Codzienna nauka języka angielskiego przez zabawę, piosenki i gry. Prowadzona przez wykwalifikowanego lektora.",
+      "frequency": "Codziennie",
+      "duration": "30 min"
+    },
+    {
+      "name": "Rytmika i muzyka",
+      "icon": "🎵",
+      "description": "Zajęcia umuzykalniające rozwijające poczucie rytmu, koordynację ruchową i wrażliwość muzyczną.",
+      "frequency": "2x w tygodniu",
+      "duration": "30 min"
+    },
+    {
+      "name": "Zajęcia plastyczne",
+      "icon": "🎨",
+      "description": "Kreatywne warsztaty plastyczne rozwijające wyobraźnię i zdolności manualne. Malowanie, lepienie, wycinanie.",
+      "frequency": "3x w tygodniu",
+      "duration": "45 min"
+    },
+    {
+      "name": "Gimnastyka korekcyjna",
+      "icon": "🤸",
+      "description": "Ćwiczenia wspierające prawidłową postawę ciała i ogólną sprawność fizyczną dzieci.",
+      "frequency": "2x w tygodniu",
+      "duration": "30 min"
+    },
+    {
+      "name": "Logopedia",
+      "icon": "🗣️",
+      "description": "Zajęcia logopedyczne wspierające prawidłowy rozwój mowy. Indywidualna diagnoza i terapia.",
+      "frequency": "Wg potrzeb",
+      "duration": "Indywidualnie"
+    },
+    {
+      "name": "Zajęcia sensoryczne",
+      "icon": "🖐️",
+      "description": "Zabawy stymulujące zmysły — dotyk, wzrok, słuch. Wspierają integrację sensoryczną i rozwój poznawczy.",
+      "frequency": "2x w tygodniu",
+      "duration": "30 min"
+    },
+    {
+      "name": "Warsztaty kulinarne",
+      "icon": "👨‍🍳",
+      "description": "Mali kucharze uczą się przygotowywać proste, zdrowe posiłki. Nauka o zdrowym odżywianiu przez praktykę.",
+      "frequency": "1x w tygodniu",
+      "duration": "45 min"
+    },
+    {
+      "name": "Robotyka i kodowanie",
+      "icon": "🤖",
+      "description": "Pierwsze kroki w świecie technologii! Nauka logicznego myślenia przez programowanie prostych robotów.",
+      "frequency": "1x w tygodniu",
+      "duration": "30 min"
+    },
+    {
+      "name": "Zajęcia przyrodnicze",
+      "icon": "🌿",
+      "description": "Odkrywanie tajemnic natury — eksperymenty, obserwacje, opieka nad ogródkiem przedszkolnym.",
+      "frequency": "2x w tygodniu",
+      "duration": "30 min"
+    },
+    {
+      "name": "Teatrzyk i drama",
+      "icon": "🎭",
+      "description": "Zabawy teatralne rozwijające wyobraźnię, pewność siebie i umiejętności społeczne.",
+      "frequency": "1x w tygodniu",
+      "duration": "30 min"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Przystanzucha",
+  "tagline": "Przedszkole Prywatne w Łodzi",
+  "description": "Nowoczesne przedszkole dla wszystkich dzieci. Bezpieczna, kolorowa przestrzeń do zabawy, nauki i rozwoju.",
+  "domain": "przystanzucha.pl",
+  "phone": "+48 123 456 789",
+  "email": "kontakt@przystanzucha.pl",
+  "address": {
+    "street": "ul. Przykładowa 15",
+    "city": "Łódź",
+    "zip": "90-001"
+  },
+  "hours": "Poniedziałek – Piątek: 6:30 – 17:30",
+  "social": {
+    "facebook": "https://facebook.com/przystanzucha",
+    "instagram": "https://instagram.com/przystanzucha"
+  },
+  "heroImages": ["/images/hero-1.jpg", "/images/hero-2.jpg"],
+  "recruitmentOpen": true,
+  "recruitmentYear": "2026/2027",
+  "navigation": [
+    { "label": "Strona główna", "href": "/" },
+    { "label": "Kadra", "href": "/kadra" },
+    { "label": "Sale i materiały", "href": "/sale" },
+    { "label": "Zajęcia dodatkowe", "href": "/zajecia" },
+    { "label": "Rekrutacja", "href": "/#rekrutacja" }
+  ]
+}

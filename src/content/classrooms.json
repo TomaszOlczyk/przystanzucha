@@ -1,0 +1,52 @@
+{
+  "title": "Sale i Materiały",
+  "subtitle": "Nowoczesne przestrzenie stworzone z myślą o rozwoju Twojego dziecka",
+  "rooms": [
+    {
+      "name": "Sala Tęczowa",
+      "image": "/images/rooms/rainbow.jpg",
+      "description": "Jasna, przestronna sala dydaktyczna wyposażona w nowoczesne meble dostosowane do wzrostu dzieci. Idealne miejsce do zajęć edukacyjnych i zabaw grupowych.",
+      "features": ["Interaktywna tablica multimedialna", "Kącik czytelniczy", "Stoliki do prac plastycznych", "Dywan do zabaw"]
+    },
+    {
+      "name": "Sala Sensoryczna",
+      "image": "/images/rooms/sensory.jpg",
+      "description": "Specjalnie zaprojektowana sala do stymulacji zmysłów. Wyposażona w elementy świetlne, dźwiękowe i dotykowe wspierające rozwój sensoryczny dzieci.",
+      "features": ["Kolumna wodna z bąbelkami", "Światłowody", "Panel dotykowy", "Materace sensoryczne"]
+    },
+    {
+      "name": "Sala Muzyczna",
+      "image": "/images/rooms/music.jpg",
+      "description": "Przestrzeń dedykowana zajęciom muzycznym i rytmicznym. Bogata kolekcja instrumentów perkusyjnych i melodycznych dla małych muzyków.",
+      "features": ["Instrumenty Orffa", "Pianino cyfrowe", "Lustra do ćwiczeń", "Nagłośnienie"]
+    },
+    {
+      "name": "Plac zabaw",
+      "image": "/images/rooms/playground.jpg",
+      "description": "Bezpieczny, ogrodzony plac zabaw z certyfikowanym wyposażeniem. Naturalny teren z drzewami, piaskownicą i strefą do zabaw ruchowych.",
+      "features": ["Zjeżdżalnia i huśtawki", "Piaskownica z zadaszeniem", "Ścieżka sensoryczna", "Ogródek warzywny"]
+    }
+  ],
+  "materials": [
+    {
+      "category": "Materiały Montessori",
+      "icon": "🧩",
+      "items": ["Cylindry z gałkami", "Wieża różowa", "Brązowe schody", "Tabliczki dotykowe", "Litery szorstkie"]
+    },
+    {
+      "category": "Materiały plastyczne",
+      "icon": "🎨",
+      "items": ["Farby i pędzle", "Plastelina i modelina", "Papier kolorowy", "Materiały do kolażu", "Sztalugi"]
+    },
+    {
+      "category": "Zabawki edukacyjne",
+      "icon": "🔢",
+      "items": ["Klocki LEGO Duplo", "Puzzle edukacyjne", "Gry planszowe", "Tablice magnetyczne", "Globusy i mapy"]
+    },
+    {
+      "category": "Technologia",
+      "icon": "💻",
+      "items": ["Tablety edukacyjne", "Roboty do nauki programowania", "Tablica interaktywna", "Mikroskop cyfrowy"]
+    }
+  ]
+}

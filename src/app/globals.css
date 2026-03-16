@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #FF6B35;
+  --color-primary-light: #FF8F65;
+  --color-secondary: #4ECDC4;
+  --color-secondary-light: #7EDDD6;
+  --color-accent-yellow: #FFE66D;
+  --color-accent-pink: #FF6B9D;
+  --color-accent-purple: #C44DFF;
+  --color-accent-blue: #45B7D1;
+  --color-bg: #FFFDF7;
+  --color-bg-alt: #FFF8EE;
+  --color-text: #2D3436;
+  --color-text-light: #636E72;
+  --color-white: #FFFFFF;
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-light: var(--color-secondary-light);
+  --color-accent-yellow: var(--color-accent-yellow);
+  --color-accent-pink: var(--color-accent-pink);
+  --color-accent-purple: var(--color-accent-purple);
+  --color-accent-blue: var(--color-accent-blue);
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-text: var(--color-text);
+  --color-text-light: var(--color-text-light);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Decorative shapes */
+.blob-shape {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.wave-divider {
+  position: relative;
+}
+
+.wave-divider::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: var(--color-bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+/* Fun floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-2deg); }
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-pink), var(--color-accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
