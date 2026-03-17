@@ -73,10 +73,10 @@ export default async function Home() {
             <div id="kontakt">
               <div className="text-center mb-5">
                 <h2 className="text-xl md:text-2xl font-bold mb-1">
-                  Zapisz dziecko do przedszkola
+                  {siteData.contactFormHeading ?? "Zapisz dziecko do przedszkola"}
                 </h2>
                 <p className="text-sm text-[var(--color-text-secondary)]">
-                  Zostaw kontakt — oddzwonimy w ciągu 24 godzin
+                  {siteData.contactFormSubheading ?? "Zostaw kontakt — oddzwonimy w ciągu 24 godzin"}
                 </p>
               </div>
               <ContactForm email={siteData.email} phone={siteData.phone} name={siteData.name} recruitmentYear={siteData.recruitmentYear} />
@@ -91,12 +91,11 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-14">
               <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-                Dlaczego rodzice wybierają{" "}
+                {siteData.benefitsHeading ?? "Dlaczego rodzice wybierają"}{" "}
                 <span className="gradient-text">{siteData.name}</span>?
               </h2>
               <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto">
-                Tworzymy miejsce, w którym każde dziecko czuje się bezpiecznie,
-                rozwija się i odkrywa świat z radością
+                {siteData.benefitsSubheading ?? "Tworzymy miejsce, w którym każde dziecko czuje się bezpiecznie, rozwija się i odkrywa świat z radością"}
               </p>
             </div>
 
@@ -139,56 +138,45 @@ export default async function Home() {
       )}
 
       {/* EXPLORE PAGES */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12">
-            Poznaj nas bliżej
-          </h2>
+      {(() => {
+        const gradients = ["from-pink-400/20 to-purple-400/20", "from-purple-400/20 to-indigo-400/20", "from-indigo-400/20 to-blue-400/20"];
+        const defaultCards = [
+          { href: "/kadra", title: "Nasza kadra", desc: "Poznaj zespół doświadczonych pedagogów, psychologa i logopedę", icon: "👩‍🏫" },
+          { href: "/sale", title: "Nasza sala", desc: "Jedna przestrzeń z wieloma możliwościami — sensoryka, Montessori, multimedia", icon: "🏫" },
+          { href: "/zajecia", title: "Zajęcia dla dzieci", desc: "10 dedykowanych zajęć w ramach czesnego — bez ukrytych opłat", icon: "🎯" },
+        ];
+        const cards = siteData.exploreCards ?? defaultCards;
+        return (
+          <section className="py-16 md:py-24">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12">
+                {siteData.exploreHeading ?? "Poznaj nas bliżej"}
+              </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                href: "/kadra",
-                title: "Nasza kadra",
-                desc: "Poznaj zespół doświadczonych pedagogów, psychologa i logopedę",
-                gradient: "from-pink-400/20 to-purple-400/20",
-                icon: "👩‍🏫",
-              },
-              {
-                href: "/sale",
-                title: "Nasza sala",
-                desc: "Jedna przestrzeń z wieloma możliwościami — sensoryka, Montessori, multimedia",
-                gradient: "from-purple-400/20 to-indigo-400/20",
-                icon: "🏫",
-              },
-              {
-                href: "/zajecia",
-                title: "Zajęcia dla dzieci",
-                desc: "10 dedykowanych zajęć w ramach czesnego — bez ukrytych opłat",
-                gradient: "from-indigo-400/20 to-blue-400/20",
-                icon: "🎯",
-              },
-            ].map((page) => (
-              <Link
-                key={page.href}
-                href={page.href}
-                className={`group glass-strong rounded-2xl p-8 card-hover text-center bg-gradient-to-br ${page.gradient}`}
-              >
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">
-                  {page.icon}
-                </div>
-                <h3 className="text-xl font-bold mb-2">{page.title}</h3>
-                <p className="text-sm text-[var(--color-text-secondary)] mb-4">
-                  {page.desc}
-                </p>
-                <span className="gradient-text font-semibold text-sm">
-                  Dowiedz się więcej →
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {cards.map((page, i) => (
+                  <Link
+                    key={page.href}
+                    href={page.href}
+                    className={`group glass-strong rounded-2xl p-8 card-hover text-center bg-gradient-to-br ${gradients[i % gradients.length]}`}
+                  >
+                    <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">
+                      {page.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">{page.title}</h3>
+                    <p className="text-sm text-[var(--color-text-secondary)] mb-4">
+                      {page.desc}
+                    </p>
+                    <span className="gradient-text font-semibold text-sm">
+                      Dowiedz się więcej →
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* BOTTOM CTA */}
       <section className="py-16 md:py-24">
@@ -197,18 +185,17 @@ export default async function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
             <div className="relative">
               <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-                Daj swojemu dziecku najlepszy start
+                {siteData.ctaHeading ?? "Daj swojemu dziecku najlepszy start"}
               </h2>
               <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">
-                Zostaw kontakt — opowiemy Ci o naszym przedszkolu i zaprosimy
-                na wizytę
+                {siteData.ctaDescription ?? "Zostaw kontakt — opowiemy Ci o naszym przedszkolu i zaprosimy na wizytę"}
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a
                   href="#kontakt"
                   className="px-8 py-4 rounded-full bg-white text-[var(--color-purple)] font-bold hover:bg-white/90 transition-all shadow-lg"
                 >
-                  Zapisz dziecko
+                  {siteData.ctaButtonText ?? "Zapisz dziecko"}
                 </a>
                 <a
                   href={`tel:${siteData.phone.replace(/\s/g, "")}`}

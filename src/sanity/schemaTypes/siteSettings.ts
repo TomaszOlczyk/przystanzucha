@@ -85,5 +85,60 @@ export const siteSettings = defineType({
         defineField({ name: "role", title: "Podpis", type: "string" }),
       ],
     }),
+    defineField({
+      name: "benefitsHeading",
+      title: "Sekcja zalet — nagłówek",
+      type: "string",
+      description: "Np. 'Dlaczego rodzice wybierają'",
+    }),
+    defineField({
+      name: "benefitsSubheading",
+      title: "Sekcja zalet — podtytuł",
+      type: "string",
+    }),
+    defineField({
+      name: "contactFormHeading",
+      title: "Formularz kontaktowy — nagłówek",
+      type: "string",
+    }),
+    defineField({
+      name: "contactFormSubheading",
+      title: "Formularz kontaktowy — podtytuł",
+      type: "string",
+    }),
+    defineField({
+      name: "exploreHeading",
+      title: "Sekcja 'Poznaj nas' — nagłówek",
+      type: "string",
+    }),
+    defineField({
+      name: "exploreCards",
+      title: "Sekcja 'Poznaj nas' — karty",
+      type: "array",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({ name: "href", title: "Link", type: "string" }),
+          defineField({ name: "title", title: "Tytuł", type: "string" }),
+          defineField({ name: "desc", title: "Opis", type: "string" }),
+          defineField({ name: "icon", title: "Ikona (emoji)", type: "string" }),
+        ],
+      }],
+    }),
+    defineField({
+      name: "ctaHeading",
+      title: "CTA — nagłówek",
+      type: "string",
+    }),
+    defineField({
+      name: "ctaDescription",
+      title: "CTA — opis",
+      type: "string",
+    }),
+    defineField({
+      name: "ctaButtonText",
+      title: "CTA — tekst przycisku",
+      type: "string",
+    }),
   ],
 });

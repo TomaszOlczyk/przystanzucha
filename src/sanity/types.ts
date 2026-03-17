@@ -32,6 +32,15 @@ export interface SiteSettings {
   stats?: { value: string; label: string }[];
   benefits?: { icon: string; title: string; desc: string }[];
   testimonial?: { quote: string; author: string; role: string };
+  benefitsHeading?: string;
+  benefitsSubheading?: string;
+  contactFormHeading?: string;
+  contactFormSubheading?: string;
+  exploreHeading?: string;
+  exploreCards?: { href: string; title: string; desc: string; icon: string }[];
+  ctaHeading?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
 }
 
 export interface StaffMember {

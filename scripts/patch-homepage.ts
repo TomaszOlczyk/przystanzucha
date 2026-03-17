@@ -36,10 +36,23 @@ async function patch() {
         author: "Katarzyna M.",
         role: "Mama 4-letniej Zosi",
       },
+      benefitsHeading: "Dlaczego rodzice wybierają",
+      benefitsSubheading: "Tworzymy miejsce, w którym każde dziecko czuje się bezpiecznie, rozwija się i odkrywa świat z radością",
+      contactFormHeading: "Zapisz dziecko do przedszkola",
+      contactFormSubheading: "Zostaw kontakt — oddzwonimy w ciągu 24 godzin",
+      exploreHeading: "Poznaj nas bliżej",
+      exploreCards: [
+        { _key: "e0", _type: "object", href: "/kadra", title: "Nasza kadra", desc: "Poznaj zespół doświadczonych pedagogów, psychologa i logopedę", icon: "👩‍🏫" },
+        { _key: "e1", _type: "object", href: "/sale", title: "Nasza sala", desc: "Jedna przestrzeń z wieloma możliwościami — sensoryka, Montessori, multimedia", icon: "🏫" },
+        { _key: "e2", _type: "object", href: "/zajecia", title: "Zajęcia dla dzieci", desc: "10 dedykowanych zajęć w ramach czesnego — bez ukrytych opłat", icon: "🎯" },
+      ],
+      ctaHeading: "Daj swojemu dziecku najlepszy start",
+      ctaDescription: "Zostaw kontakt — opowiemy Ci o naszym przedszkolu i zaprosimy na wizytę",
+      ctaButtonText: "Zapisz dziecko",
     })
     .commit();
 
-  console.log("Done! siteSettings patched with homepage fields.");
+  console.log("Done! siteSettings patched with all homepage fields.");
 }
 
 patch().catch((err) => {
