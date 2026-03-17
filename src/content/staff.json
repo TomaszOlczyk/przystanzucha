@@ -3,46 +3,17 @@
   "subtitle": "Poznaj nasz zespół pełen pasji i doświadczenia",
   "members": [
     {
-      "name": "Anna Kowalska",
-      "role": "Dyrektor przedszkola",
+      "name": "Justyna Olczyk",
+      "role": "Dyrektor Przedszkola",
       "image": "",
-      "description": "Pedagog z 15-letnim doświadczeniem w edukacji przedszkolnej. Absolwentka pedagogiki na Uniwersytecie Łódzkim. Pasjonatka nowoczesnych metod nauczania i indywidualnego podejścia do każdego dziecka.",
-      "qualifications": ["Pedagogika przedszkolna", "Zarządzanie oświatą", "Terapia pedagogiczna"]
+      "description": "Nauczyciel z wieloletnim doświadczeniem w przedszkolach i szkołach podstawowych zarówno państwowych jak i prywatnych. \nPrywatnie mama Helenki i Lilki, współtworzy Przystań Zucha bo chciała otworzyć przedszkole do jakiego sama zapisała by swoje dzieci. ",
+      "qualifications": []
     },
     {
-      "name": "Marta Nowak",
-      "role": "Nauczyciel wychowania przedszkolnego",
+      "name": "Magda Klimczak",
+      "role": "Dyrektor ds. pedagogicznych",
       "image": "",
-      "description": "Kreatywna nauczycielka, która uwielbia organizować zabawy plastyczne i muzyczne. Wierzy, że każde dziecko jest wyjątkowe i zasługuje na indywidualne podejście.",
-      "qualifications": ["Pedagogika", "Arteterapia", "Logopedia"]
-    },
-    {
-      "name": "Katarzyna Wiśniewska",
-      "role": "Nauczyciel wychowania przedszkolnego",
-      "image": "",
-      "description": "Specjalistka od zajęć ruchowych i sensorycznych. Prowadzi innowacyjne zajęcia z elementami pedagogiki Montessori, wspierając naturalną ciekawość dzieci.",
-      "qualifications": ["Pedagogika Montessori", "Wychowanie fizyczne", "Integracja sensoryczna"]
-    },
-    {
-      "name": "Joanna Zielińska",
-      "role": "Nauczyciel języka angielskiego",
-      "image": "",
-      "description": "Native-level English speaker z certyfikatem TEFL. Uczy dzieci języka angielskiego przez zabawę, piosenki i interaktywne gry. Dzieci uwielbiają jej zajęcia!",
-      "qualifications": ["Filologia angielska", "TEFL", "Metodyka nauczania dzieci"]
-    },
-    {
-      "name": "Tomasz Pawlak",
-      "role": "Nauczyciel muzyki",
-      "image": "",
-      "description": "Absolwent Akademii Muzycznej w Łodzi. Prowadzi zajęcia umuzykalniające, uczy gry na instrumentach i organizuje przedszkolne koncerty. Muzyka to jego życie!",
-      "qualifications": ["Edukacja muzyczna", "Rytmika", "Choreoterapia"]
-    },
-    {
-      "name": "Ewa Grabowska",
-      "role": "Psycholog dziecięcy",
-      "image": "",
-      "description": "Doświadczony psycholog dziecięcy wspierający rozwój emocjonalny i społeczny naszych podopiecznych. Prowadzi warsztaty dla rodziców i konsultacje indywidualne.",
-      "qualifications": ["Psychologia kliniczna", "Terapia dziecięca", "Diagnoza psychologiczna"]
+      "description": "Nauczyciel i profesjonalistka w każdym calu, współzałożycielka przedszkola, dla której podstawową misją jest tworzenie bezpiecznej przystani w której dzieci mogą bez skrępowania rozwijać się, uczyć nowych umiejętności i odkrywać swoje talenty. "
     }
   ]
 }
