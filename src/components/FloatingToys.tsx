@@ -8,8 +8,9 @@ export default function FloatingToys() {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!dollRef.current) return;
-      const x = e.clientX - 40;
-      const y = e.clientY - 60;
+      const offset = Math.round(window.innerWidth * 0.05);
+      const x = e.clientX + offset;
+      const y = e.clientY - 80;
       dollRef.current.style.transform = `translate(${x}px, ${y}px)`;
     };
 
@@ -22,7 +23,7 @@ export default function FloatingToys() {
       {/* Toy car — drives right to left */}
       <div
         className="absolute animate-drive-across"
-        style={{ bottom: "15%", opacity: 0.35 }}
+        style={{ bottom: "15%", opacity: 0.75 }}
       >
         <svg
           width="160"
@@ -83,7 +84,7 @@ export default function FloatingToys() {
       <div
         ref={dollRef}
         className="absolute top-0 left-0 transition-transform duration-300 ease-out"
-        style={{ opacity: 0.3 }}
+        style={{ opacity: 0.75 }}
       >
         <svg
           width="80"
