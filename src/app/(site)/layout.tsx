@@ -2,6 +2,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getSiteSettings } from "@/sanity/fetchers";
 
+export const revalidate = 60;
+
 export default async function SiteLayout({
   children,
 }: {

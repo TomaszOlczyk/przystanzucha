@@ -9,6 +9,8 @@ const nunito = Nunito({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+export const revalidate = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   const siteData = await getSiteSettings();
   return {
