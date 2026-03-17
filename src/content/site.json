@@ -1,27 +1,42 @@
 {
-  "name": "Przystanzucha",
-  "tagline": "Przedszkole Prywatne w Łodzi",
-  "description": "Nowoczesne przedszkole dla wszystkich dzieci. Bezpieczna, kolorowa przestrzeń do zabawy, nauki i rozwoju.",
   "domain": "przystanzucha.pl",
-  "phone": "+48 123 456 789",
-  "email": "kontakt@przystanzucha.pl",
-  "address": {
-    "street": "ul. Przykładowa 15",
-    "city": "Łódź",
-    "zip": "90-001"
-  },
-  "hours": "Poniedziałek – Piątek: 6:30 – 17:30",
+  "recruitmentOpen": true,
+  "name": "Przystanzucha",
   "social": {
-    "facebook": "https://facebook.com/przystanzucha",
+    "facebook": "https://www.facebook.com/p/Przedszkole-Przysta%C5%84-ZUCHA-61556466219631/",
     "instagram": "https://instagram.com/przystanzucha"
   },
-  "heroImages": ["/images/hero-1.jpg", "/images/hero-2.jpg"],
-  "recruitmentOpen": true,
-  "recruitmentYear": "2026/2027",
+  "phone": "+48 510 131 146",
+  "tagline": "Prywatne Przedszkole w Łodzi",
+  "hours": "Poniedziałek – Piątek: 7:00 – 17:00",
+  "heroImages": [
+    "/images/hero-1.jpg",
+    "/images/hero-2.jpg"
+  ],
   "navigation": [
-    { "label": "Strona główna", "href": "/" },
-    { "label": "Nasza kadra", "href": "/kadra" },
-    { "label": "Nasza sala", "href": "/sale" },
-    { "label": "Zajęcia dla dzieci", "href": "/zajecia" }
-  ]
+    {
+      "label": "Strona główna",
+      "href": "/"
+    },
+    {
+      "label": "Nasza kadra",
+      "href": "/kadra"
+    },
+    {
+      "label": "Nasza sala",
+      "href": "/sale"
+    },
+    {
+      "label": "Zajęcia dla dzieci",
+      "href": "/zajecia"
+    }
+  ],
+  "address": {
+    "street": "ul. Maratońska 49C/U3",
+    "city": "Łódź",
+    "zip": "94-143"
+  },
+  "recruitmentYear": "2026/2027",
+  "email": "rekrutacja@przystanzucha.pl",
+  "description": "Nowoczesne przedszkole dla dzieci od 2 lat. Bezpieczna, kolorowa przestrzeń do zabawy, nauki i rozwoju."
 }
