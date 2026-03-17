@@ -33,10 +33,12 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
         body: JSON.stringify({ ...formData, recruitmentYear }),
       });
 
-      if (!res.ok) throw new Error("Błąd wysyłania");
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || "Błąd wysyłania");
       setSubmitted(true);
-    } catch {
-      setError("Nie udało się wysłać wiadomości. Spróbuj ponownie lub napisz na " + email);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Nieznany błąd";
+      setError(msg + " — Spróbuj ponownie lub napisz na " + email);
     } finally {
       setSending(false);
     }
