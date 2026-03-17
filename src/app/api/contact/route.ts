@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
     const toEmail = process.env.CONTACT_EMAIL || "rekrutacja@przystanzucha.pl";
 
-    await resend.emails.send({
+    const { data, error: sendError } = await resend.emails.send({
       from: `Formularz Przystań Zucha <${process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"}>`,
       to: toEmail,
       replyTo: email,
@@ -42,11 +42,20 @@ export async function POST(request: Request) {
       `,
     });
 
-    return NextResponse.json({ success: true });
+    if (sendError) {
+      console.error("Resend error:", sendError);
+      return NextResponse.json(
+        { error: `Błąd wysyłania: ${sendError.message}` },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ success: true, id: data?.id });
   } catch (error) {
     console.error("Contact form error:", error);
+    const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "Nie udało się wysłać wiadomości" },
+      { error: `Nie udało się wysłać wiadomości: ${message}` },
       { status: 500 }
     );
   }
