@@ -41,6 +41,7 @@ export interface SiteSettings {
   ctaHeading?: string;
   ctaDescription?: string;
   ctaButtonText?: string;
+  documents?: { title: string; fileUrl: string }[];
 }
 
 export interface StaffMember {

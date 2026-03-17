@@ -78,6 +78,29 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
                 ig
               </a>
             </div>
+
+            {siteData.documents && siteData.documents.length > 0 && (
+              <div className="mt-8">
+                <h4 className="font-semibold text-base mb-3">Dokumenty do pobrania</h4>
+                <ul className="space-y-2">
+                  {siteData.documents.map((doc) => (
+                    <li key={doc.title}>
+                      <a
+                        href={`${doc.fileUrl}?dl=`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm text-indigo-200/70 hover:text-white transition-colors group"
+                      >
+                        <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors text-xs">
+                          📄
+                        </span>
+                        {doc.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
 

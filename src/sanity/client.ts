@@ -6,3 +6,14 @@ export const client = createClient({
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION!,
   useCdn: false,
 });
+
+/** Write client — only use server-side (API routes) */
+export function getWriteClient() {
+  return createClient({
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION!,
+    useCdn: false,
+    token: process.env.SANITY_WRITE_TOKEN!,
+  });
+}

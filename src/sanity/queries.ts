@@ -1,7 +1,13 @@
-export const siteSettingsQuery = `*[_type == "siteSettings"][0]`;
+export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
+  ...,
+  documents[]{
+    title,
+    "fileUrl": file.asset->url
+  }
+}`;
 
 export const staffPageQuery = `*[_type == "staffPage"][0]{
-  title, subtitle,
+  title, subtitle, columns,
   members[]{name, role, image, description, qualifications}
 }`;
 

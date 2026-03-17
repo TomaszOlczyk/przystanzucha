@@ -140,5 +140,20 @@ export const siteSettings = defineType({
       title: "CTA — tekst przycisku",
       type: "string",
     }),
+    defineField({
+      name: "documents",
+      title: "Dokumenty do pobrania",
+      type: "array",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({ name: "title", title: "Nazwa dokumentu", type: "string" }),
+          defineField({ name: "file", title: "Plik", type: "file" }),
+        ],
+        preview: {
+          select: { title: "title" },
+        },
+      }],
+    }),
   ],
 });

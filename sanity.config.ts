@@ -29,14 +29,23 @@ export default defineConfig({
       structure: (S) =>
         S.list()
           .title("Treści")
-          .items(
-            [...singletonTypes].map((type) =>
+          .items([
+            ...[...singletonTypes].map((type) =>
               S.listItem()
                 .title(singletonLabels[type] || type)
                 .id(type)
                 .child(S.document().schemaType(type).documentId(type))
-            )
-          ),
+            ),
+            S.divider(),
+            S.listItem()
+              .title("Zgłoszenia")
+              .id("submissions")
+              .child(
+                S.documentTypeList("submission")
+                  .title("Zgłoszenia z formularzy")
+                  .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
+              ),
+          ]),
     }),
     visionTool(),
     presentationTool({
