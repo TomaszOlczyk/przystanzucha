@@ -1,12 +1,28 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 export default function FloatingToys() {
+  const dollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!dollRef.current) return;
+      const x = e.clientX - 40;
+      const y = e.clientY - 60;
+      dollRef.current.style.transform = `translate(${x}px, ${y}px)`;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block">
       {/* Toy car — drives right to left */}
       <div
         className="absolute animate-drive-across"
-        style={{ bottom: "15%", opacity: 0.18 }}
+        style={{ bottom: "15%", opacity: 0.35 }}
       >
         <svg
           width="160"
@@ -15,9 +31,9 @@ export default function FloatingToys() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Car body — lower, wider, more car-like */}
+          {/* Car body */}
           <rect x="8" y="30" width="144" height="24" rx="6" fill="#ef4444" />
-          {/* Car cabin — centered, proportional */}
+          {/* Car cabin */}
           <path
             d="M45 30 L58 12 L112 12 L125 30"
             fill="#f87171"
@@ -41,20 +57,18 @@ export default function FloatingToys() {
           <rect x="2" y="42" width="8" height="8" rx="2" fill="#b91c1c" />
           {/* Undercarriage */}
           <rect x="30" y="54" width="100" height="4" rx="2" fill="#991b1b" />
-          {/* Front wheel — spins via CSS */}
+          {/* Front wheel */}
           <g style={{ transformOrigin: "125px 62px" }} className="animate-wheel-spin">
             <circle cx="125" cy="62" r="14" fill="#374151" />
             <circle cx="125" cy="62" r="10" fill="#4b5563" />
-            {/* Spokes */}
             <line x1="125" y1="52" x2="125" y2="72" stroke="#6b7280" strokeWidth="2" />
             <line x1="115" y1="62" x2="135" y2="62" stroke="#6b7280" strokeWidth="2" />
             <circle cx="125" cy="62" r="3" fill="#9ca3af" />
           </g>
-          {/* Rear wheel — spins via CSS */}
+          {/* Rear wheel */}
           <g style={{ transformOrigin: "40px 62px" }} className="animate-wheel-spin">
             <circle cx="40" cy="62" r="14" fill="#374151" />
             <circle cx="40" cy="62" r="10" fill="#4b5563" />
-            {/* Spokes */}
             <line x1="40" y1="52" x2="40" y2="72" stroke="#6b7280" strokeWidth="2" />
             <line x1="30" y1="62" x2="50" y2="62" stroke="#6b7280" strokeWidth="2" />
             <circle cx="40" cy="62" r="3" fill="#9ca3af" />
@@ -65,10 +79,11 @@ export default function FloatingToys() {
         </svg>
       </div>
 
-      {/* Doll — stationary, waving hand */}
+      {/* Doll — follows mouse cursor and waves */}
       <div
-        className="absolute"
-        style={{ bottom: "22%", right: "8%", opacity: 0.16 }}
+        ref={dollRef}
+        className="absolute top-0 left-0 transition-transform duration-300 ease-out"
+        style={{ opacity: 0.3 }}
       >
         <svg
           width="80"
@@ -108,16 +123,13 @@ export default function FloatingToys() {
           <circle cx="35" cy="55" r="2" fill="#f9a8d4" />
           <circle cx="45" cy="60" r="2" fill="#f9a8d4" />
           <circle cx="38" cy="72" r="2" fill="#f9a8d4" />
-          {/* Left arm — static, down */}
+          {/* Left arm — static */}
           <line x1="26" y1="46" x2="14" y2="65" stroke="#fde68a" strokeWidth="5" strokeLinecap="round" />
-          {/* Left hand */}
           <circle cx="13" cy="66" r="4" fill="#fde68a" />
-          {/* Right arm — waving, animated */}
+          {/* Right arm — waving */}
           <g className="animate-wave" style={{ transformOrigin: "54px 46px" }}>
             <line x1="54" y1="46" x2="68" y2="28" stroke="#fde68a" strokeWidth="5" strokeLinecap="round" />
-            {/* Right hand */}
             <circle cx="69" cy="26" r="4" fill="#fde68a" />
-            {/* Fingers spread for wave */}
             <line x1="69" y1="26" x2="74" y2="20" stroke="#fde68a" strokeWidth="2" strokeLinecap="round" />
             <line x1="69" y1="26" x2="76" y2="24" stroke="#fde68a" strokeWidth="2" strokeLinecap="round" />
             <line x1="69" y1="26" x2="75" y2="28" stroke="#fde68a" strokeWidth="2" strokeLinecap="round" />

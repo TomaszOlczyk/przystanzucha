@@ -18,16 +18,28 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
     phone: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
-      `Rekrutacja ${recruitmentYear} - ${formData.childName}`
-    )}&body=${encodeURIComponent(
-      `Imię rodzica: ${formData.parentName}\nImię dziecka: ${formData.childName}\nWiek dziecka: ${formData.childAge}\nEmail: ${formData.email}\nTelefon: ${formData.phone}`
-    )}`;
-    window.location.href = mailtoLink;
-    setSubmitted(true);
+    setSending(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, recruitmentYear }),
+      });
+
+      if (!res.ok) throw new Error("Błąd wysyłania");
+      setSubmitted(true);
+    } catch {
+      setError("Nie udało się wysłać wiadomości. Spróbuj ponownie lub napisz na " + email);
+    } finally {
+      setSending(false);
+    }
   };
 
   if (submitted) {
@@ -38,8 +50,8 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
         </div>
         <h3 className="text-2xl font-bold mb-2">Dziękujemy!</h3>
         <p className="text-[var(--color-text-secondary)] mb-6">
-          Wiadomość powinna otworzyć się w kliencie email. Możesz też napisać
-          bezpośrednio na{" "}
+          Twoje zgłoszenie zostało wysłane. Odezwiemy się w ciągu 24 godzin.
+          Możesz też napisać bezpośrednio na{" "}
           <a
             href={`mailto:${email}`}
             className="gradient-text font-semibold"
@@ -48,10 +60,13 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
           </a>
         </p>
         <button
-          onClick={() => setSubmitted(false)}
+          onClick={() => {
+            setSubmitted(false);
+            setFormData({ parentName: "", childName: "", childAge: "", email: "", phone: "" });
+          }}
           className="px-6 py-2.5 rounded-full glass text-sm font-medium hover:bg-white/80 transition-colors"
         >
-          Wyślij ponownie
+          Wyślij kolejne zgłoszenie
         </button>
       </div>
     );
@@ -122,11 +137,15 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
           placeholder="Numer telefonu (opcjonalnie)"
         />
       </div>
+      {error && (
+        <p className="mt-3 text-sm text-red-500 text-center">{error}</p>
+      )}
       <button
         type="submit"
-        className="mt-5 w-full py-4 rounded-xl btn-gradient font-bold text-base tracking-wide"
+        disabled={sending}
+        className="mt-5 w-full py-4 rounded-xl btn-gradient font-bold text-base tracking-wide disabled:opacity-60"
       >
-        Zapisz dziecko do {name}
+        {sending ? "Wysyłanie..." : `Zapisz dziecko do ${name}`}
       </button>
       <p className="text-center text-xs text-[var(--color-text-secondary)] mt-3">
         Odezwiemy się w ciągu 24h. Możesz też zadzwonić:{" "}
