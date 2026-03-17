@@ -3,7 +3,7 @@
   "subtitle": "Jedna przestrzeń — wiele możliwości. Nasza sala zmienia się w zależności od potrzeb zajęć i dzieci.",
   "room": {
     "name": "Sala Przystanzucha",
-    "image": "/images/rooms/main.jpg",
+    "image": "",
     "description": "Przestronna, jasna sala o powierzchni 80m², którą codziennie aranżujemy pod konkretne zajęcia. Rano to pracownia plastyczna, po śniadaniu — sala do zajęć ruchowych, a po obiedzie — kącik czytelniczy. Dzięki modułowym meblom i bogatemu wyposażeniu, jedna sala staje się wieloma światami.",
     "features": ["Interaktywna tablica multimedialna", "Modułowe meble dostosowane do wzrostu dzieci", "Kącik sensoryczny z elementami świetlnymi i dotykowymi", "Dywan do zajęć ruchowych i zabaw grupowych", "Stoliki do prac plastycznych i edukacyjnych", "Kącik czytelniczy z biblioteką", "Lustra do zajęć rytmicznych", "Instrumenty muzyczne"]
   },

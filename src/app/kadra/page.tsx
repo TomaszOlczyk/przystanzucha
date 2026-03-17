@@ -33,7 +33,7 @@ export default function KadraPage() {
             {staffData.members.map((member, i) => {
               const color = colors[i % colors.length];
               const icon = fallbackIcons[i % fallbackIcons.length];
-              const hasImage = member.image && !member.image.includes("/staff/");
+              const hasImage = !!member.image;
 
               return (
                 <div

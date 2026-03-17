@@ -30,7 +30,7 @@ export default function SalePage() {
           {/* Main room showcase */}
           <div className="glass-strong rounded-3xl p-6 md:p-10 mb-16">
             <div className="flex flex-col md:flex-row gap-8 items-center">
-              {classroomsData.room.image && !classroomsData.room.image.includes("/rooms/main") ? (
+              {classroomsData.room.image ? (
                 <div className="w-full md:w-1/2 h-64 md:h-80 rounded-2xl relative shrink-0 overflow-hidden">
                   <Image
                     src={classroomsData.room.image}
