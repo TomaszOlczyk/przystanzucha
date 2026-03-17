@@ -97,10 +97,10 @@ export default async function KadraPage() {
                 odpowiemy na pytania
               </p>
               <Link
-                href="/#kontakt"
+                href="/konsultacja"
                 className="inline-block px-8 py-3.5 rounded-full btn-gradient font-bold"
               >
-                Umów wizytę
+                Umów konsultację
               </Link>
             </div>
           </div>

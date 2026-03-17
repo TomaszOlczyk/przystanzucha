@@ -139,8 +139,8 @@ export default async function SalePage() {
               <p className="text-[var(--color-text-secondary)] mb-6">
                 Zapraszamy na spacer po przedszkolu — przekonaj się sam!
               </p>
-              <Link href="/#kontakt" className="inline-block px-8 py-3.5 rounded-full btn-gradient font-bold">
-                Umów wizytę
+              <Link href="/konsultacja" className="inline-block px-8 py-3.5 rounded-full btn-gradient font-bold">
+                Umów konsultację
               </Link>
             </div>
           </div>

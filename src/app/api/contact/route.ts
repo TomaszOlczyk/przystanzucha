@@ -12,25 +12,49 @@ export async function POST(request: Request) {
     }
 
     const resend = new Resend(apiKey);
-
-    const { parentName, childName, childAge, email, phone, recruitmentYear } =
-      await request.json();
-
-    if (!parentName || !childName || !childAge || !email) {
-      return NextResponse.json(
-        { error: "Brakuje wymaganych pól" },
-        { status: 400 }
-      );
-    }
-
+    const body = await request.json();
     const toEmail = process.env.CONTACT_EMAIL || "rekrutacja@przystanzucha.pl";
+    const fromEmail = `Formularz Przystań Zucha <${process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"}>`;
 
-    const { data, error: sendError } = await resend.emails.send({
-      from: `Formularz Przystań Zucha <${process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"}>`,
-      to: toEmail,
-      replyTo: email,
-      subject: `Rekrutacja ${recruitmentYear} — ${childName} (${childAge} lat)`,
-      html: `
+    let subject: string;
+    let html: string;
+    let replyTo: string;
+
+    if (body.type === "consultation") {
+      const { name, email, phone, preferredTime, message } = body;
+
+      if (!name || !email) {
+        return NextResponse.json(
+          { error: "Brakuje wymaganych pól" },
+          { status: 400 }
+        );
+      }
+
+      replyTo = email;
+      subject = `Konsultacja — ${name}`;
+      html = `
+        <h2>Nowa prośba o konsultację</h2>
+        <table style="border-collapse:collapse;width:100%;max-width:500px;">
+          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Imię</td><td style="padding:8px;border-bottom:1px solid #eee;">${name}</td></tr>
+          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Email</td><td style="padding:8px;border-bottom:1px solid #eee;"><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Telefon</td><td style="padding:8px;border-bottom:1px solid #eee;">${phone || "—"}</td></tr>
+          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Preferowany termin</td><td style="padding:8px;border-bottom:1px solid #eee;">${preferredTime || "—"}</td></tr>
+          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Wiadomość</td><td style="padding:8px;border-bottom:1px solid #eee;">${message || "—"}</td></tr>
+        </table>
+      `;
+    } else {
+      const { parentName, childName, childAge, email, phone, recruitmentYear } = body;
+
+      if (!parentName || !childName || !childAge || !email) {
+        return NextResponse.json(
+          { error: "Brakuje wymaganych pól" },
+          { status: 400 }
+        );
+      }
+
+      replyTo = email;
+      subject = `Rekrutacja ${recruitmentYear} — ${childName} (${childAge} lat)`;
+      html = `
         <h2>Nowe zgłoszenie rekrutacyjne</h2>
         <table style="border-collapse:collapse;width:100%;max-width:500px;">
           <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Rodzic</td><td style="padding:8px;border-bottom:1px solid #eee;">${parentName}</td></tr>
@@ -39,7 +63,15 @@ export async function POST(request: Request) {
           <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Email</td><td style="padding:8px;border-bottom:1px solid #eee;"><a href="mailto:${email}">${email}</a></td></tr>
           <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Telefon</td><td style="padding:8px;border-bottom:1px solid #eee;">${phone || "—"}</td></tr>
         </table>
-      `,
+      `;
+    }
+
+    const { data, error: sendError } = await resend.emails.send({
+      from: fromEmail,
+      to: toEmail,
+      replyTo,
+      subject,
+      html,
     });
 
     if (sendError) {
