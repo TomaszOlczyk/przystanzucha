@@ -8,6 +8,13 @@ export const staffPage = defineType({
     defineField({ name: "title", title: "Tytuł sekcji", type: "string" }),
     defineField({ name: "subtitle", title: "Podtytuł", type: "string" }),
     defineField({
+      name: "columns",
+      title: "Liczba kolumn",
+      type: "number",
+      options: { list: [{ title: "2 kolumny", value: 2 }, { title: "3 kolumny", value: 3 }] },
+      initialValue: 3,
+    }),
+    defineField({
       name: "members",
       title: "Członkowie kadry",
       type: "array",

@@ -54,6 +54,7 @@ export interface StaffMember {
 export interface StaffPage {
   title: string;
   subtitle: string;
+  columns?: number;
   members: StaffMember[];
 }
 

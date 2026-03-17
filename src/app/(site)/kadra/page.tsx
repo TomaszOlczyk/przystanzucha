@@ -31,7 +31,7 @@ export default async function KadraPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className={`grid grid-cols-1 gap-6 ${staffData.columns === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3"}`}>
             {staffData.members.map((member, i) => {
               const color = colors[i % colors.length];
               const icon = fallbackIcons[i % fallbackIcons.length];
