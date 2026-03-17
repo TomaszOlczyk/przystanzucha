@@ -4,45 +4,8 @@ import { getSiteSettings } from "@/sanity/fetchers";
 
 export default async function Home() {
   const siteData = await getSiteSettings();
-  const benefits = [
-    {
-      icon: "👶",
-      title: "Małe grupy",
-      desc: "Maksymalnie 15 dzieci w grupie — każde dziecko dostaje pełną uwagę",
-    },
-    {
-      icon: "🎓",
-      title: "Wykwalifikowana kadra",
-      desc: "Doświadczeni pedagodzy, psycholog i logopeda na miejscu",
-    },
-    {
-      icon: "🌍",
-      title: "Angielski codziennie",
-      desc: "Codzienna nauka języka angielskiego przez zabawę i immersję",
-    },
-    {
-      icon: "🎨",
-      title: "10 dedykowanych zajęć",
-      desc: "Robotyka, plastyka, muzyka, gimnastyka — w ramach czesnego",
-    },
-    {
-      icon: "🏡",
-      title: "Nowoczesna sala",
-      desc: "Jedna przestrzeń, wiele możliwości — sensoryka, Montessori, multimedia",
-    },
-    {
-      icon: "🥦",
-      title: "Własna kuchnia",
-      desc: "Świeże, zbilansowane posiłki przygotowywane codziennie na miejscu",
-    },
-  ];
-
-  const stats = [
-    { value: "150+", label: "Szczęśliwych dzieci" },
-    { value: "15", label: "Lat doświadczenia" },
-    { value: "10", label: "Zajęć w ramach czesnego" },
-    { value: "98%", label: "Polecających rodziców" },
-  ];
+  const benefits = siteData.benefits ?? [];
+  const stats = siteData.stats ?? [];
 
   return (
     <>
@@ -67,14 +30,13 @@ export default async function Home() {
               )}
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-                Najlepszy start
+                {siteData.heroHeading ?? "Najlepszy start"}
                 <br />
-                <span className="gradient-text">dla Twojego dziecka</span>
+                <span className="gradient-text">{siteData.heroSubheading ?? "dla Twojego dziecka"}</span>
               </h1>
 
               <p className="text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
-                Przedszkole prywatne w Łodzi, gdzie każde dziecko odkrywa swoje
-                talenty w bezpiecznej, nowoczesnej przestrzeni.
+                {siteData.heroDescription ?? siteData.description}
               </p>
 
               {/* Stats */}
@@ -124,55 +86,57 @@ export default async function Home() {
       </section>
 
       {/* BENEFITS */}
-      <section className="py-20 md:py-28 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-              Dlaczego rodzice wybierają{" "}
-              <span className="gradient-text">{siteData.name}</span>?
-            </h2>
-            <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto">
-              Tworzymy miejsce, w którym każde dziecko czuje się bezpiecznie,
-              rozwija się i odkrywa świat z radością
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {benefits.map((b) => (
-              <div
-                key={b.title}
-                className="glass-strong rounded-2xl p-6 card-hover"
-              >
-                <div className="text-3xl mb-3">{b.icon}</div>
-                <h3 className="text-lg font-bold mb-1.5">{b.title}</h3>
-                <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-                  {b.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SOCIAL PROOF / TRUST */}
-      <section className="py-16 relative">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="glass-strong rounded-3xl p-8 md:p-12 text-center">
-            <div className="text-4xl mb-4">💬</div>
-            <blockquote className="text-lg md:text-xl font-medium italic text-[var(--color-text)] leading-relaxed mb-6">
-              &ldquo;Córka codziennie nie może się doczekać pójścia do
-              przedszkola. Kadra jest wspaniała, a ilość dedykowanych zajęć w ramach czesnego
-              to coś, czego nie znajdziecie nigdzie indziej w Łodzi.&rdquo;
-            </blockquote>
-            <div>
-              <p className="font-bold">Katarzyna M.</p>
-              <p className="text-sm text-[var(--color-text-secondary)]">
-                Mama 4-letniej Zosi
+      {benefits.length > 0 && (
+        <section className="py-20 md:py-28 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-14">
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+                Dlaczego rodzice wybierają{" "}
+                <span className="gradient-text">{siteData.name}</span>?
+              </h2>
+              <p className="text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+                Tworzymy miejsce, w którym każde dziecko czuje się bezpiecznie,
+                rozwija się i odkrywa świat z radością
               </p>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {benefits.map((b) => (
+                <div
+                  key={b.title}
+                  className="glass-strong rounded-2xl p-6 card-hover"
+                >
+                  <div className="text-3xl mb-3">{b.icon}</div>
+                  <h3 className="text-lg font-bold mb-1.5">{b.title}</h3>
+                  <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+                    {b.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* SOCIAL PROOF / TRUST */}
+      {siteData.testimonial && (
+        <section className="py-16 relative">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="glass-strong rounded-3xl p-8 md:p-12 text-center">
+              <div className="text-4xl mb-4">💬</div>
+              <blockquote className="text-lg md:text-xl font-medium italic text-[var(--color-text)] leading-relaxed mb-6">
+                &ldquo;{siteData.testimonial.quote}&rdquo;
+              </blockquote>
+              <div>
+                <p className="font-bold">{siteData.testimonial.author}</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">
+                  {siteData.testimonial.role}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* EXPLORE PAGES */}
       <section className="py-16 md:py-24">

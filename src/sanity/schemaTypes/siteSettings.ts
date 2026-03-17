@@ -47,5 +47,43 @@ export const siteSettings = defineType({
     }),
     defineField({ name: "recruitmentOpen", title: "Rekrutacja otwarta", type: "boolean" }),
     defineField({ name: "recruitmentYear", title: "Rok rekrutacji", type: "string" }),
+    defineField({ name: "heroHeading", title: "Hero — nagłówek", type: "string" }),
+    defineField({ name: "heroSubheading", title: "Hero — podtytuł (kolorowy)", type: "string" }),
+    defineField({ name: "heroDescription", title: "Hero — opis", type: "text" }),
+    defineField({
+      name: "stats",
+      title: "Statystyki",
+      type: "array",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({ name: "value", title: "Wartość", type: "string" }),
+          defineField({ name: "label", title: "Etykieta", type: "string" }),
+        ],
+      }],
+    }),
+    defineField({
+      name: "benefits",
+      title: "Zalety przedszkola",
+      type: "array",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({ name: "icon", title: "Ikona (emoji)", type: "string" }),
+          defineField({ name: "title", title: "Tytuł", type: "string" }),
+          defineField({ name: "desc", title: "Opis", type: "string" }),
+        ],
+      }],
+    }),
+    defineField({
+      name: "testimonial",
+      title: "Opinia rodzica",
+      type: "object",
+      fields: [
+        defineField({ name: "quote", title: "Cytat", type: "text" }),
+        defineField({ name: "author", title: "Autor", type: "string" }),
+        defineField({ name: "role", title: "Podpis", type: "string" }),
+      ],
+    }),
   ],
 });

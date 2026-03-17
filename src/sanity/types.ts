@@ -26,6 +26,12 @@ export interface SiteSettings {
   navigation: { label: string; href: string }[];
   recruitmentOpen: boolean;
   recruitmentYear: string;
+  heroHeading?: string;
+  heroSubheading?: string;
+  heroDescription?: string;
+  stats?: { value: string; label: string }[];
+  benefits?: { icon: string; title: string; desc: string }[];
+  testimonial?: { quote: string; author: string; role: string };
 }
 
 export interface StaffMember {
