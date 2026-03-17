@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import siteData from "@/content/site.json";
 
-export default function ContactForm() {
+interface ContactFormProps {
+  email: string;
+  phone: string;
+  name: string;
+  recruitmentYear: string;
+}
+
+export default function ContactForm({ email, phone, name, recruitmentYear }: ContactFormProps) {
   const [formData, setFormData] = useState({
     parentName: "",
     childName: "",
@@ -15,8 +21,8 @@ export default function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:${siteData.email}?subject=${encodeURIComponent(
-      `Rekrutacja ${siteData.recruitmentYear} - ${formData.childName}`
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
+      `Rekrutacja ${recruitmentYear} - ${formData.childName}`
     )}&body=${encodeURIComponent(
       `Imię rodzica: ${formData.parentName}\nImię dziecka: ${formData.childName}\nWiek dziecka: ${formData.childAge}\nEmail: ${formData.email}\nTelefon: ${formData.phone}`
     )}`;
@@ -35,10 +41,10 @@ export default function ContactForm() {
           Wiadomość powinna otworzyć się w kliencie email. Możesz też napisać
           bezpośrednio na{" "}
           <a
-            href={`mailto:${siteData.email}`}
+            href={`mailto:${email}`}
             className="gradient-text font-semibold"
           >
-            {siteData.email}
+            {email}
           </a>
         </p>
         <button
@@ -120,15 +126,15 @@ export default function ContactForm() {
         type="submit"
         className="mt-5 w-full py-4 rounded-xl btn-gradient font-bold text-base tracking-wide"
       >
-        Zapisz dziecko do {siteData.name}
+        Zapisz dziecko do {name}
       </button>
       <p className="text-center text-xs text-[var(--color-text-secondary)] mt-3">
         Odezwiemy się w ciągu 24h. Możesz też zadzwonić:{" "}
         <a
-          href={`tel:${siteData.phone.replace(/\s/g, "")}`}
+          href={`tel:${phone.replace(/\s/g, "")}`}
           className="gradient-text font-semibold"
         >
-          {siteData.phone}
+          {phone}
         </a>
       </p>
     </form>

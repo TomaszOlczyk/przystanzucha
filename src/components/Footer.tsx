@@ -1,7 +1,7 @@
 import Link from "next/link";
-import siteData from "@/content/site.json";
+import type { SiteSettings } from "@/sanity/types";
 
-export default function Footer() {
+export default function Footer({ siteData }: { siteData: SiteSettings }) {
   return (
     <footer className="relative" style={{ background: "var(--gradient-dark)" }}>
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />

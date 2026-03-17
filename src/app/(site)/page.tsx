@@ -1,8 +1,9 @@
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
-import siteData from "@/content/site.json";
+import { getSiteSettings } from "@/sanity/fetchers";
 
-export default function Home() {
+export default async function Home() {
+  const siteData = await getSiteSettings();
   const benefits = [
     {
       icon: "👶",
@@ -116,7 +117,7 @@ export default function Home() {
                   Zostaw kontakt — oddzwonimy w ciągu 24 godzin
                 </p>
               </div>
-              <ContactForm />
+              <ContactForm email={siteData.email} phone={siteData.phone} name={siteData.name} recruitmentYear={siteData.recruitmentYear} />
             </div>
           </div>
         </div>

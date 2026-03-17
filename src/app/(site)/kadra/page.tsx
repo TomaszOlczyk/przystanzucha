@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import staffData from "@/content/staff.json";
+import { getStaffPage } from "@/sanity/fetchers";
+import { urlFor } from "@/sanity/image";
 
 export const metadata: Metadata = {
   title: "Nasza Kadra — Przystanzucha",
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
 
 const fallbackIcons = ["👩‍💼", "👩‍🏫", "👩‍🏫", "🇬🇧", "🎵", "🧠"];
 
-export default function KadraPage() {
+export default async function KadraPage() {
+  const staffData = await getStaffPage();
   const colors = ["#ec4899", "#a855f7", "#6366f1", "#3b82f6", "#ec4899", "#a855f7"];
 
   return (
@@ -33,7 +35,7 @@ export default function KadraPage() {
             {staffData.members.map((member, i) => {
               const color = colors[i % colors.length];
               const icon = fallbackIcons[i % fallbackIcons.length];
-              const hasImage = !!member.image;
+              const hasImage = !!member.image?.asset;
 
               return (
                 <div
@@ -43,7 +45,7 @@ export default function KadraPage() {
                   {hasImage ? (
                     <div className="h-52 relative">
                       <Image
-                        src={member.image}
+                        src={urlFor(member.image).width(400).height(208).url()}
                         alt={member.name}
                         fill
                         className="object-cover"
@@ -68,7 +70,7 @@ export default function KadraPage() {
                       {member.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
-                      {member.qualifications.map((q) => (
+                      {(member.qualifications ?? []).map((q) => (
                         <span
                           key={q}
                           className="text-xs px-2.5 py-1 rounded-full font-medium"

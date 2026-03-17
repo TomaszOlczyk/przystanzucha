@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import activitiesData from "@/content/activities.json";
+import { getActivitiesPage } from "@/sanity/fetchers";
+import { urlFor } from "@/sanity/image";
 
 export const metadata: Metadata = {
   title: "Zajęcia dla Dzieci — Przystanzucha",
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
     "Dedykowane zajęcia w ramach czesnego. Angielski, rytmika, plastyka, robotyka i więcej!",
 };
 
-export default function ZajeciaPage() {
+export default async function ZajeciaPage() {
+  const activitiesData = await getActivitiesPage();
   const colors = [
     "#ec4899", "#6366f1", "#a855f7", "#3b82f6", "#ec4899",
     "#6366f1", "#a855f7", "#3b82f6", "#ec4899", "#6366f1",
@@ -48,10 +50,10 @@ export default function ZajeciaPage() {
                     style={{ backgroundColor: color }}
                   />
                   <div className="relative">
-                    {"image" in activity && activity.image ? (
+                    {activity.image?.asset ? (
                       <div className="h-32 -mx-6 -mt-6 mb-4 relative overflow-hidden rounded-t-2xl">
                         <Image
-                          src={activity.image as string}
+                          src={urlFor(activity.image).width(400).height(128).url()}
                           alt={activity.name}
                           fill
                           className="object-cover"

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import siteData from "@/content/site.json";
+import type { SiteSettings } from "@/sanity/types";
 
-export default function Navbar() {
+export default function Navbar({ siteData }: { siteData: SiteSettings }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 

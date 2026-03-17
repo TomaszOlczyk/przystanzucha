@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import classroomsData from "@/content/classrooms.json";
+import { getClassroomsPage } from "@/sanity/fetchers";
+import { urlFor } from "@/sanity/image";
 
 export const metadata: Metadata = {
   title: "Nasza Sala — Przystanzucha",
   description: "Jedna przestrzeń, wiele możliwości. Nowoczesna sala i najlepsze materiały edukacyjne.",
 };
 
-export default function SalePage() {
+export default async function SalePage() {
+  const classroomsData = await getClassroomsPage();
   const useColors = ["#ec4899", "#a855f7", "#6366f1", "#3b82f6", "#ec4899", "#a855f7"];
 
   return (
@@ -30,10 +32,10 @@ export default function SalePage() {
           {/* Main room showcase */}
           <div className="glass-strong rounded-3xl p-6 md:p-10 mb-16">
             <div className="flex flex-col md:flex-row gap-8 items-center">
-              {classroomsData.room.image ? (
+              {classroomsData.room.image?.asset ? (
                 <div className="w-full md:w-1/2 h-64 md:h-80 rounded-2xl relative shrink-0 overflow-hidden">
                   <Image
-                    src={classroomsData.room.image}
+                    src={urlFor(classroomsData.room.image).width(600).height(400).url()}
                     alt={classroomsData.room.name}
                     fill
                     className="object-cover"
