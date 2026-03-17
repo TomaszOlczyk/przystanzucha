@@ -94,35 +94,25 @@ html {
   100% { transform: translateX(-20vw); }
 }
 
-@keyframes walk-across {
-  0% { transform: translateX(110vw); }
-  100% { transform: translateX(-15vw); }
-}
-
 @keyframes wheel-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-@keyframes walk-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-20deg); }
+  75% { transform: rotate(20deg); }
 }
 
 .animate-drive-across {
   animation: drive-across 28s linear infinite;
 }
 
-.animate-walk-across {
-  animation: walk-across 38s linear infinite;
-  animation-delay: 8s;
-}
-
 .animate-wheel-spin {
   animation: wheel-spin 0.8s linear infinite;
-  transform-origin: center;
 }
 
-.animate-walk-bounce {
-  animation: walk-bounce 0.5s ease-in-out infinite;
+.animate-wave {
+  animation: wave 1s ease-in-out infinite;
 }
