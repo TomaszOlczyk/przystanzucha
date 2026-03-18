@@ -14,16 +14,18 @@ export default async function Home() {
       {/* HERO — Lead magnet */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Background child photo — right side */}
-        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none">
+        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none z-0">
           <Image
             src="/images/hero-child.jpg"
             alt=""
             fill
-            className="object-cover object-top"
-            style={{ maskImage: "linear-gradient(to right, transparent 0%, black 25%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%)" }}
+            className="object-cover object-top opacity-40"
+            style={{
+              maskImage: "linear-gradient(to right, transparent 0%, black 30%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 30%)",
+            }}
             priority
           />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, var(--gradient-hero) 0%, rgba(252,231,243,0.3) 50%, rgba(237,233,254,0.2) 100%)" }} />
         </div>
 
         {/* Decorative glows */}
