@@ -88,15 +88,15 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Floating toys animations */
-@keyframes drive-across {
+/* Floating animations */
+@keyframes sail-across {
   0% { transform: translateX(110vw); }
-  100% { transform: translateX(-20vw); }
+  100% { transform: translateX(-25vw); }
 }
 
-@keyframes wheel-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes ship-bob {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
 }
 
 @keyframes wave {
@@ -105,14 +105,50 @@ html {
   75% { transform: rotate(20deg); }
 }
 
-.animate-drive-across {
-  animation: drive-across 28s linear infinite;
+@keyframes wave-move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-.animate-wheel-spin {
-  animation: wheel-spin 0.8s linear infinite;
+@keyframes sun-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(12px); }
 }
 
-.animate-wave {
+@keyframes sun-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes flag-wave {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.85); }
+}
+
+.animate-sail-across {
+  animation: sail-across 35s linear infinite;
+}
+
+.animate-ship-bob {
+  animation: ship-bob 3s ease-in-out infinite;
+}
+
+.animate-wave-anim {
   animation: wave 1s ease-in-out infinite;
+}
+
+.animate-wave-move {
+  animation: wave-move 8s linear infinite;
+}
+
+.animate-sun-float {
+  animation: sun-float 6s ease-in-out infinite;
+}
+
+.animate-sun-glow {
+  animation: sun-glow 4s ease-in-out infinite;
+}
+
+.animate-flag-wave {
+  animation: flag-wave 1.5s ease-in-out infinite;
 }

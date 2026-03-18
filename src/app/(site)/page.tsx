@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
+import AnimatedWaves from "@/components/AnimatedWaves";
 import { getSiteSettings } from "@/sanity/fetchers";
 
 export default async function Home() {
@@ -11,6 +13,19 @@ export default async function Home() {
     <>
       {/* HERO — Lead magnet */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background child photo — right side */}
+        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none">
+          <Image
+            src="/images/hero-child.jpg"
+            alt=""
+            fill
+            className="object-cover object-top"
+            style={{ maskImage: "linear-gradient(to right, transparent 0%, black 25%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%)" }}
+            priority
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, var(--gradient-hero) 0%, rgba(252,231,243,0.3) 50%, rgba(237,233,254,0.2) 100%)" }} />
+        </div>
+
         {/* Decorative glows */}
         <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-pink-300/20 blur-3xl pointer-events-none" />
         <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] rounded-full bg-purple-400/15 blur-3xl pointer-events-none" />
@@ -84,6 +99,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Animated waves divider */}
+      <AnimatedWaves />
 
       {/* BENEFITS */}
       {benefits.length > 0 && (
