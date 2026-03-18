@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export default function FloatingToys() {
   const dollRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const pushSunRight = pathname === "/kadra" || pathname === "/sale";
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -20,10 +23,10 @@ export default function FloatingToys() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block">
-      {/* Sun — subtle float, right side */}
+      {/* Sun — position depends on page */}
       <div
         className="absolute animate-sun-float"
-        style={{ top: "12%", right: "8%", opacity: 0.75 }}
+        style={{ top: "12%", ...(pushSunRight ? { right: "8%" } : { left: "42%" }), opacity: 0.75 }}
       >
         <div className="animate-sun-glow">
           <svg
