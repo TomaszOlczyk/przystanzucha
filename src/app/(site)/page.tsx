@@ -3,6 +3,7 @@ import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import AnimatedWaves from "@/components/AnimatedWaves";
 import { getSiteSettings } from "@/sanity/fetchers";
+import { urlFor } from "@/sanity/image";
 
 export default async function Home() {
   const siteData = await getSiteSettings();
@@ -16,7 +17,7 @@ export default async function Home() {
         {/* Background child photo — right 45%, desktop only */}
         <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none z-0">
           <Image
-            src="/images/hero-child.jpg"
+            src={siteData.heroImage?.asset ? urlFor(siteData.heroImage).width(1200).height(1600).url() : "/images/hero-child.jpg"}
             alt=""
             fill
             className="object-cover object-top opacity-70"

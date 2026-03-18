@@ -19,6 +19,6 @@ export const classroomsPageQuery = `*[_type == "classroomsPage"][0]{
 }`;
 
 export const activitiesPageQuery = `*[_type == "activitiesPage"][0]{
-  title, subtitle, badge,
+  title, subtitle, badge, heroImage,
   activities[]{name, icon, description, frequency, duration, image}
 }`;

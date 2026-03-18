@@ -29,6 +29,7 @@ export interface SiteSettings {
   heroHeading?: string;
   heroSubheading?: string;
   heroDescription?: string;
+  heroImage?: SanityImage;
   stats?: { value: string; label: string }[];
   benefits?: { icon: string; title: string; desc: string }[];
   testimonial?: { quote: string; author: string; role: string };

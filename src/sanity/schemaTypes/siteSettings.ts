@@ -50,6 +50,7 @@ export const siteSettings = defineType({
     defineField({ name: "heroHeading", title: "Hero — nagłówek", type: "string" }),
     defineField({ name: "heroSubheading", title: "Hero — podtytuł (kolorowy)", type: "string" }),
     defineField({ name: "heroDescription", title: "Hero — opis", type: "text" }),
+    defineField({ name: "heroImage", title: "Hero — zdjęcie w tle", type: "image", options: { hotspot: true } }),
     defineField({
       name: "stats",
       title: "Statystyki",
