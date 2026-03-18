@@ -11,18 +11,18 @@ export default async function Home() {
 
   return (
     <>
-      {/* HERO — Lead magnet */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background child photo — right side */}
-        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none z-0">
+      {/* HERO — with child photo background */}
+      <section className="relative min-h-[70vh] lg:min-h-[80vh] flex items-center overflow-hidden">
+        {/* Background child photo — desktop only */}
+        <div className="absolute inset-0 hidden lg:block pointer-events-none z-0">
           <Image
             src="/images/hero-child.jpg"
             alt=""
             fill
-            className="object-cover object-top opacity-40"
+            className="object-cover object-top opacity-60"
             style={{
-              maskImage: "linear-gradient(to right, transparent 0%, black 30%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 30%)",
+              maskImage: "linear-gradient(to left, black 0%, black 40%, transparent 70%)",
+              WebkitMaskImage: "linear-gradient(to left, black 0%, black 40%, transparent 70%)",
             }}
             priority
           />
@@ -33,9 +33,8 @@ export default async function Home() {
         <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] rounded-full bg-purple-400/15 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-40 left-1/3 w-[500px] h-[500px] rounded-full bg-blue-400/15 blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 md:py-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left — Copy */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 md:py-0 relative z-10">
+          <div className="lg:max-w-[55%]">
             <div className="text-center lg:text-left">
               {siteData.recruitmentOpen && (
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-6">
@@ -71,6 +70,12 @@ export default async function Home() {
               </div>
 
               <div className="hidden lg:flex items-center gap-4">
+                <a
+                  href="#kontakt"
+                  className="px-8 py-3.5 rounded-full btn-gradient font-bold text-sm"
+                >
+                  Zapisz dziecko
+                </a>
                 <Link
                   href="/sale"
                   className="px-6 py-3 rounded-full glass font-medium text-sm hover:bg-white/80 transition-all"
@@ -85,25 +90,27 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
-
-            {/* Right — Contact form */}
-            <div id="kontakt">
-              <div className="text-center mb-5">
-                <h2 className="text-xl md:text-2xl font-bold mb-1">
-                  {siteData.contactFormHeading ?? "Zapisz dziecko do przedszkola"}
-                </h2>
-                <p className="text-sm text-[var(--color-text-secondary)]">
-                  {siteData.contactFormSubheading ?? "Zostaw kontakt — oddzwonimy w ciągu 24 godzin"}
-                </p>
-              </div>
-              <ContactForm email={siteData.email} phone={siteData.phone} name={siteData.name} recruitmentYear={siteData.recruitmentYear} />
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Animated waves divider */}
+      {/* Animated waves + pirate ship divider */}
       <AnimatedWaves />
+
+      {/* CONTACT FORM — below waves */}
+      <section id="kontakt" className="py-16 md:py-20 relative">
+        <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-5">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+              {siteData.contactFormHeading ?? "Zapisz dziecko do przedszkola"}
+            </h2>
+            <p className="text-sm text-[var(--color-text-secondary)]">
+              {siteData.contactFormSubheading ?? "Zostaw kontakt — oddzwonimy w ciągu 24 godzin"}
+            </p>
+          </div>
+          <ContactForm email={siteData.email} phone={siteData.phone} name={siteData.name} recruitmentYear={siteData.recruitmentYear} />
+        </div>
+      </section>
 
       {/* BENEFITS */}
       {benefits.length > 0 && (
