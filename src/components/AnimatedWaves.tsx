@@ -2,11 +2,11 @@
 
 export default function AnimatedWaves() {
   return (
-    <div className="relative w-full overflow-hidden hidden md:block" style={{ height: "120px" }}>
+    <div className="relative w-full hidden md:block" style={{ height: "120px", zIndex: 50 }}>
       {/* Pirate ship — sails across on the waves */}
       <div
-        className="absolute animate-sail-across z-10"
-        style={{ bottom: "30px", opacity: 0.75 }}
+        className="absolute animate-sail-across"
+        style={{ bottom: "20px", opacity: 0.8, zIndex: 60 }}
       >
         <div className="animate-ship-bob">
           <svg

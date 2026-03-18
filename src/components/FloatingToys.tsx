@@ -20,15 +20,15 @@ export default function FloatingToys() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block">
-      {/* Sun — subtle float on left side */}
+      {/* Sun — subtle float center-left */}
       <div
         className="absolute animate-sun-float"
-        style={{ top: "15%", left: "5%", opacity: 0.75 }}
+        style={{ top: "12%", left: "42%", opacity: 0.75 }}
       >
         <div className="animate-sun-glow">
           <svg
-            width="160"
-            height="160"
+            width="176"
+            height="176"
             viewBox="0 0 100 100"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
