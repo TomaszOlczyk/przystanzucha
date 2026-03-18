@@ -36,6 +36,27 @@ export default async function ZajeciaPage() {
             </span>
           </div>
 
+          {/* Hero photo */}
+          <div className="relative w-full max-w-4xl mx-auto mb-14 rounded-3xl overflow-hidden shadow-xl">
+            <div className="relative aspect-[3/2]">
+              {activitiesData.heroImage?.asset ? (
+                <Image
+                  src={urlFor(activitiesData.heroImage).width(1200).height(800).url()}
+                  alt="Zajęcia dla dzieci"
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <Image
+                  src="/images/zajecia-hero.jpg"
+                  alt="Zajęcia dla dzieci"
+                  fill
+                  className="object-cover"
+                />
+              )}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {activitiesData.activities.map((activity, i) => {
               const color = colors[i % colors.length];

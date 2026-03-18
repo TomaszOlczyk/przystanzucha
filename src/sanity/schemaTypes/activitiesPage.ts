@@ -8,6 +8,7 @@ export const activitiesPage = defineType({
     defineField({ name: "title", title: "Tytuł sekcji", type: "string" }),
     defineField({ name: "subtitle", title: "Podtytuł", type: "text" }),
     defineField({ name: "badge", title: "Etykieta (badge)", type: "string" }),
+    defineField({ name: "heroImage", title: "Zdjęcie główne", type: "image", options: { hotspot: true } }),
     defineField({
       name: "activities",
       title: "Lista zajęć",

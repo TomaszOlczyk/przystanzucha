@@ -85,5 +85,6 @@ export interface ActivitiesPage {
   title: string;
   subtitle: string;
   badge: string;
+  heroImage?: SanityImage;
   activities: Activity[];
 }
