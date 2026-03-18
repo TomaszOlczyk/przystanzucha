@@ -12,20 +12,27 @@ export default async function Home() {
   return (
     <>
       {/* HERO — with child photo background */}
-      <section className="relative min-h-[70vh] lg:min-h-[80vh] flex items-center overflow-hidden">
-        {/* Background child photo — desktop only */}
-        <div className="absolute inset-0 hidden lg:block pointer-events-none z-0">
+      <section className="relative min-h-[70vh] lg:min-h-[80vh] flex items-center overflow-hidden pb-32 md:pb-40">
+        {/* Background child photo — right 45%, desktop only */}
+        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none z-0">
           <Image
             src="/images/hero-child.jpg"
             alt=""
             fill
-            className="object-cover object-top opacity-60"
+            className="object-cover object-top opacity-70"
             style={{
-              maskImage: "linear-gradient(to left, black 0%, black 40%, transparent 70%)",
-              WebkitMaskImage: "linear-gradient(to left, black 0%, black 40%, transparent 70%)",
+              maskImage: "linear-gradient(to right, transparent 0%, black 25%), linear-gradient(to top, transparent 0%, black 15%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%), linear-gradient(to top, transparent 0%, black 15%)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
             }}
             priority
           />
+        </div>
+
+        {/* Waves at bottom of hero, ON TOP of the photo */}
+        <div className="absolute bottom-0 left-0 right-0 z-[5]">
+          <AnimatedWaves />
         </div>
 
         {/* Decorative glows */}
@@ -93,9 +100,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Animated waves + pirate ship divider */}
-      <AnimatedWaves />
 
       {/* CONTACT FORM — below waves */}
       <section id="kontakt" className="py-16 md:py-20 relative">
