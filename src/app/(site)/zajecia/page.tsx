@@ -17,46 +17,71 @@ export default async function ZajeciaPage() {
     "#6366f1", "#a855f7", "#3b82f6", "#ec4899", "#6366f1",
   ];
 
+  const heroImgSrc = activitiesData.heroImage?.asset
+    ? urlFor(activitiesData.heroImage).width(1200).height(1600).url()
+    : "/images/zajecia-hero.jpg";
+
   return (
     <>
-      <section className="pt-12 pb-16 md:pt-20 md:pb-24">
+      {/* Hero section — text left, photo right (like homepage) */}
+      <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-center overflow-hidden">
+        {/* Background photo — right side, desktop only */}
+        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none z-0">
+          <Image
+            src={heroImgSrc}
+            alt="Zajęcia dla dzieci"
+            fill
+            className="object-cover object-center opacity-70"
+            style={{
+              maskImage: "linear-gradient(to right, transparent 0%, black 25%), linear-gradient(to top, transparent 0%, black 10%), linear-gradient(to bottom, transparent 0%, black 10%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%), linear-gradient(to top, transparent 0%, black 10%), linear-gradient(to bottom, transparent 0%, black 10%)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
+            }}
+            priority
+          />
+        </div>
+
+        {/* Decorative glows */}
+        <div className="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-purple-300/20 blur-3xl pointer-events-none" />
+        <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full bg-pink-400/15 blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 md:py-0 relative z-10">
+          <div className="lg:max-w-[55%]">
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-5">
+                <span className="gradient-text">Zajęcia dla dzieci</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+                Dedykowane{" "}
+                <span className="gradient-text">zajęcia</span>
+              </h1>
+              <p className="text-lg md:text-xl text-[var(--color-text-secondary)] leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+                {activitiesData.subtitle}
+              </p>
+              <span className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full btn-gradient font-bold text-sm">
+                {activitiesData.badge}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile hero image */}
+        <div className="lg:hidden w-full px-4 pb-8">
+          <div className="relative w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+            <Image
+              src={heroImgSrc}
+              alt="Zajęcia dla dzieci"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Activities grid */}
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-5">
-              <span className="gradient-text">Zajęcia dla dzieci</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-              {activitiesData.title}
-            </h1>
-            <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-6">
-              {activitiesData.subtitle}
-            </p>
-            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full btn-gradient font-bold text-sm">
-              {activitiesData.badge}
-            </span>
-          </div>
-
-          {/* Hero photo */}
-          <div className="relative w-full max-w-4xl mx-auto mb-14 rounded-3xl overflow-hidden shadow-xl">
-            <div className="relative aspect-[3/2]">
-              {activitiesData.heroImage?.asset ? (
-                <Image
-                  src={urlFor(activitiesData.heroImage).width(1200).height(800).url()}
-                  alt="Zajęcia dla dzieci"
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <Image
-                  src="/images/zajecia-hero.jpg"
-                  alt="Zajęcia dla dzieci"
-                  fill
-                  className="object-cover"
-                />
-              )}
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {activitiesData.activities.map((activity, i) => {
               const color = colors[i % colors.length];
