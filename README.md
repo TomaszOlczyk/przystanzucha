@@ -34,3 +34,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Formularze (rekrutacja / konsultacja)
+
+`POST /api/contact` zapisuje zgłoszenie w Sanity (`/studio` → Zgłoszenia) pod prywatnym ID
+`submission.<uuid>` (niewidoczne w publicznym API) i wysyła mail przez Resend.
+
+Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
+opcjonalnie `CONTACT_FROM` (domena nadawcy musi być zweryfikowana w Resend).
+Stare zgłoszenia na publicznych ID: `SANITY_AUTH_TOKEN=… npx tsx scripts/private-submissions.ts`.
