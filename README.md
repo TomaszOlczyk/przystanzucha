@@ -57,5 +57,5 @@ publiczne ID).
   deduplikując po `externalId`. Wartości statusów i źródeł to kontrakt — słowniki w `src/sanity/crm.ts`.
 
 Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
-opcjonalnie `CONTACT_FROM` (domena nadawcy musi być zweryfikowana w Resend).
+opcjonalnie `CONTACT_FROM` / `RESEND_FROM_EMAIL` (domena nadawcy musi być zweryfikowana w Resend).
 Stare zgłoszenia na publicznych ID: `SANITY_AUTH_TOKEN=… npx tsx scripts/private-submissions.ts`.
