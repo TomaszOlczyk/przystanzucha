@@ -59,3 +59,52 @@ publiczne ID).
 Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
 opcjonalnie `CONTACT_FROM` (domena nadawcy musi być zweryfikowana w Resend).
 Stare zgłoszenia na publicznych ID: `SANITY_AUTH_TOKEN=… npx tsx scripts/private-submissions.ts`.
+
+## Analityka (GTM/GA4)
+
+Kontener Google Tag Manager ładuje się **tylko w części publicznej** (layout `src/app/(site)`), nigdy
+w `/studio`. Tagi (GA4, Google Ads `AW-18511309808`, ewentualnie Meta) konfigurujemy w GTM, nie w kodzie.
+
+- **Env:** `NEXT_PUBLIC_GTM_ID=GTM-WTCRG8VR` (kontener Przystań Zucha: GA4 `G-KS1JVFWK81`,
+  Google Ads `AW-18511309808`; ustawiamy w Vercel → Production/Preview, przykład w `.env.example`). Zmienna jest wkompilowana
+  w build — po ustawieniu/zmianie trzeba zrobić redeploy. Brak lub zły format (`GTM-[A-Z0-9]+`) →
+  nic się nie ładuje: ani GTM, ani baner cookies, ani link „Ustawienia cookies”.
+- **Kod:** `src/lib/analytics.ts` (`pushEvent`, Consent Mode, kontrakt zdarzeń),
+  `src/components/GoogleTagManager.tsx` (loader + `<noscript>`), `CookieConsent.tsx` (baner),
+  `CookieSettingsLink.tsx` (link w stopce), `ClickTracking.tsx` (jeden globalny listener kliknięć).
+
+### Consent Mode v2
+
+Jeden skrypt inline (`next/script`, `afterInteractive`) w kolejności:
+1. `gtag('consent','default', …)` — `ad_storage`, `ad_user_data`, `ad_personalization`,
+   `analytics_storage` = `denied`; `functionality_storage`, `security_storage` = `granted`; `wait_for_update: 500`.
+2. Jeśli użytkownik wybrał wcześniej — `gtag('consent','update', …)` z zapisanego wyboru.
+3. `gtm.js`.
+
+Brak wyboru = `denied`. Baner: „Akceptuję wszystkie” / „Tylko niezbędne” / „Ustawienia”
+(analityczne → `analytics_storage`, marketingowe → `ad_storage` + `ad_user_data` + `ad_personalization`).
+Wybór w `localStorage` pod `pz_zgody_cookies` (`{v, ts, analytics, marketing}`); ważny 12 miesięcy,
+podbicie `CONSENT_VERSION` wymusza ponowne pytanie. Po decyzji: `gtag('consent','update', …)` +
+zdarzenie `consent_update`. Link „Ustawienia cookies” w stopce otwiera baner ponownie.
+W GTM: tagi Google mają wbudowaną obsługę zgód; tagi spoza Google (np. Meta Pixel) ustawić na
+„Wymagaj dodatkowej zgody” (`ad_storage`).
+
+### Zdarzenia dataLayer (kontrakt dla tagów w GTM)
+
+**Do dataLayer nigdy nie trafiają dane osobowe** (imię, e-mail, telefon, treść wiadomości).
+
+| Zdarzenie | Kiedy | Parametry |
+|---|---|---|
+| `generate_lead` | po **udanej** wysyłce formularza (odpowiedź 2xx z `/api/contact`) | `form_type`: `rekrutacja` \| `konsultacja`, `lead_source`: `www`, `child_age` (tylko rekrutacja: `2`–`6`) |
+| `form_start` | pierwsza interakcja (focus/zmiana pola) z formularzem — raz na wypełnienie | `form_type` |
+| `click_to_call` | kliknięcie linku `tel:` | `link_location`: `menu` \| `stopka` \| `formularz` \| `tresc` |
+| `click_email` | kliknięcie linku `mailto:` | `link_location` |
+| `click_social` | kliknięcie linku do Facebooka / Instagrama | `social_network`: `facebook` \| `instagram`, `link_location` |
+| `consent_update` | zapis wyboru w banerze | `consent_analytics`, `consent_marketing`: `granted` \| `denied` |
+
+Proponowana konfiguracja w GTM: wyzwalacze „Zdarzenie niestandardowe” o powyższych nazwach;
+GA4 — zdarzenia o tych samych nazwach (parametry przez zmienne warstwy danych), `generate_lead`
+oznaczone jako kluczowe; Google Ads — konwersja na `generate_lead` (osobne akcje per `form_type`
+wg potrzeb) i ewentualnie `click_to_call`. Strona jest SPA (App Router) — page_view dla przejść
+między podstronami: w GA4 „Pomiar zaawansowany → zmiany historii przeglądania” albo wyzwalacz
+„Zmiana historii” w GTM.

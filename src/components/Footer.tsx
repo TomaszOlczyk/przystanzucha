@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { SiteSettings } from "@/sanity/types";
+import CookieSettingsLink from "@/components/CookieSettingsLink";
+import { GTM_ID } from "@/lib/analytics";
 
 export default function Footer({ siteData }: { siteData: SiteSettings }) {
   return (
@@ -109,6 +111,9 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
             &copy; {new Date().getFullYear()} {siteData.name}. Wszelkie prawa
             zastrzeżone.
           </p>
+          {GTM_ID && (
+            <CookieSettingsLink className="mt-2 underline underline-offset-2 hover:text-white transition-colors" />
+          )}
         </div>
       </div>
     </footer>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { getAttribution } from "@/lib/attribution";
+import { trackFormStart, trackLead } from "@/lib/analytics";
 
 interface ContactFormProps {
   email: string;
@@ -21,6 +22,14 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const started = useRef(false);
+
+  // form_start — raz na wypełnienie formularza, przy pierwszej interakcji
+  const handleFormStart = () => {
+    if (started.current) return;
+    started.current = true;
+    trackFormStart("rekrutacja");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +46,8 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Błąd wysyłania");
       setSubmitted(true);
+      // bez danych osobowych — tylko typ formularza (i wiek dziecka)
+      trackLead("rekrutacja", { child_age: formData.childAge });
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Nieznany błąd";
       setError(msg + " — Spróbuj ponownie lub napisz na " + email);
@@ -65,6 +76,7 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
         <button
           onClick={() => {
             setSubmitted(false);
+            started.current = false;
             setFormData({ parentName: "", childName: "", childAge: "", email: "", phone: "" });
           }}
           className="px-6 py-2.5 rounded-full glass text-sm font-medium hover:bg-white/80 transition-colors"
@@ -78,6 +90,8 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
   return (
     <form
       onSubmit={handleSubmit}
+      onFocus={handleFormStart}
+      onChange={handleFormStart}
       className="glass-strong rounded-3xl p-6 md:p-8 max-w-lg mx-auto"
     >
       <div className="space-y-4">
