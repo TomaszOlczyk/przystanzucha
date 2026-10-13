@@ -3,20 +3,7 @@ import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { presentationTool } from "sanity/presentation";
 import { schemaTypes } from "./src/sanity/schemaTypes";
-
-const singletonTypes = new Set([
-  "siteSettings",
-  "staffPage",
-  "classroomsPage",
-  "activitiesPage",
-]);
-
-const singletonLabels: Record<string, string> = {
-  siteSettings: "Ustawienia strony",
-  staffPage: "Kadra",
-  classroomsPage: "Sala i materiały",
-  activitiesPage: "Zajęcia",
-};
+import { structure, singletonTypes } from "./src/sanity/structure";
 
 export default defineConfig({
   name: "przystanzucha",
@@ -25,28 +12,7 @@ export default defineConfig({
   dataset: "production",
 
   plugins: [
-    structureTool({
-      structure: (S) =>
-        S.list()
-          .title("Treści")
-          .items([
-            ...[...singletonTypes].map((type) =>
-              S.listItem()
-                .title(singletonLabels[type] || type)
-                .id(type)
-                .child(S.document().schemaType(type).documentId(type))
-            ),
-            S.divider(),
-            S.listItem()
-              .title("Zgłoszenia")
-              .id("submissions")
-              .child(
-                S.documentTypeList("submission")
-                  .title("Zgłoszenia z formularzy")
-                  .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
-              ),
-          ]),
-    }),
+    structureTool({ structure }),
     visionTool(),
     presentationTool({
       previewUrl: {
@@ -64,12 +30,24 @@ export default defineConfig({
   },
 
   document: {
-    actions: (input, context) =>
-      singletonTypes.has(context.schemaType)
-        ? input.filter(
-            ({ action }) =>
-              action && ["publish", "discardChanges", "restore"].includes(action)
-          )
-        : input,
+    // Leady tworzymy tylko z sekcji "CRM — Leady" (prywatne ID `submission.<uuid>`),
+    // więc chowamy je z globalnego menu "Utwórz".
+    newDocumentOptions: (prev, { creationContext }) =>
+      creationContext.type === "global"
+        ? prev.filter((item) => item.templateId !== "submission")
+        : prev,
+    actions: (input, context) => {
+      if (singletonTypes.has(context.schemaType)) {
+        return input.filter(
+          ({ action }) =>
+            action && ["publish", "discardChanges", "restore"].includes(action)
+        );
+      }
+      // Duplikat dostałby publiczne ID (zwykłe UUID) — wyłączamy dla leadów.
+      if (context.schemaType === "submission") {
+        return input.filter(({ action }) => action !== "duplicate");
+      }
+      return input;
+    },
   },
 });

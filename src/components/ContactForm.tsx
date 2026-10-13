@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getAttribution } from "@/lib/attribution";
 
 interface ContactFormProps {
   email: string;
@@ -30,7 +31,7 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, recruitmentYear }),
+        body: JSON.stringify({ ...formData, recruitmentYear, ...getAttribution() }),
       });
 
       const result = await res.json();

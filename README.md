@@ -35,10 +35,26 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## Formularze (rekrutacja / konsultacja)
+## CRM leadów
 
-`POST /api/contact` zapisuje zgłoszenie w Sanity (`/studio` → Zgłoszenia) pod prywatnym ID
-`submission.<uuid>` (niewidoczne w publicznym API) i wysyła mail przez Resend.
+`/studio` → **CRM — Leady**: dokumenty `submission` („Zgłoszenia / Leady”) pod prywatnym ID
+`submission.<uuid>` (niewidoczne w publicznym API — dataset jest publiczny). Nowy lead dodajemy
+przyciskiem „Nowy lead” w liście CRM (globalne „Utwórz” i „Duplikuj” są wyłączone, bo nadałyby
+publiczne ID).
+
+- **Listy:** Do kontaktu dziś (`nextContactAt` ≤ koniec dnia, status nie umowa/rezygnacja/spam),
+  Nowe, W kontakcie (kontakt + wizyta_umowiona), Adaptacja, Umowy, Rezygnacje / spam, Wszystkie.
+- **Statusy (`status`):** `nowy`, `kontakt`, `wizyta_umowiona`, `adaptacja`, `umowa`, `rezygnacja`,
+  `spam`. Stare wartości `new` / `in_progress` / `done` zostają na liście jako „(stare) …”
+  (new → Nowe, in_progress → W kontakcie, done → tylko Wszystkie).
+- **Źródło (`source`):** `www_rekrutacja`, `www_konsultacja`, `facebook_lead_ads`, `google_business`,
+  `email`, `telefon`, `recznie`. Stare zgłoszenia bez `source` — liczone z `type`.
+- **Pola:** `language` (pl/en/uk/inny), `childBirthDate`, `nextContactAt`, `notes[]` ({text, at, author}),
+  `assignedTo`, `utm` {source, medium, campaign}, `gclid`, `fbclid`, `externalId` (tylko do odczytu).
+- **Formularze WWW:** `POST /api/contact` zapisuje lead (`source` www_*, `language` pl, UTM/gclid/fbclid
+  z adresu — pierwszy kontakt w sesji) i wysyła mail przez Resend.
+- **FB Lead Ads / e-mail:** leady zapisuje do Sanity `przystanzucha-ops/lead-hub` na FRIDAY,
+  deduplikując po `externalId`. Wartości statusów i źródeł to kontrakt — słowniki w `src/sanity/crm.ts`.
 
 Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
 opcjonalnie `CONTACT_FROM` (domena nadawcy musi być zweryfikowana w Resend).
