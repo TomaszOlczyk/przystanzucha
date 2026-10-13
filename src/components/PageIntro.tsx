@@ -1,32 +1,44 @@
 import Link from "next/link";
 
-/** Nagłówek podstrony: etykieta, H1, lead. */
+/** Nagłówek podstrony w stylu „dziennika”: linia meta, wielki szeryf, lead. */
 export default function PageIntro({ eyebrow, title, lead }: { eyebrow: string; title: React.ReactNode; lead?: string }) {
   return (
-    <section className="pt-8 md:pt-16 pb-8 md:pb-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl lg:max-w-6xl">
-        <p className="eyebrow">{eyebrow}</p>
-        <h1 className="mt-2 text-[2.35rem] leading-[1.1] md:text-5xl lg:text-[3.4rem] font-semibold max-w-3xl">{title}</h1>
-        {lead && <p className="mt-5 text-lg md:text-xl leading-relaxed text-[var(--color-ink-soft)] max-w-3xl">{lead}</p>}
+    <section className="max-w-[1200px] mx-auto px-5 lg:px-10">
+      <p className="pt-4 t-small">
+        <Link href="/" className="hover:text-[var(--color-ink)]">
+          Przystań Zucha
+        </Link>
+        <span className="mx-2 text-[var(--color-coral)]">/</span>
+        {eyebrow}
+      </p>
+      <div className="pt-10 pb-14 lg:pt-16 lg:pb-20 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-end">
+        <h1 data-hero="title" className="t-hero !text-[clamp(3rem,7.4vw,6.8rem)]">
+          {title}
+        </h1>
+        {lead && (
+          <p data-hero="fade" className="t-lead max-w-[44ch]">
+            {lead}
+          </p>
+        )}
       </div>
     </section>
   );
 }
 
 /** Pas zamykający podstronę: zaproszenie na wizytę. */
-export function VisitCta({ heading, text }: { heading: string; text: string }) {
+export function VisitCta({ heading, text }: { heading: React.ReactNode; text: string }) {
   return (
-    <section className="py-14 md:py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[2rem] bg-[var(--color-sea-dark)] text-white px-7 py-10 md:px-14 md:py-14 grid md:grid-cols-[1.4fr_auto] gap-6 items-center">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-semibold leading-tight">{heading}</h2>
-            <p className="mt-3 text-lg text-white/85 max-w-2xl">{text}</p>
-          </div>
-          <Link href="/#kontakt" data-cta="umow_wizyte" data-loc="podstrona" className="btn btn-primary text-lg">
-            Umów bezpłatną wizytę
-          </Link>
+    <section className="bg-[var(--color-paper-deep)]/70 border-t border-[var(--color-line)]">
+      <div className="max-w-[1200px] mx-auto px-5 lg:px-10 py-20 lg:py-28 grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_auto] lg:items-end">
+        <div>
+          <h2 data-split className="t-display max-w-[15ch]">
+            {heading}
+          </h2>
+          <p className="mt-5 t-lead max-w-[48ch]">{text}</p>
         </div>
+        <Link href="/#kontakt" data-cta="umow_wizyte" data-loc="podstrona" className="btn btn-primary justify-self-start">
+          Umów bezpłatną wizytę <span className="arr">→</span>
+        </Link>
       </div>
     </section>
   );

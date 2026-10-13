@@ -56,11 +56,9 @@ export default function ConsultationForm({ email, phone }: ConsultationFormProps
 
   if (submitted) {
     return (
-      <div className="card p-8 md:p-10 text-center" role="status">
-        <div className="w-14 h-14 rounded-full bg-[var(--color-sea-light)] text-[var(--color-sea-dark)] flex items-center justify-center mx-auto mb-5 text-2xl font-bold" aria-hidden="true">
-          ✓
-        </div>
-        <h2 className="text-2xl font-semibold mb-2">Dziękujemy!</h2>
+      <div className="bg-[#fffdf9] border border-[var(--color-line)] p-8 md:p-12" role="status">
+        <p className="t-label !text-[var(--color-coral)] mb-3">Zgłoszenie wysłane</p>
+        <h2 className="t-title !text-[2.2rem] mb-4">Dziękujemy!</h2>
         <p className="text-[var(--color-muted)]">
           Oddzwonimy w ciągu 24 godzin, żeby ustalić termin spotkania. Możesz też zadzwonić od razu:{" "}
           <a href={`tel:${tel}`} data-loc="konsultacja_sukces" className="font-bold text-[var(--color-sea-dark)] underline underline-offset-4">
@@ -73,14 +71,14 @@ export default function ConsultationForm({ email, phone }: ConsultationFormProps
   }
 
   return (
-    <form onSubmit={handleSubmit} onFocus={onFocus} className="card p-6 md:p-8 shadow-[0_20px_60px_-30px_rgba(20,50,74,0.35)]">
-      <div className="space-y-4">
+    <form onSubmit={handleSubmit} onFocus={onFocus} className="relative bg-[#fffdf9] border border-[var(--color-line)] p-6 md:p-10">
+      <div className="space-y-7">
         <div>
-          <label htmlFor="kf-name" className="block text-sm font-bold mb-1.5">Imię i nazwisko</label>
+          <label htmlFor="kf-name" className="t-label !flex">Imię i nazwisko</label>
           <input id="kf-name" type="text" required autoComplete="name" value={formData.name} onChange={set("name")} className="field" />
         </div>
         <div>
-          <label htmlFor="kf-phone" className="block text-sm font-bold mb-1.5">Telefon</label>
+          <label htmlFor="kf-phone" className="t-label !flex">Telefon</label>
           <input
             id="kf-phone"
             type="tel"
@@ -95,13 +93,13 @@ export default function ConsultationForm({ email, phone }: ConsultationFormProps
           />
         </div>
         <div>
-          <label htmlFor="kf-email" className="block text-sm font-bold mb-1.5">
-            E-mail <span className="font-normal text-[var(--color-muted)]">(opcjonalnie)</span>
+          <label htmlFor="kf-email" className="t-label !flex">
+            E-mail <span className="normal-case tracking-normal font-normal text-[var(--color-muted)]">(opcjonalnie)</span>
           </label>
           <input id="kf-email" type="email" autoComplete="email" value={formData.email} onChange={set("email")} className="field" />
         </div>
         <div>
-          <label htmlFor="kf-time" className="block text-sm font-bold mb-1.5">Kiedy Ci pasuje?</label>
+          <label htmlFor="kf-time" className="t-label !flex">Kiedy Ci pasuje?</label>
           <select id="kf-time" value={formData.preferredTime} onChange={set("preferredTime")} className="field">
             <option value="">Obojętnie</option>
             <option value="rano">Rano (8:00–12:00)</option>
@@ -109,8 +107,8 @@ export default function ConsultationForm({ email, phone }: ConsultationFormProps
           </select>
         </div>
         <div>
-          <label htmlFor="kf-msg" className="block text-sm font-bold mb-1.5">
-            O czym chcesz porozmawiać? <span className="font-normal text-[var(--color-muted)]">(opcjonalnie)</span>
+          <label htmlFor="kf-msg" className="t-label !flex">
+            O czym chcesz porozmawiać? <span className="normal-case tracking-normal font-normal text-[var(--color-muted)]">(opcjonalnie)</span>
           </label>
           <textarea id="kf-msg" rows={3} value={formData.message} onChange={set("message")} className="field resize-none" placeholder="np. adaptacja, Grupa 2, potrzeby dziecka" />
         </div>
@@ -122,8 +120,8 @@ export default function ConsultationForm({ email, phone }: ConsultationFormProps
         </p>
       )}
 
-      <button type="submit" disabled={sending} className="btn btn-primary w-full mt-6 text-lg disabled:opacity-60">
-        {sending ? "Wysyłanie…" : "Umów spotkanie"}
+      <button type="submit" disabled={sending} className="btn btn-primary w-full mt-9 disabled:opacity-60">
+        {sending ? "Wysyłanie…" : <>Umów spotkanie <span className="arr">→</span></>}
       </button>
       <p className="text-center text-xs text-[var(--color-muted)] mt-3 leading-relaxed">
         Administratorem danych jest Przystań Zucha sp. z o.o. Dane przetwarzamy w celu odpowiedzi na zgłoszenie.{" "}

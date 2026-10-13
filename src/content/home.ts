@@ -8,6 +8,7 @@ export const SITE_URL = "https://www.przystanzucha.pl";
 
 export const nav = [
   { label: "Grupy", href: "/#grupy" },
+  { label: "Adaptacja", href: "/#adaptacja" },
   { label: "Kadra", href: "/kadra/" },
   { label: "Sale", href: "/sale/" },
   { label: "Zajęcia", href: "/zajecia/" },
@@ -15,104 +16,108 @@ export const nav = [
 ];
 
 export const hero = {
-  badge: "Rekrutacja 2026/2027 — ruszyła Grupa 2",
-  heading: "Kameralne przedszkole Montessori",
-  headingAccent: "na Retkini",
-  lead: "Dwie małe grupy, adaptacja razem z rodzicem i nauczycielki, które znają każde dziecko — także to, czego się boi i co je cieszy.",
+  badge: "Rekrutacja 2026/2027: nabór do Grupy 2",
+  lead: "Kameralne przedszkole z elementami pedagogiki Montessori na łódzkiej Retkini. Dwie małe grupy, łagodna adaptacja z rodzicem i nauczycielki, które znają każde dziecko: wiedzą, co je cieszy, a co niepokoi.",
   primaryCta: "Umów bezpłatną wizytę",
-  chips: ["2 kameralne grupy", "Adaptacja z rodzicem", "10 zajęć w czesnym", "Pn–Pt 7:00–17:00"],
 };
 
 export const groups = {
-  eyebrow: "Nasze grupy",
-  heading: "Dwie sale, dwie małe grupy",
-  lead: "Rośniemy, ale nie zmieniamy skali. Otworzyliśmy drugą salę, żeby obie grupy zostały kameralne.",
+  lead: "Rośniemy, ale zostajemy kameralni. Obok Sali Morskiej otworzyliśmy Salę Leśną, więc każda grupa ma teraz własną przestrzeń.",
   items: [
     {
-      tag: "Grupa 1",
-      title: "Przystań dla ciekawych świata",
-      text: "Codzienność oparta na elementach pedagogiki Montessori: samodzielność, swobodny wybór aktywności i nauczycielka jako uważny przewodnik, a nie dyrygent.",
+      tag: "Grupa 1 · Sala Morska",
+      title: "Dla małych odkrywców",
+      text: "Dzień oparty na pedagogice Montessori. Dzieci same wybierają aktywności i uczą się samodzielności, a nauczycielka towarzyszy im i podpowiada, zamiast dyrygować.",
       status: "Zapytaj o wolne miejsca",
     },
     {
-      tag: "Grupa 2 · nowość",
-      title: "Dla dzieci, którym w dużej grupie jest za głośno",
-      text: "Niektóre dzieci gubią się w 25-osobowych grupach przedszkoli publicznych: hałas, pośpiech, brak czasu na rozmowę. Grupa 2 jest kameralna i prowadzona spokojniej — dla dzieci, które potrzebują więcej uwagi, czasu i bliskości dorosłego.",
-      status: "Trwa rekrutacja",
+      tag: "Grupa 2 · Sala Leśna",
+      title: "Dla dzieci, którym w mniejszej grupie jest lepiej",
+      text: "W 25-osobowej grupie łatwo się zgubić: jest głośno, wszystko dzieje się szybko i brakuje czasu na rozmowę. Grupa 2 jest mniejsza i pracuje w spokojniejszym rytmie. Dziecko dostaje tu więcej uwagi, czasu i bliskości dorosłego.",
+      status: "Trwa nabór",
       highlight: true,
     },
   ],
   specialists:
-    "W zespole są pedagodzy specjalni, logopeda i terapeutka TUS, z doświadczeniem w pracy z dziećmi w spektrum autyzmu i z orzeczeniami.",
+    "W zespole są pedagożki specjalne, logopedka i terapeutka TUS. Mają doświadczenie w pracy z dziećmi w spektrum autyzmu i z dziećmi z orzeczeniami.",
+  staffLead:
+    "Pedagożki specjalne, logopedka i terapeutka TUS. Dwie z nas są też mamami, więc wiemy, jak to jest zostawić dziecko w przedszkolu po raz pierwszy.",
 };
 
 export const reasons = {
-  eyebrow: "Dlaczego rodzice wybierają Przystań",
-  heading: "Tu dziecko nie musi być gotowe od pierwszego dnia",
   items: [
     {
-      icon: "harbor",
       title: "Mało dzieci, dużo uwagi",
-      text: "Dwie kameralne grupy w osobnych salach. Nauczycielka zauważa, że ktoś dziś gorzej spał, zanim zrobi się z tego płacz.",
+      text: "Dwie małe grupy w osobnych salach. Nauczycielka ma czas zauważyć, że dziecko jest dziś zmęczone albo smutne, i zareagować, zanim pojawią się łzy.",
     },
     {
-      icon: "hands",
       title: "Adaptacja razem z rodzicem",
-      text: "Pierwsze dni możecie spędzić u nas razem. Rozstanie przychodzi wtedy, gdy dziecko jest na nie gotowe — nie wtedy, gdy wypada w kalendarzu.",
+      text: "Pierwsze dni możecie spędzić w przedszkolu razem. Rozstanie przychodzi wtedy, gdy dziecko jest na nie gotowe, a nie wtedy, gdy wypada w kalendarzu.",
     },
     {
-      icon: "leaf",
       title: "Montessori bez presji",
-      text: "Nie zmuszamy dzieci do występów ani aktywności, na które nie są gotowe. Obserwujemy, czym się interesują, i od tego zaczynamy naukę.",
+      text: "Nie zmuszamy dzieci do występów ani do zajęć, na które nie są gotowe. Obserwujemy, co je ciekawi, i od tego zaczynamy naukę.",
     },
   ],
 };
 
 export const story = {
-  eyebrow: "Pierwszy tydzień w Przystani",
-  heading: "Jak wygląda u nas adaptacja",
-  paragraphs: [
-    "Poniedziałek rano. Antek trzyma mamę za rękę i nie zamierza jej puścić. Nikt go nie pogania. Mama siada z nim na dywanie, a nauczycielka stawia obok koszyk z drewnianymi klockami. Bez słów — po prostu blisko.",
-    "We wtorek Antek sam sięga do koszyka. W środę mama wychodzi na chwilę i wraca, tak jak obiecała. W czwartek Antek nie zauważa, kiedy wychodzi.",
-    "W piątek przy odbiorze nie chce wracać do domu, bo „jeszcze nie skończył budowy”.",
+  heading: "Pierwszy tydzień",
+  headingAccent: "Antka",
+  intro: "Tak może wyglądać łagodny start w przedszkolu, gdy nikt się nie spieszy.",
+  days: [
+    { day: "Pn", title: "Trzyma mamę za rękę", text: "Nikt go nie pogania. Mama siada z nim na dywanie, a nauczycielka stawia obok koszyk z drewnianymi klockami." },
+    { day: "Wt", title: "Sięga po klocki", text: "Ciekawość wygrywa ze strachem. Antek buduje pierwszą wieżę." },
+    { day: "Śr", title: "Mama wychodzi na chwilę", text: "I wraca dokładnie wtedy, kiedy obiecała." },
+    { day: "Cz", title: "Nie zauważa wyjścia mamy", text: "Jest zajęty budową z nowym kolegą." },
+    { day: "Pt", title: "„Jeszcze nie skończyłem!”", text: "Przy odbiorze nie chce wracać do domu." },
   ],
   closing: "Każde dziecko ma swój rytm. Naszym zadaniem jest go uszanować.",
-  note: "Historia ilustracyjna — tempo adaptacji ustalamy indywidualnie z każdą rodziną.",
+  note: "To przykładowa historia. Tempo adaptacji ustalamy z każdą rodziną indywidualnie.",
+};
+
+/** Galeria „Dzień w Przystani”: zdjęcia dodaje się w Sanity (Ustawienia strony → Galeria); do tego czasu ilustracje. */
+export const gallery = {
+  lead: "Zabawa, zajęcia, spacer i chwila odpoczynku. Tak wygląda nasz zwykły dzień.",
+  items: [
+    { caption: "Poranne zabawy", motif: "blocks" as const },
+    { caption: "Zajęcia w sali", motif: "book" as const },
+    { caption: "Spacer i podwórko", motif: "sun" as const },
+    { caption: "Chwila odpoczynku", motif: "boat" as const },
+  ],
 };
 
 export const faq = [
   {
     q: "W jakim wieku przyjmujecie dzieci?",
-    a: "Przyjmujemy dzieci w wieku od 2 do 6 lat. W rozmowie dobierzemy grupę do wieku i potrzeb dziecka.",
+    a: "Przyjmujemy dzieci od 2 do 6 lat. Podczas rozmowy pomożemy dobrać grupę do wieku i potrzeb dziecka.",
   },
   {
     q: "W jakich godzinach działa przedszkole?",
-    a: "Od poniedziałku do piątku w godzinach 7:00–17:00.",
+    a: "Od poniedziałku do piątku, w godzinach 7:00–17:00.",
   },
   {
     q: "Jak wygląda adaptacja?",
-    a: "Łagodnie i razem z rodzicem. Pierwsze dni możecie spędzić w sali wspólnie, a czas rozstania wydłużamy stopniowo, w tempie dziecka.",
+    a: "Łagodnie i razem z rodzicem. Pierwsze dni spędzacie w sali wspólnie, a czas rozstania wydłużamy stopniowo, w tempie dziecka.",
   },
   {
     q: "Dla kogo jest Grupa 2?",
-    a: "Dla dzieci, które potrzebują więcej uwagi i spokoju niż daje duża grupa — np. wrażliwych na hałas, nieśmiałych, z trudnościami w adaptacji lub ze specjalnymi potrzebami rozwojowymi. Opowiedz nam o dziecku, a wspólnie sprawdzimy, czy to dobre miejsce.",
+    a: "Dla dzieci, które w dużej grupie czują się zagubione: wrażliwych na hałas, nieśmiałych, mających trudności z adaptacją albo ze specjalnymi potrzebami rozwojowymi. Opowiedz nam o swoim dziecku, a razem sprawdzimy, czy to dla niego dobre miejsce.",
   },
   {
     q: "Czy pracujecie z dziećmi z orzeczeniem?",
-    a: "Tak. W zespole są pedagodzy specjalni i logopeda, z doświadczeniem w pracy z dziećmi w spektrum autyzmu i o zróżnicowanych potrzebach rozwojowych.",
+    a: "Tak. W zespole są pedagożki specjalne i logopedka. Mają doświadczenie w pracy z dziećmi w spektrum autyzmu i z różnymi potrzebami rozwojowymi.",
   },
   {
     q: "Co obejmuje czesne?",
-    a: "W ramach czesnego dziecko ma 10 zajęć dodatkowych, m.in. angielski, rytmikę, robotykę, logopedię i gimnastykę korekcyjną — bez dopłat. Aktualną wysokość czesnego podamy w rozmowie telefonicznej.",
+    a: "Czesne obejmuje 10 zajęć dodatkowych, m.in. angielski, rytmikę, robotykę, logopedię i gimnastykę korekcyjną, bez dopłat. Aktualną wysokość czesnego podamy podczas rozmowy telefonicznej.",
   },
   {
     q: "Kiedy mogę zapisać dziecko?",
-    a: "Rekrutacja trwa przez cały rok, jeśli w grupie jest wolne miejsce. Najlepiej zacząć od wizyty — zobaczysz sale i poznasz nauczycielki.",
+    a: "Rekrutacja trwa przez cały rok, o ile w grupie jest wolne miejsce. Najlepiej zacząć od wizyty: zobaczysz sale i poznasz nauczycielki.",
   },
 ];
 
 export const contact = {
-  eyebrow: "Umów wizytę",
-  heading: "Przyjdź z dzieckiem i zobacz, jak u nas jest",
-  lead: "Zostaw numer — oddzwonimy w ciągu 24 godzin, odpowiemy na pytania i umówimy spokojną wizytę w sali.",
+  lead: "Zostaw numer telefonu. Oddzwonimy w ciągu 24 godzin, odpowiemy na pytania i umówimy spokojną wizytę w przedszkolu.",
 };

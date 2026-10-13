@@ -1,22 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Nunito } from "next/font/google";
+import { Figtree, Fraunces } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/content/home";
 
-const nunito = Nunito({
+const figtree = Figtree({
   variable: "--font-body",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 const fraunces = Fraunces({
   variable: "--font-display-face",
   subsets: ["latin", "latin-ext"],
-  weight: ["500", "600"],
+  axes: ["SOFT", "opsz"],
   style: ["normal", "italic"],
   display: "swap",
 });
+
+// Klasa .m przed pierwszym malowaniem: elementy hero startują ukryte i odsłania je anime.js (Motion.tsx).
+const MOTION_FLAG = `if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('m')`;
 
 export const revalidate = 60;
 
@@ -41,7 +44,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fbf6ee",
+  themeColor: "#f6f0e6",
 };
 
 export default function RootLayout({
@@ -50,7 +53,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl" className={`${nunito.variable} ${fraunces.variable}`}>
+    <html lang="pl" className={`${figtree.variable} ${fraunces.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_FLAG }} />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );

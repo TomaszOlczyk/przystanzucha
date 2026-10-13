@@ -1,12 +1,13 @@
-/** Sygnet: żaglówka na fali w kole (przystań) + nazwa. */
-export function LogoMark({ className = "w-10 h-10" }: { className?: string }) {
+/** Sygnet rysowany kreską: żaglówka na fali w kole (przystań). */
+export function LogoMark({ className = "w-9 h-9", light = false }: { className?: string; light?: boolean }) {
+  const ink = light ? "#f6f0e6" : "#16252e";
   return (
-    <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
-      <circle cx="24" cy="24" r="24" fill="var(--color-sea)" />
-      <path d="M24 9 L24 30 L13 30 Z" fill="#fff" />
-      <path d="M26 13 L26 30 L35 30 Q33 20 26 13 Z" fill="var(--color-sun)" />
-      <path d="M11 32 h26 l-3 4 H14 Z" fill="var(--color-coral)" />
-      <path d="M6 39 q4.5 -3 9 0 t9 0 t9 0 t9 0" stroke="#fff" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+    <svg viewBox="0 0 40 40" className={className} fill="none" stroke={ink} strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+      <circle cx="20" cy="20" r="18.5" />
+      <path d="M20 8v17H10.5z" fill={ink} />
+      <path d="M22.5 12v13H30c-1.2-6-3.6-10-7.5-13z" fill="#f3c35a" />
+      <path d="M10 27.5h20l-2.5 3.5h-15z" fill="#c24a2b" stroke="none" />
+      <path d="M7 34c2.2-1.5 4.3 1.5 6.5 0s4.3 1.5 6.5 0 4.3 1.5 6.5 0 4.3 1.5 6.5 0" />
     </svg>
   );
 }
@@ -14,8 +15,8 @@ export function LogoMark({ className = "w-10 h-10" }: { className?: string }) {
 export default function Logo({ name, light = false }: { name: string; light?: boolean }) {
   return (
     <span className="flex items-center gap-2.5">
-      <LogoMark />
-      <span className={`font-display text-xl md:text-[1.4rem] font-semibold leading-none ${light ? "text-white" : "text-[var(--color-ink)]"}`}>
+      <LogoMark light={light} />
+      <span className={`font-display text-[1.45rem] leading-none tracking-[-0.02em] ${light ? "text-[var(--color-paper)]" : "text-[var(--color-ink)]"}`}>
         {name}
       </span>
     </span>

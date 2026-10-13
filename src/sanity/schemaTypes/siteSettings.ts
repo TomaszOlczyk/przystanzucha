@@ -52,6 +52,22 @@ export const siteSettings = defineType({
     defineField({ name: "heroDescription", title: "Hero — opis", type: "text" }),
     defineField({ name: "heroImage", title: "Hero — zdjęcie w tle", type: "image", options: { hotspot: true } }),
     defineField({
+      name: "gallery",
+      title: "Galeria „Dzień w Przystani” (4 zdjęcia, bez twarzy dzieci bez zgody rodziców)",
+      type: "array",
+      validation: (rule) => rule.max(4),
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "caption", title: "Podpis (np. Poranne zabawy)", type: "string" }),
+            defineField({ name: "alt", title: "Opis dla niewidomych", type: "string" }),
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: "stats",
       title: "Statystyki",
       type: "array",

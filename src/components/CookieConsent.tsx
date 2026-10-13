@@ -56,7 +56,7 @@ export default function CookieConsent() {
         </h2>
         <p className="text-sm text-[var(--color-muted)] leading-relaxed">
           Niezbędne cookies zapewniają działanie strony. Analityczne i marketingowe (np. Google Ads)
-          włączymy tylko za Twoją zgodą — zmienisz ją w stopce, w „Ustawieniach cookies”.{" "}
+          włączymy tylko za Twoją zgodą. Zmienisz ją w stopce, w „Ustawieniach cookies”.{" "}
           <Link href={POLICY_PATH} className="font-semibold underline underline-offset-2">
             Polityka prywatności
           </Link>

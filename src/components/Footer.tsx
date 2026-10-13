@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { SiteSettings } from "@/sanity/types";
 import { nav } from "@/content/home";
 import Logo from "./Logo";
-import Wave from "./Wave";
 import CookieSettingsLink from "./CookieSettingsLink";
 import { GTM_ID } from "@/lib/analytics";
 import { POLICY_PATH } from "@/content/privacy";
@@ -14,66 +13,63 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
   )}`;
 
   return (
-    <footer className="mt-8">
-      <Wave fill="var(--color-ink)" />
-      <div className="bg-[var(--color-ink)] text-white/85 pb-20 lg:pb-0">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
+    <footer className="bg-[var(--color-ink)] text-[var(--color-paper)]/80 pb-24 lg:pb-0">
+      <div className="max-w-[1200px] mx-auto px-5 lg:px-10 pt-16 md:pt-24">
+        <p className="t-hero !text-[clamp(2.8rem,6.4vw,6rem)] text-[var(--color-paper)] max-w-[14ch]">
+          Do zobaczenia <span className="text-[var(--color-sun)]">na Retkini.</span>
+        </p>
+        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 items-center">
+          <Link href="/#kontakt" data-cta="umow_wizyte" data-loc="stopka" className="btn btn-primary">
+            Umów bezpłatną wizytę <span className="arr">→</span>
+          </Link>
+          <a href={`tel:${tel}`} data-loc="stopka" className="link-u text-[var(--color-paper)] text-lg">
+            {siteData.phone}
+          </a>
+        </div>
+
+        <div className="mt-16 md:mt-24 pt-10 border-t border-white/12 grid gap-10 md:grid-cols-[1.3fr_1fr_1fr_1fr] text-sm">
           <div>
             <Logo name={siteData.name} light />
-            <p className="mt-4 text-sm leading-relaxed text-white/70 max-w-sm">
-              Kameralne przedszkole z elementami pedagogiki Montessori na łódzkiej Retkini. Dwie małe grupy, adaptacja razem z rodzicem.
+            <p className="mt-4 leading-relaxed max-w-xs text-[var(--color-paper)]/65">
+              Kameralne przedszkole z elementami pedagogiki Montessori na łódzkiej Retkini.
             </p>
-            <div className="flex gap-3 mt-5">
-              <a href={siteData.social.facebook} target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold">
-                Facebook
-              </a>
-              <a href={siteData.social.instagram} target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold">
-                Instagram
-              </a>
+          </div>
+          <div>
+            <p className="t-label !text-[var(--color-paper)]/50 mb-4">Adres</p>
+            <address className="not-italic leading-relaxed">
+              {siteData.address.street}
+              <br />
+              {siteData.address.zip} {siteData.address.city}
+            </address>
+            <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="inline-block mt-3 link-u text-[var(--color-paper)]">
+              Wyznacz trasę
+            </a>
+          </div>
+          <div>
+            <p className="t-label !text-[var(--color-paper)]/50 mb-4">Kontakt</p>
+            <a href={`mailto:${siteData.email}`} data-loc="stopka" className="block hover:text-[var(--color-paper)]">
+              {siteData.email}
+            </a>
+            <p className="mt-2">{siteData.hours}</p>
+            <div className="mt-4 flex gap-5">
+              <a href={siteData.social.facebook} target="_blank" rel="noopener noreferrer" className="link-u text-[var(--color-paper)]">Facebook</a>
+              <a href={siteData.social.instagram} target="_blank" rel="noopener noreferrer" className="link-u text-[var(--color-paper)]">Instagram</a>
             </div>
           </div>
-
           <div>
-            <h2 className="font-display text-lg text-white mb-4">Kontakt</h2>
-            <address className="not-italic space-y-2.5 text-sm">
-              <p>
-                {siteData.address.street}
-                <br />
-                {siteData.address.zip} {siteData.address.city} (Retkinia)
-              </p>
-              <p>
-                <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-white">
-                  Wyznacz trasę
-                </a>
-              </p>
-              <p>
-                <a href={`tel:${tel}`} data-loc="stopka" className="font-bold text-white hover:underline underline-offset-4">
-                  {siteData.phone}
-                </a>
-              </p>
-              <p>
-                <a href={`mailto:${siteData.email}`} data-loc="stopka" className="hover:text-white underline underline-offset-4">
-                  {siteData.email}
-                </a>
-              </p>
-              <p className="text-white/70">{siteData.hours}</p>
-            </address>
-          </div>
-
-          <div>
-            <h2 className="font-display text-lg text-white mb-4">Na skróty</h2>
-            <ul className="space-y-2 text-sm">
+            <p className="t-label !text-[var(--color-paper)]/50 mb-4">Na skróty</p>
+            <ul className="space-y-1.5">
               {nav.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="hover:text-white hover:underline underline-offset-4">
+                  <Link href={item.href} className="hover:text-[var(--color-paper)]">
                     {item.label}
                   </Link>
                 </li>
               ))}
               {siteData.documents?.map((doc) => (
                 <li key={doc.title}>
-                  <a href={`${doc.fileUrl}?dl=`} className="hover:text-white hover:underline underline-offset-4">
-                    {doc.title.charAt(0) + doc.title.slice(1).toLowerCase()} (do pobrania)
+                  <a href={`${doc.fileUrl}?dl=`} className="hover:text-[var(--color-paper)]">
+                    {doc.title.charAt(0) + doc.title.slice(1).toLowerCase()}
                   </a>
                 </li>
               ))}
@@ -81,15 +77,13 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
           </div>
         </div>
 
-        <div className="border-t border-white/10">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row gap-3 justify-between text-xs text-white/60">
-            <p>&copy; {new Date().getFullYear()} Przystań Zucha Sp. z o.o.</p>
-            <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <Link href={POLICY_PATH} className="underline underline-offset-4 hover:text-white">
-                Polityka prywatności
-              </Link>
-              {GTM_ID && <CookieSettingsLink className="text-left underline underline-offset-4 hover:text-white" />}
-            </div>
+        <div className="mt-12 py-6 border-t border-white/12 flex flex-col sm:flex-row gap-3 justify-between text-xs text-[var(--color-paper)]/55">
+          <p>&copy; {new Date().getFullYear()} Przystań Zucha Sp. z o.o.</p>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link href={POLICY_PATH} className="hover:text-[var(--color-paper)] underline underline-offset-4">
+              Polityka prywatności
+            </Link>
+            {GTM_ID && <CookieSettingsLink className="text-left hover:text-[var(--color-paper)] underline underline-offset-4" />}
           </div>
         </div>
       </div>

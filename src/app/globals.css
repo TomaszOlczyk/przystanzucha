@@ -1,145 +1,321 @@
 @import "tailwindcss";
 
 /*
- * „Bezpieczna przystań” — paleta z prawdziwych sal przedszkola:
- * granat (ink), morski turkus (sea), piasek (sand), koralowy krab (coral, tylko CTA), słońce (sun, drobne akcenty).
+ * „Dziennik pokładowy” — papier, atrament, morski i koral (z sal przedszkola). Ruch: anime.js (Motion.tsx).
+ *
+ * SYSTEM TYPOGRAFICZNY — dwa kroje, sześć ról, nic poza nimi:
+ *   .t-hero     Fraunces Soft — tylko H1 (hero, nagłówki podstron), maks. ~8 słów
+ *   .t-display  Fraunces Soft — nagłówki sekcji H2, maks. ~8 słów
+ *   .t-title    Fraunces Soft — H3: tytuły kart, imiona, pytania FAQ, jedna–dwie linie
+ *   .t-quote    Fraunces italic — WYŁĄCZNIE jedno krótkie zdanie (≤ 200 znaków), np. cytat
+ *   .t-lead / .t-body / .t-small — Figtree, cała treść ciągła
+ *   .t-label    Figtree, kolor morski — krótkie etykiety (1–4 słowa), zdaniowo, bez wersalików
+ * Długi tekst nigdy nie jest szeryfem ani kursywą. Akcent kolorem (em) tylko w nagłówkach, raz na nagłówek.
  */
 @theme inline {
   --font-sans: var(--font-body);
   --font-display: var(--font-display-face);
 
-  --color-ink: #14324a;
-  --color-ink-soft: #3d5568;
-  --color-muted: #5b6b78;
-  --color-sea: #1f6f7f;
-  --color-sea-dark: #17586a;
-  --color-sea-light: #dcefef;
-  --color-foam: #eef7f6;
-  --color-sand: #fbf6ee;
-  --color-sand-deep: #f3e9da;
-  --color-coral: #c4462e;
-  --color-coral-dark: #a83a25;
-  --color-coral-light: #fbe4dd;
-  --color-sun: #f6c867;
-  --color-line: #e6ddcf;
+  --color-paper: #f6f0e6;
+  --color-paper-deep: #ece3d4;
+  --color-ink: #16252e;
+  --color-ink-soft: #4a575f;
+  --color-muted: #66727a;
+  --color-sea: #22676c;
+  --color-sea-dark: #1a5357;
+  --color-sea-light: #d7e9e6;
+  --color-coral: #c24a2b;
+  --color-coral-dark: #a33c21;
+  --color-sun: #f3c35a;
+  --color-line: #dccfbb;
+  /* aliasy używane przez formularze i stronę polityki */
+  --color-sand: var(--color-paper);
+  --color-sand-deep: var(--color-paper-deep);
+  --color-foam: #eef3ee;
+  --color-coral-light: #f6ddd3;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    overflow-x: clip;
+  }
+  /* ziarno papieru */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 90;
+    opacity: 0.32;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .2 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Georgia, serif;
+    font-variation-settings: "SOFT" 100;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  em {
+    font-style: italic;
+  }
+  h1 em,
+  h2 em {
+    color: var(--color-sea);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-coral);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
-body {
-  background: var(--color-sand);
-  color: var(--color-ink);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  overflow-x: clip;
+@layer components {
+  /* ---------- TYPOGRAFIA (Fraunces Soft + Figtree) ---------- */
+  .t-hero,
+  .t-display,
+  .t-title,
+  .t-quote,
+  .t-quote-lg,
+  .t-num {
+    font-family: var(--font-display), Georgia, serif;
+    font-variation-settings: "SOFT" 100;
+    font-weight: 500;
+  }
+  .t-hero {
+    font-size: clamp(2.8rem, 5.6vw, 5.2rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .t-display {
+    font-size: clamp(2.15rem, 4vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  .t-title {
+    font-size: clamp(1.35rem, 1.7vw, 1.65rem);
+    line-height: 1.22;
+    letter-spacing: -0.005em;
+  }
+  .t-quote {
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+    line-height: 1.45;
+  }
+  .t-quote-lg {
+    font-weight: 400;
+    font-size: clamp(1.35rem, 2vw, 1.8rem);
+    line-height: 1.42;
+    letter-spacing: -0.01em;
+  }
+  .t-lead {
+    font-size: clamp(1.1rem, 1.3vw, 1.22rem);
+    line-height: 1.62;
+    color: var(--color-ink-soft);
+  }
+  .t-body {
+    font-size: 1.03rem;
+    line-height: 1.7;
+    color: var(--color-ink-soft);
+  }
+  .t-small {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+  }
+  /* etykieta: zdaniowo, bez wersalików i rozstrzelenia */
+  .t-label,
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-sea);
+  }
+  .t-num {
+    font-size: 3.4rem;
+    line-height: 0.9;
+    color: var(--color-coral);
+  }
+
+  /* ---------- PRZYCISKI: wypełnienie rozlewa się od środka ---------- */
+  .btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    padding: 0.95rem 1.6rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+  }
+  .btn:hover::before {
+    transform: scale(1.05);
+  }
+  .btn .arr {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn:hover .arr {
+    transform: translateX(4px);
+  }
+  .btn-primary {
+    background: var(--color-coral);
+    color: #fff;
+  }
+  .btn-primary::before {
+    background: var(--color-ink);
+  }
+  .btn-dark {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .btn-dark::before {
+    background: var(--color-coral);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1.5px var(--color-ink);
+  }
+  .btn-secondary::before {
+    background: var(--color-ink);
+  }
+  .btn-secondary:hover {
+    color: var(--color-paper);
+  }
+  .link-u {
+    font-weight: 700;
+    border-bottom: 1.5px solid currentColor;
+    padding-bottom: 2px;
+  }
+
+  /* ---------- POWIERZCHNIE ---------- */
+  .card {
+    background: #fffdf9;
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+  }
+  .print {
+    background: #fff;
+    padding: 9px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 26px 50px -28px rgba(22, 37, 46, 0.6);
+  }
+
+  /* ---------- FORMULARZE ---------- */
+  .field {
+    width: 100%;
+    border: 0;
+    border-bottom: 1.5px solid var(--color-line);
+    background: transparent;
+    padding: 0.75rem 0;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+    border-radius: 0;
+    transition: border-color 0.25s ease;
+  }
+  .field::placeholder {
+    color: #9aa2a6;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-ink);
+  }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2316252e' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 2px center;
+    padding-right: 1.5rem;
+  }
+
+  /* Maska odsłaniania słów (splitText wrap: clip) nie może ucinać ogonków liter (p, y, ę, ą). */
+  :is(h1, h2, h3, blockquote) span[style*="overflow: clip"] {
+    padding-block: 0.12em 0.16em;
+    margin-block: -0.12em -0.16em;
+  }
 }
 
-h1,
-h2,
-h3,
-.font-display {
-  font-family: var(--font-display), Georgia, serif;
-  font-optical-sizing: auto;
-  letter-spacing: -0.015em;
+/* ---------- RUCH ---------- */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(194, 74, 43, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(194, 74, 43, 0);
+  }
+}
+.pulse-dot {
+  animation: pulse-dot 1.8s infinite;
 }
 
-:focus-visible {
-  outline: 3px solid var(--color-sun);
-  outline-offset: 2px;
-  border-radius: 6px;
+/*
+ * Klasa .m (ustawiana inline przed malowaniem, gdy brak reduced-motion) ukrywa elementy hero,
+ * które odsłania anime.js. Failsafe: po 2.5 s wszystko widoczne, nawet gdy JS nie ruszy.
+ */
+@keyframes failsafe {
+  to {
+    opacity: 1;
+  }
 }
-
-/* Przyciski */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border-radius: 9999px;
-  font-weight: 800;
-  padding: 0.95rem 1.6rem;
-  line-height: 1.1;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-.btn-primary {
-  background: var(--color-coral);
-  color: #fff;
-  box-shadow: 0 8px 24px -10px rgba(196, 70, 46, 0.6);
-}
-.btn-primary:hover {
-  background: var(--color-coral-dark);
-  transform: translateY(-1px);
-}
-.btn-secondary {
-  background: #fff;
-  color: var(--color-ink);
-  border: 1.5px solid var(--color-line);
-}
-.btn-secondary:hover {
-  border-color: var(--color-sea);
-  color: var(--color-sea-dark);
-}
-
-/* Karty i etykiety */
-.card {
-  background: #fff;
-  border: 1px solid var(--color-line);
-  border-radius: 1.5rem;
-}
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-sea);
-}
-
-/* Formularze */
-.field {
-  width: 100%;
-  border-radius: 0.9rem;
-  border: 1.5px solid var(--color-line);
-  background: #fff;
-  padding: 0.9rem 1rem;
-  font-size: 1rem;
-  color: var(--color-ink);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.field::placeholder {
-  color: #8a96a0;
-}
-.field:focus {
-  outline: none;
-  border-color: var(--color-sea);
-  box-shadow: 0 0 0 4px rgba(31, 111, 127, 0.15);
-}
-
-/* Fala — delikatny ruch tylko dla dekoracji */
-@keyframes wave-drift {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-wave {
-  animation: wave-drift 18s linear infinite;
-}
-
-@keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-rise {
-  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+.m [data-hero] {
+  opacity: 0;
+  animation: failsafe 0s 2.5s forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .animate-wave,
-  .animate-rise {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .pulse-dot {
     animation: none;
+  }
+}
+
+/* Akcent w nagłówkach sekcji: tylko kolor (kursywa zostaje wyłącznie w H1). */
+@layer base {
+  h2 em,
+  h3 em {
+    font-style: normal;
   }
 }

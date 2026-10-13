@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { getActivitiesPage } from "@/sanity/fetchers";
-import { urlFor } from "@/sanity/image";
 import PageIntro, { VisitCta } from "@/components/PageIntro";
 
 export const metadata: Metadata = {
@@ -18,45 +16,50 @@ export default async function ZajeciaPage() {
   return (
     <>
       <PageIntro
-        eyebrow="Zajęcia dla dzieci"
+        eyebrow="Zajęcia"
         title={
           <>
-            {count} zajęć <span className="italic text-[var(--color-sea)]">w ramach czesnego</span>
+            {count} zajęć <em className="text-[var(--color-sea)]">w ramach czesnego</em>.
           </>
         }
-        lead="Bez dopłat i bez popołudniowego wożenia dziecka na zajęcia. Program dopasowujemy do grupy — tak, żeby wspierać, a nie przemęczać."
+        lead="Bez dopłat i bez popołudniowego wożenia dziecka na zajęcia. Program dopasowujemy do grupy tak, żeby wspierać dzieci, a nie je przemęczać."
       />
 
-      <section className="pb-6">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {data.activities.map((a) => (
-              <li key={a.name} className="card overflow-hidden flex flex-col">
-                {a.image?.asset && (
-                  <div className="relative h-40">
-                    <Image src={urlFor(a.image).width(640).height(320).url()} alt={a.name} fill className="object-cover" />
-                  </div>
-                )}
-                <div className="p-6 flex flex-col flex-1">
-                  <h2 className="text-xl font-semibold">{a.name}</h2>
-                  <p className="mt-2 leading-relaxed text-[var(--color-ink-soft)] flex-1">{a.description}</p>
-                  <p className="mt-4 pt-4 border-t border-[var(--color-line)] text-sm font-bold text-[var(--color-sea-dark)] flex gap-4">
-                    <span>{a.frequency}</span>
-                    <span className="text-[var(--color-muted)] font-semibold">{a.duration}</span>
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          {data.subtitle && (
-            <p className="mt-10 max-w-3xl text-lg leading-relaxed text-[var(--color-ink-soft)]">
-              Dzięki szerokim kwalifikacjom kadry pracujemy także z dziećmi, które potrzebują dodatkowego wsparcia — zajęcia dostosowujemy do ich możliwości.
-            </p>
-          )}
+      <section className="max-w-[1200px] mx-auto px-5 lg:px-10 pb-24">
+        <div className="hidden md:grid grid-cols-[80px_minmax(0,1fr)_minmax(0,1.4fr)_160px_120px] gap-8 pb-3 eyebrow border-b-[1.5px] border-[var(--color-ink)]">
+          <span>Nr</span>
+          <span>Zajęcia</span>
+          <span>Na czym polegają</span>
+          <span>Jak często</span>
+          <span>Ile trwają</span>
         </div>
+        <ol data-stagger className="border-t-[1.5px] border-[var(--color-ink)] md:border-t-0">
+          {data.activities.map((a, i) => (
+            <li
+              key={a.name}
+              className="group grid gap-2 md:gap-8 py-7 border-b border-[var(--color-line)] md:grid-cols-[80px_minmax(0,1fr)_minmax(0,1.4fr)_160px_120px] md:items-baseline"
+            >
+              <span className="t-label !text-[var(--color-coral)]">{String(i + 1).padStart(2, "0")}</span>
+              <h2 className="t-title transition-colors group-hover:text-[var(--color-sea)]">{a.name}</h2>
+              <p className="t-body">{a.description}</p>
+              <p className="font-semibold">{a.frequency}</p>
+              <p className="text-[var(--color-ink-soft)]">{a.duration}</p>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-10 max-w-[62ch] t-lead">
+          Nasze nauczycielki mają kwalifikacje z pedagogiki specjalnej, dlatego dostosowujemy zajęcia także do dzieci, które potrzebują dodatkowego wsparcia.
+        </p>
       </section>
 
-      <VisitCta heading="Zobacz zajęcia od środka" text="Umów wizytę — opowiemy o planie dnia i o tym, jak dobieramy zajęcia do dziecka." />
+      <VisitCta
+        heading={
+          <>
+            Zobacz zajęcia <em className="text-[var(--color-sea)]">od środka</em>.
+          </>
+        }
+        text="Umów wizytę. Opowiemy o planie dnia i o tym, jak dobieramy zajęcia do dziecka."
+      />
     </>
   );
 }

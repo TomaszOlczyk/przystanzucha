@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { getStaffPage } from "@/sanity/fetchers";
-import { urlFor } from "@/sanity/image";
 import PageIntro, { VisitCta } from "@/components/PageIntro";
+import PhotoSlot from "@/components/PhotoSlot";
+import { paragraphs as toParagraphs, tidy } from "@/lib/copy";
 
 export const metadata: Metadata = {
   title: "Kadra przedszkola — pedagodzy specjalni, logopeda",
@@ -11,71 +11,97 @@ export const metadata: Metadata = {
   alternates: { canonical: "/kadra/" },
 };
 
-const initials = (name: string) =>
-  name
-    .split(" ")
-    .map((p) => p[0])
-    .join("")
-    .slice(0, 2);
-
 export default async function KadraPage() {
   const staffData = await getStaffPage();
 
   return (
     <>
       <PageIntro
-        eyebrow="Nasza kadra"
+        eyebrow="Kadra"
         title={
           <>
-            Ludzie, którym <span className="italic text-[var(--color-sea)]">powierzasz dziecko</span>
+            Ludzie, którym{" "}
+            <em className="text-[var(--color-sea)]">powierzasz</em> dziecko.
           </>
         }
-        lead={staffData.subtitle?.match(/[^.!?]+[.!?]+/g)?.slice(0, 2).join(" ").trim()}
+        lead="Pedagożki specjalne, logopedka i terapeutka TUS. Dwie z nas są też mamami, więc wiemy, jak to jest zostawić dziecko w przedszkolu po raz pierwszy."
       />
 
-      <section className="pb-6">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
-          {staffData.members.map((member) => {
-            const quals = (member.qualifications ?? []).filter((q) => q.trim());
-            const paragraphs = member.description.split(/\n+/).map((p) => p.trim()).filter(Boolean);
-            return (
-              <article key={member.name} className="card p-6 md:p-10 grid md:grid-cols-[220px_1fr] gap-6 md:gap-10">
-                <div>
-                  {member.image?.asset ? (
-                    <div className="relative w-36 h-36 md:w-full md:h-auto md:aspect-square rounded-[1.5rem] overflow-hidden">
-                      <Image src={urlFor(member.image).width(480).height(480).url()} alt={`${member.name} — ${member.role}`} fill className="object-cover" />
-                    </div>
-                  ) : (
-                    <div className="w-28 h-28 md:w-40 md:h-40 rounded-full bg-[var(--color-sea)] text-white font-display text-4xl md:text-5xl flex items-center justify-center" aria-hidden="true">
-                      {initials(member.name)}
-                    </div>
-                  )}
+      <section className="max-w-[1200px] mx-auto px-5 lg:px-10 pb-20">
+        {staffData.members.map((member, i) => {
+          const quals = (member.qualifications ?? []).filter((q) => q.trim());
+          const paragraphs = toParagraphs(member.description);
+          const [first, ...rest] = paragraphs;
+          return (
+            <article
+              key={member.name}
+              className="grid gap-8 md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[260px_minmax(0,1fr)] md:gap-12 lg:gap-16 py-14 lg:py-20 border-t border-[var(--color-line)]"
+            >
+              <div className="lg:sticky lg:top-28 lg:self-start max-w-[260px]">
+                <PhotoSlot
+                  image={member.image}
+                  alt={`${member.name}, ${tidy(member.role).toLowerCase()}`}
+                  shape="arch"
+                  ratio="aspect-[4/5]"
+                  initials={
+                    member.image?.asset
+                      ? undefined
+                      : member.name
+                          .split(" ")
+                          .map((p) => p[0])
+                          .join("")
+                          .slice(0, 2)
+                  }
+                  motif={(["sun", "wave", "forest"] as const)[i % 3]}
+                  sizes="260px"
+                />
+              </div>
+              <div className="min-w-0">
+                <h2 data-split className="t-display">
+                  {member.name}
+                </h2>
+                <p className="mt-3 t-small max-w-[60ch]">{tidy(member.role)}</p>
+                {first && (
+                  <p className="mt-8 t-lead !text-[var(--color-ink)] max-w-[52ch]">
+                    {first}
+                  </p>
+                )}
+                <div className="mt-6 space-y-4 t-body max-w-[62ch] lg:columns-2 lg:gap-12 lg:max-w-none">
+                  {rest.map((p) => (
+                    <p key={p.slice(0, 24)} className="break-inside-avoid">
+                      {p}
+                    </p>
+                  ))}
                 </div>
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-semibold">{member.name}</h2>
-                  <p className="mt-1 font-bold text-[var(--color-sea-dark)]">{member.role.trim()}</p>
-                  <div className="mt-4 space-y-3 leading-relaxed text-[var(--color-ink-soft)] max-w-3xl">
-                    {paragraphs.map((p) => (
-                      <p key={p.slice(0, 24)}>{p}</p>
+                {quals.length > 0 && (
+                  <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[var(--color-ink-soft)]">
+                    {quals.map((q) => (
+                      <li key={q}>
+                        <span
+                          className="text-[var(--color-coral)] mr-2"
+                          aria-hidden="true"
+                        >
+                          ✦
+                        </span>
+                        {q}
+                      </li>
                     ))}
-                  </div>
-                  {quals.length > 0 && (
-                    <ul className="mt-5 flex flex-wrap gap-2">
-                      {quals.map((q) => (
-                        <li key={q} className="rounded-full bg-[var(--color-foam)] px-3 py-1 text-sm font-semibold text-[var(--color-sea-dark)]">
-                          {q}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                  </ul>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </section>
 
-      <VisitCta heading="Poznaj nas osobiście" text="Przyjdź z dzieckiem na spokojną wizytę — porozmawiasz z nauczycielkami i zobaczysz, jak wygląda nasz dzień." />
+      <VisitCta
+        heading={
+          <>
+            Poznaj nas <em className="text-[var(--color-sea)]">osobiście</em>.
+          </>
+        }
+        text="Przyjdź z dzieckiem na spokojną wizytę. Porozmawiasz z nauczycielkami i zobaczysz, jak wygląda nasz dzień."
+      />
     </>
   );
 }

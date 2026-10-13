@@ -57,13 +57,11 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
 
   if (submitted) {
     return (
-      <div className="card p-8 md:p-10 text-center" role="status">
-        <div className="w-14 h-14 rounded-full bg-[var(--color-sea-light)] text-[var(--color-sea-dark)] flex items-center justify-center mx-auto mb-5 text-2xl font-bold" aria-hidden="true">
-          ✓
-        </div>
-        <h3 className="text-2xl font-semibold mb-2">Dziękujemy, mamy Twoje zgłoszenie</h3>
+      <div className="bg-[#fffdf9] border border-[var(--color-line)] p-8 md:p-12" role="status">
+        <p className="t-label !text-[var(--color-coral)] mb-3">Zgłoszenie wysłane</p>
+        <h3 className="t-title !text-[2.2rem] mb-4">Dziękujemy, mamy Twoje zgłoszenie</h3>
         <p className="text-[var(--color-muted)]">
-          Oddzwonimy w ciągu 24 godzin (w dni robocze). Jeśli wolisz od razu porozmawiać — zadzwoń:{" "}
+          Oddzwonimy w ciągu 24 godzin (w dni robocze). Jeśli wolisz porozmawiać od razu, zadzwoń:{" "}
           <a href={`tel:${tel}`} data-loc="formularz_sukces" className="font-bold text-[var(--color-sea-dark)] underline underline-offset-4">
             {phone}
           </a>
@@ -74,14 +72,14 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
   }
 
   return (
-    <form onSubmit={handleSubmit} onFocus={onFocus} className="card p-6 md:p-8 shadow-[0_20px_60px_-30px_rgba(20,50,74,0.35)]">
-      <div className="space-y-4">
+    <form onSubmit={handleSubmit} onFocus={onFocus} className="relative bg-[#fffdf9] border border-[var(--color-line)] p-6 md:p-10">
+      <div className="space-y-7">
         <div>
-          <label htmlFor="cf-name" className="block text-sm font-bold mb-1.5">Twoje imię</label>
+          <label htmlFor="cf-name" className="t-label !flex">Twoje imię</label>
           <input id="cf-name" type="text" required autoComplete="given-name" value={formData.parentName} onChange={set("parentName")} className="field" placeholder="np. Anna" />
         </div>
         <div>
-          <label htmlFor="cf-phone" className="block text-sm font-bold mb-1.5">Telefon</label>
+          <label htmlFor="cf-phone" className="t-label !flex">Telefon</label>
           <input
             id="cf-phone"
             type="tel"
@@ -96,9 +94,9 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
             placeholder="np. 600 100 200"
           />
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-6">
           <div>
-            <label htmlFor="cf-age" className="block text-sm font-bold mb-1.5">Wiek dziecka</label>
+            <label htmlFor="cf-age" className="t-label !flex">Wiek dziecka</label>
             <select id="cf-age" required value={formData.childAge} onChange={set("childAge")} className="field">
               <option value="">Wybierz</option>
               <option value="2">2 lata</option>
@@ -109,7 +107,7 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
             </select>
           </div>
           <div>
-            <label htmlFor="cf-group" className="block text-sm font-bold mb-1.5">Grupa</label>
+            <label htmlFor="cf-group" className="t-label !flex">Grupa</label>
             <select id="cf-group" value={formData.group} onChange={set("group")} className="field">
               <option value="">Doradźcie mi</option>
               <option value="grupa_1">Grupa 1</option>
@@ -118,8 +116,8 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
           </div>
         </div>
         <div>
-          <label htmlFor="cf-email" className="block text-sm font-bold mb-1.5">
-            E-mail <span className="font-normal text-[var(--color-muted)]">(opcjonalnie)</span>
+          <label htmlFor="cf-email" className="t-label !flex">
+            E-mail <span className="normal-case tracking-normal font-normal text-[var(--color-muted)]">(opcjonalnie)</span>
           </label>
           <input id="cf-email" type="email" autoComplete="email" value={formData.email} onChange={set("email")} className="field" placeholder="jeśli wolisz odpowiedź mailem" />
         </div>
@@ -131,8 +129,8 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
         </p>
       )}
 
-      <button type="submit" disabled={sending} className="btn btn-primary w-full mt-6 text-lg disabled:opacity-60">
-        {sending ? "Wysyłanie…" : "Umów bezpłatną wizytę"}
+      <button type="submit" disabled={sending} className="btn btn-primary w-full mt-9 disabled:opacity-60">
+        {sending ? "Wysyłanie…" : <>Umów bezpłatną wizytę <span className="arr">→</span></>}
       </button>
       <p className="text-center text-xs text-[var(--color-muted)] mt-3 leading-relaxed">
         Administratorem danych jest Przystań Zucha sp. z o.o. Dane przetwarzamy w celu odpowiedzi na zgłoszenie.{" "}
