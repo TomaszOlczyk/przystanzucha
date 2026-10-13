@@ -58,6 +58,7 @@ export default async function Home() {
       telephone: siteData.phone,
       email: siteData.email,
       image: salaSrc,
+      logo: `${SITE_URL}/brand/przystan-zucha-logo.png`,
       description: metadata.description,
       address: {
         "@type": "PostalAddress",

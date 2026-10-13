@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Przystań Zucha">
+  <title>Przystań Zucha</title>
+  <circle cx="32" cy="32" r="31" fill="#16252E"/>
+  <path d="M29.5 9 L29.5 38 L14 38 Z" fill="#F6F0E6"/>
+  <path d="M34 16 L34 38 L47 38 Z" fill="#F3C35A"/>
+  <path d="M11 42 H53 L46.5 52 H17.5 Z" fill="#C24A2B"/>
+</svg>
