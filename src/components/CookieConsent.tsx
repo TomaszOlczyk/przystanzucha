@@ -48,17 +48,15 @@ export default function CookieConsent() {
       role="dialog"
       aria-modal="false"
       aria-labelledby="cookie-consent-title"
-      className="fixed inset-x-0 bottom-0 z-[60] p-3 sm:p-5 pointer-events-none"
+      className="fixed inset-x-0 bottom-[4.5rem] lg:bottom-0 z-[70] p-3 sm:p-5 pointer-events-none"
     >
-      <div className="glass-strong pointer-events-auto rounded-3xl shadow-2xl shadow-purple-500/10 p-5 md:p-6 max-w-2xl mx-auto max-h-[calc(100dvh-1.5rem)] overflow-y-auto">
-        <h2 id="cookie-consent-title" className="text-lg font-bold mb-1.5">
-          🍪 Pliki cookies
+      <div className="card pointer-events-auto shadow-2xl p-4 md:p-6 max-w-2xl lg:ml-3 lg:mr-auto max-h-[calc(100dvh-6rem)] overflow-y-auto">
+        <h2 id="cookie-consent-title" className="text-lg font-semibold mb-1.5">
+          Pliki cookies
         </h2>
-        <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-          Używamy plików cookies niezbędnych do działania strony. Za Twoją zgodą użyjemy też
-          cookies analitycznych (statystyki odwiedzin) i marketingowych (pomiar skuteczności
-          reklam, np. Google Ads). Zgodę możesz w każdej chwili zmienić w stopce strony —
-          „Ustawienia cookies”. Szczegóły:{" "}
+        <p className="text-sm text-[var(--color-muted)] leading-relaxed">
+          Niezbędne cookies zapewniają działanie strony. Analityczne i marketingowe (np. Google Ads)
+          włączymy tylko za Twoją zgodą. Zmienisz ją w stopce, w „Ustawieniach cookies”.{" "}
           <Link href={POLICY_PATH} className="font-semibold underline underline-offset-2">
             Polityka prywatności
           </Link>
@@ -88,12 +86,12 @@ export default function CookieConsent() {
           </div>
         )}
 
-        <div className="mt-5 flex flex-col-reverse sm:flex-row gap-2.5 sm:justify-end">
+        <div className="mt-4 flex flex-wrap gap-2 sm:justify-end">
           {showSettings ? (
             <button
               type="button"
               onClick={() => decide(draft)}
-              className="px-5 py-3 rounded-xl glass text-sm font-semibold hover:bg-white/80 transition-colors"
+              className="btn btn-secondary !py-2.5 !px-5 text-sm"
             >
               Zapisz wybór
             </button>
@@ -101,7 +99,7 @@ export default function CookieConsent() {
             <button
               type="button"
               onClick={() => setShowSettings(true)}
-              className="px-5 py-3 rounded-xl glass text-sm font-semibold hover:bg-white/80 transition-colors"
+              className="btn btn-secondary !py-2.5 !px-5 text-sm"
             >
               Ustawienia
             </button>
@@ -109,14 +107,14 @@ export default function CookieConsent() {
           <button
             type="button"
             onClick={() => decide({ analytics: false, marketing: false })}
-            className="px-5 py-3 rounded-xl glass text-sm font-semibold hover:bg-white/80 transition-colors"
+            className="btn btn-secondary !py-2.5 !px-5 text-sm"
           >
             Tylko niezbędne
           </button>
           <button
             type="button"
             onClick={() => decide({ analytics: true, marketing: true })}
-            className="px-5 py-3 rounded-xl btn-gradient text-sm font-bold"
+            className="btn btn-primary !py-2.5 !px-5 text-sm"
           >
             Akceptuję wszystkie
           </button>
@@ -141,7 +139,7 @@ function ConsentRow({
 }) {
   return (
     <label
-      className={`flex items-start gap-3 rounded-2xl bg-white/50 border border-white/80 px-4 py-3 ${
+      className={`flex items-start gap-3 rounded-2xl bg-[var(--color-foam)] border border-[var(--color-line)] px-4 py-3 ${
         disabled ? "" : "cursor-pointer"
       }`}
     >
@@ -150,18 +148,18 @@ function ConsentRow({
         checked={checked}
         disabled={disabled}
         onChange={(e) => onChange?.(e.target.checked)}
-        className={disabled ? "sr-only" : "mt-1 h-4 w-4 shrink-0 accent-purple-500"}
+        className={disabled ? "sr-only" : "mt-1 h-4 w-4 shrink-0 accent-[var(--color-sea)]"}
       />
       <span>
         <span className="flex items-center gap-2 text-sm font-semibold">
           {title}
           {disabled && (
-            <span className="rounded-full btn-gradient px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">
+            <span className="rounded-full bg-[var(--color-sea)] text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">
               zawsze aktywne
             </span>
           )}
         </span>
-        <span className="block text-xs text-[var(--color-text-secondary)]">{description}</span>
+        <span className="block text-xs text-[var(--color-muted)]">{description}</span>
       </span>
     </label>
   );

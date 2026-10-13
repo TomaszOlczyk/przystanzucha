@@ -1,33 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { POLICY_PATH } from "@/content/privacy";
 import { useRef, useState } from "react";
 import { getAttribution } from "@/lib/attribution";
 import { trackFormStart, trackLead } from "@/lib/analytics";
+import { POLICY_PATH } from "@/content/privacy";
 
 interface ContactFormProps {
   email: string;
   phone: string;
-  name: string;
   recruitmentYear: string;
 }
 
-export default function ContactForm({ email, phone, name, recruitmentYear }: ContactFormProps) {
-  const [formData, setFormData] = useState({
-    parentName: "",
-    childName: "",
-    childAge: "",
-    email: "",
-    phone: "",
-  });
+const EMPTY = { parentName: "", phone: "", childAge: "", group: "", email: "" };
+
+export default function ContactForm({ email, phone, recruitmentYear }: ContactFormProps) {
+  const [formData, setFormData] = useState(EMPTY);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const started = useRef(false);
+  const tel = phone.replace(/\s/g, "");
 
-  // form_start — raz na wypełnienie formularza, przy pierwszej interakcji
-  const handleFormStart = () => {
+  const set = (key: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    setFormData({ ...formData, [key]: e.target.value });
+
+  const onFocus = () => {
     if (started.current) return;
     started.current = true;
     trackFormStart("rekrutacja");
@@ -47,12 +45,11 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
 
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Błąd wysyłania");
-      setSubmitted(true);
-      // bez danych osobowych — tylko typ formularza (i wiek dziecka)
       trackLead("rekrutacja", { child_age: formData.childAge });
+      setSubmitted(true);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Nieznany błąd";
-      setError(msg + " — Spróbuj ponownie lub napisz na " + email);
+      setError(`${msg}. Spróbuj ponownie albo zadzwoń: ${phone}.`);
     } finally {
       setSending(false);
     }
@@ -60,128 +57,89 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
 
   if (submitted) {
     return (
-      <div className="glass-strong rounded-3xl p-8 md:p-10 text-center max-w-lg mx-auto">
-        <div className="w-16 h-16 rounded-full btn-gradient flex items-center justify-center mx-auto mb-5 text-2xl">
-          ✓
-        </div>
-        <h3 className="text-2xl font-bold mb-2">Dziękujemy!</h3>
-        <p className="text-[var(--color-text-secondary)] mb-6">
-          Twoje zgłoszenie zostało wysłane. Odezwiemy się w ciągu 24 godzin.
-          Możesz też napisać bezpośrednio na{" "}
-          <a
-            href={`mailto:${email}`}
-            className="gradient-text font-semibold"
-          >
-            {email}
+      <div className="bg-[#fffdf9] border border-[var(--color-line)] p-8 md:p-12" role="status">
+        <p className="t-label !text-[var(--color-coral)] mb-3">Zgłoszenie wysłane</p>
+        <h3 className="t-title !text-[2.2rem] mb-4">Dziękujemy, mamy Twoje zgłoszenie</h3>
+        <p className="text-[var(--color-muted)]">
+          Oddzwonimy w ciągu 24 godzin (w dni robocze). Jeśli wolisz porozmawiać od razu, zadzwoń:{" "}
+          <a href={`tel:${tel}`} data-loc="formularz_sukces" className="font-bold text-[var(--color-sea-dark)] underline underline-offset-4">
+            {phone}
           </a>
+          .
         </p>
-        <button
-          onClick={() => {
-            setSubmitted(false);
-            started.current = false;
-            setFormData({ parentName: "", childName: "", childAge: "", email: "", phone: "" });
-          }}
-          className="px-6 py-2.5 rounded-full glass text-sm font-medium hover:bg-white/80 transition-colors"
-        >
-          Wyślij kolejne zgłoszenie
-        </button>
       </div>
     );
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      onFocus={handleFormStart}
-      onChange={handleFormStart}
-      className="glass-strong rounded-3xl p-6 md:p-8 max-w-lg mx-auto"
-    >
-      <div className="space-y-4">
+    <form onSubmit={handleSubmit} onFocus={onFocus} className="relative bg-[#fffdf9] border border-[var(--color-line)] p-6 md:p-10">
+      <div className="space-y-7">
         <div>
+          <label htmlFor="cf-name" className="t-label !flex">Twoje imię</label>
+          <input id="cf-name" type="text" required autoComplete="given-name" value={formData.parentName} onChange={set("parentName")} className="field" placeholder="np. Anna" />
+        </div>
+        <div>
+          <label htmlFor="cf-phone" className="t-label !flex">Telefon</label>
           <input
-            type="text"
+            id="cf-phone"
+            type="tel"
             required
-            value={formData.parentName}
-            onChange={(e) =>
-              setFormData({ ...formData, parentName: e.target.value })
-            }
-            className="w-full px-4 py-3.5 rounded-xl bg-white/60 border border-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all placeholder:text-gray-400 text-sm"
-            placeholder="Imię i nazwisko rodzica"
+            autoComplete="tel"
+            inputMode="tel"
+            pattern="[\d\s+\(\)\-]{9,}"
+            title="Podaj numer telefonu (min. 9 cyfr)"
+            value={formData.phone}
+            onChange={set("phone")}
+            className="field"
+            placeholder="np. 600 100 200"
           />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <input
-            type="text"
-            required
-            value={formData.childName}
-            onChange={(e) =>
-              setFormData({ ...formData, childName: e.target.value })
-            }
-            className="w-full px-4 py-3.5 rounded-xl bg-white/60 border border-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all placeholder:text-gray-400 text-sm"
-            placeholder="Imię dziecka"
-          />
-          <select
-            required
-            value={formData.childAge}
-            onChange={(e) =>
-              setFormData({ ...formData, childAge: e.target.value })
-            }
-            className="w-full px-4 py-3.5 rounded-xl bg-white/60 border border-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all text-sm text-gray-600"
-          >
-            <option value="">Wiek dziecka</option>
-            <option value="2">2 lata</option>
-            <option value="3">3 lata</option>
-            <option value="4">4 lata</option>
-            <option value="5">5 lat</option>
-            <option value="6">6 lat</option>
-          </select>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="cf-age" className="t-label !flex">Wiek dziecka</label>
+            <select id="cf-age" required value={formData.childAge} onChange={set("childAge")} className="field">
+              <option value="">Wybierz</option>
+              <option value="2">2 lata</option>
+              <option value="3">3 lata</option>
+              <option value="4">4 lata</option>
+              <option value="5">5 lat</option>
+              <option value="6">6 lat</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="cf-group" className="t-label !flex">Grupa</label>
+            <select id="cf-group" value={formData.group} onChange={set("group")} className="field">
+              <option value="">Doradźcie mi</option>
+              <option value="grupa_1">Grupa 1</option>
+              <option value="grupa_2">Grupa 2 (więcej uwagi)</option>
+            </select>
+          </div>
         </div>
-        <input
-          type="email"
-          required
-          value={formData.email}
-          onChange={(e) =>
-            setFormData({ ...formData, email: e.target.value })
-          }
-          className="w-full px-4 py-3.5 rounded-xl bg-white/60 border border-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all placeholder:text-gray-400 text-sm"
-          placeholder="Adres email"
-        />
-        <input
-          type="tel"
-          value={formData.phone}
-          onChange={(e) =>
-            setFormData({ ...formData, phone: e.target.value })
-          }
-          className="w-full px-4 py-3.5 rounded-xl bg-white/60 border border-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all placeholder:text-gray-400 text-sm"
-          placeholder="Numer telefonu (opcjonalnie)"
-        />
+        <div>
+          <label htmlFor="cf-email" className="t-label !flex">
+            E-mail <span className="normal-case tracking-normal font-normal text-[var(--color-muted)]">(opcjonalnie)</span>
+          </label>
+          <input id="cf-email" type="email" autoComplete="email" value={formData.email} onChange={set("email")} className="field" placeholder="jeśli wolisz odpowiedź mailem" />
+        </div>
       </div>
+
       {error && (
-        <p className="mt-3 text-sm text-red-500 text-center">{error}</p>
+        <p className="mt-4 text-sm text-[var(--color-coral-dark)]" role="alert">
+          {error}
+        </p>
       )}
-      <button
-        type="submit"
-        disabled={sending}
-        className="mt-5 w-full py-4 rounded-xl btn-gradient font-bold text-base tracking-wide disabled:opacity-60"
-      >
-        {sending ? "Wysyłanie..." : `Zapisz dziecko do ${name}`}
+
+      <button type="submit" disabled={sending} className="btn btn-primary w-full mt-9 disabled:opacity-60">
+        {sending ? "Wysyłanie…" : <>Umów bezpłatną wizytę <span className="arr">→</span></>}
       </button>
-      <p className="text-center text-xs text-[var(--color-text-secondary)] mt-3">
-        Odezwiemy się w ciągu 24h. Możesz też zadzwonić:{" "}
-        <a
-          href={`tel:${phone.replace(/\s/g, "")}`}
-          className="gradient-text font-semibold"
-        >
-          {phone}
-        </a>
-      </p>
-      <p className="text-center text-[11px] leading-snug text-[var(--color-text-secondary)] mt-3">
-        Administratorem danych jest Przystań Zucha sp. z o.o. Dane przetwarzamy w celu odpowiedzi
-        na zgłoszenie. Więcej:{" "}
-        <Link href={POLICY_PATH} className="underline underline-offset-2 hover:text-purple-700">
+      <p className="text-center text-xs text-[var(--color-muted)] mt-3 leading-relaxed">
+        Administratorem danych jest Przystań Zucha sp. z o.o. Dane przetwarzamy w celu odpowiedzi na zgłoszenie.{" "}
+        <Link href={POLICY_PATH} className="underline underline-offset-4">
           Polityka prywatności
         </Link>
         .
+        <br />
+        Wolisz napisać? <a href={`mailto:${email}`} data-loc="formularz" className="underline underline-offset-4">{email}</a>
       </p>
     </form>
   );

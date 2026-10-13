@@ -1,111 +1,107 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { getStaffPage } from "@/sanity/fetchers";
-import { urlFor } from "@/sanity/image";
+import PageIntro, { VisitCta } from "@/components/PageIntro";
+import PhotoSlot from "@/components/PhotoSlot";
+import { paragraphs as toParagraphs, tidy } from "@/lib/copy";
 
 export const metadata: Metadata = {
-  title: "Nasza Kadra — Przystanzucha",
-  description: "Poznaj nasz zespół wykwalifikowanych pedagogów i specjalistów.",
+  title: "Kadra przedszkola — pedagodzy specjalni, logopeda",
+  description:
+    "Poznaj nauczycielki Przystani Zucha: pedagodzy specjalni, logopeda, terapeutka TUS. Doświadczenie w pracy z dziećmi w spektrum autyzmu. Łódź, Retkinia.",
+  alternates: { canonical: "/kadra/" },
 };
-
-const fallbackIcons = ["👩‍💼", "👩‍🏫", "👩‍🏫", "🇬🇧", "🎵", "🧠"];
 
 export default async function KadraPage() {
   const staffData = await getStaffPage();
-  const colors = ["#ec4899", "#a855f7", "#6366f1", "#3b82f6", "#ec4899", "#a855f7"];
 
   return (
     <>
-      <section className="pt-12 pb-16 md:pt-20 md:pb-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-5">
-              <span className="gradient-text">Nasza kadra</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-              {staffData.title}
-            </h1>
-            <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
-              {staffData.subtitle}
-            </p>
-          </div>
+      <PageIntro
+        eyebrow="Kadra"
+        title={
+          <>
+            Ludzie, którym{" "}
+            <em className="text-[var(--color-sea)]">powierzasz</em> dziecko.
+          </>
+        }
+        lead="Pedagożki specjalne, logopedka i terapeutka TUS. Dwie z nas są też mamami, więc wiemy, jak to jest zostawić dziecko w przedszkolu po raz pierwszy."
+      />
 
-          <div className={`grid grid-cols-1 gap-6 ${staffData.columns === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3"}`}>
-            {staffData.members.map((member, i) => {
-              const color = colors[i % colors.length];
-              const icon = fallbackIcons[i % fallbackIcons.length];
-              const hasImage = !!member.image?.asset;
-
-              return (
-                <div
-                  key={member.name}
-                  className="glass-strong rounded-2xl overflow-hidden card-hover"
-                >
-                  {hasImage ? (
-                    <div className="h-52 relative">
-                      <Image
-                        src={urlFor(member.image).width(400).height(208).url()}
-                        alt={member.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className="h-44 flex items-center justify-center text-6xl"
-                      style={{
-                        background: `linear-gradient(135deg, ${color}15, ${color}30)`,
-                      }}
-                    >
-                      {icon}
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                    <p className="text-sm font-semibold mb-3" style={{ color }}>
-                      {member.role}
+      <section className="max-w-[1200px] mx-auto px-5 lg:px-10 pb-20">
+        {staffData.members.map((member, i) => {
+          const quals = (member.qualifications ?? []).filter((q) => q.trim());
+          const paragraphs = toParagraphs(member.description);
+          const [first, ...rest] = paragraphs;
+          return (
+            <article
+              key={member.name}
+              className="grid gap-8 md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[260px_minmax(0,1fr)] md:gap-12 lg:gap-16 py-14 lg:py-20 border-t border-[var(--color-line)]"
+            >
+              <div className="lg:sticky lg:top-28 lg:self-start max-w-[260px]">
+                <PhotoSlot
+                  image={member.image}
+                  alt={`${member.name}, ${tidy(member.role).toLowerCase()}`}
+                  shape="arch"
+                  ratio="aspect-[4/5]"
+                  initials={
+                    member.image?.asset
+                      ? undefined
+                      : member.name
+                          .split(" ")
+                          .map((p) => p[0])
+                          .join("")
+                          .slice(0, 2)
+                  }
+                  motif={(["sun", "wave", "forest"] as const)[i % 3]}
+                  sizes="260px"
+                />
+              </div>
+              <div className="min-w-0">
+                <h2 data-split className="t-display">
+                  {member.name}
+                </h2>
+                <p className="mt-3 t-small max-w-[60ch]">{tidy(member.role)}</p>
+                {first && (
+                  <p className="mt-8 t-lead !text-[var(--color-ink)] max-w-[52ch]">
+                    {first}
+                  </p>
+                )}
+                <div className="mt-6 space-y-4 t-body max-w-[62ch] lg:columns-2 lg:gap-12 lg:max-w-none">
+                  {rest.map((p) => (
+                    <p key={p.slice(0, 24)} className="break-inside-avoid">
+                      {p}
                     </p>
-                    <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">
-                      {member.description}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {(member.qualifications ?? []).map((q) => (
-                        <span
-                          key={q}
-                          className="text-xs px-2.5 py-1 rounded-full font-medium"
-                          style={{
-                            backgroundColor: `${color}12`,
-                            color,
-                          }}
-                        >
-                          {q}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-16 text-center">
-            <div className="glass-strong rounded-2xl p-8 md:p-10 inline-block max-w-xl">
-              <h2 className="text-2xl font-bold mb-3">Chcesz nas poznać?</h2>
-              <p className="text-[var(--color-text-secondary)] mb-6">
-                Zapraszamy na dzień otwarty — oprowdzimy po przedszkolu i
-                odpowiemy na pytania
-              </p>
-              <Link
-                href="/konsultacja"
-                className="inline-block px-8 py-3.5 rounded-full btn-gradient font-bold"
-              >
-                Umów konsultację
-              </Link>
-            </div>
-          </div>
-        </div>
+                {quals.length > 0 && (
+                  <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[var(--color-ink-soft)]">
+                    {quals.map((q) => (
+                      <li key={q}>
+                        <span
+                          className="text-[var(--color-coral)] mr-2"
+                          aria-hidden="true"
+                        >
+                          ✦
+                        </span>
+                        {q}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </section>
+
+      <VisitCta
+        heading={
+          <>
+            Poznaj nas <em className="text-[var(--color-sea)]">osobiście</em>.
+          </>
+        }
+        text="Przyjdź z dzieckiem na spokojną wizytę. Porozmawiasz z nauczycielkami i zobaczysz, jak wygląda nasz dzień."
+      />
     </>
   );
 }

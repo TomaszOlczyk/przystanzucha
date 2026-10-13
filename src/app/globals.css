@@ -1,154 +1,321 @@
 @import "tailwindcss";
 
-:root {
-  --gradient-main: linear-gradient(135deg, #f472b6, #a855f7, #6366f1, #3b82f6);
-  --gradient-hero: linear-gradient(160deg, #fce7f3 0%, #ede9fe 30%, #c7d2fe 60%, #dbeafe 100%);
-  --gradient-btn: linear-gradient(135deg, #ec4899, #a855f7, #6366f1);
-  --gradient-btn-hover: linear-gradient(135deg, #f472b6, #c084fc, #818cf8);
-  --gradient-dark: linear-gradient(135deg, #1e1b4b, #312e81, #1e1b4b);
-  --color-pink: #ec4899;
-  --color-purple: #a855f7;
-  --color-indigo: #6366f1;
-  --color-blue: #3b82f6;
-  --color-text: #1e1b4b;
-  --color-text-secondary: #6b7280;
-  --color-glass: rgba(255, 255, 255, 0.65);
-  --color-glass-strong: rgba(255, 255, 255, 0.82);
-}
-
+/*
+ * „Dziennik pokładowy” — papier, atrament, morski i koral (z sal przedszkola). Ruch: anime.js (Motion.tsx).
+ *
+ * SYSTEM TYPOGRAFICZNY — dwa kroje, sześć ról, nic poza nimi:
+ *   .t-hero     Fraunces Soft — tylko H1 (hero, nagłówki podstron), maks. ~8 słów
+ *   .t-display  Fraunces Soft — nagłówki sekcji H2, maks. ~8 słów
+ *   .t-title    Fraunces Soft — H3: tytuły kart, imiona, pytania FAQ, jedna–dwie linie
+ *   .t-quote    Fraunces italic — WYŁĄCZNIE jedno krótkie zdanie (≤ 200 znaków), np. cytat
+ *   .t-lead / .t-body / .t-small — Figtree, cała treść ciągła
+ *   .t-label    Figtree, kolor morski — krótkie etykiety (1–4 słowa), zdaniowo, bez wersalików
+ * Długi tekst nigdy nie jest szeryfem ani kursywą. Akcent kolorem (em) tylko w nagłówkach, raz na nagłówek.
+ */
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-face);
+
+  --color-paper: #f6f0e6;
+  --color-paper-deep: #ece3d4;
+  --color-ink: #16252e;
+  --color-ink-soft: #4a575f;
+  --color-muted: #66727a;
+  --color-sea: #22676c;
+  --color-sea-dark: #1a5357;
+  --color-sea-light: #d7e9e6;
+  --color-coral: #c24a2b;
+  --color-coral-dark: #a33c21;
+  --color-sun: #f3c35a;
+  --color-line: #dccfbb;
+  /* aliasy używane przez formularze i stronę polityki */
+  --color-sand: var(--color-paper);
+  --color-sand-deep: var(--color-paper-deep);
+  --color-foam: #eef3ee;
+  --color-coral-light: #f6ddd3;
 }
 
-body {
-  background: var(--gradient-hero);
-  background-attachment: fixed;
-  color: var(--color-text);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  min-height: 100vh;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    overflow-x: clip;
+  }
+  /* ziarno papieru */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 90;
+    opacity: 0.32;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .2 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Georgia, serif;
+    font-variation-settings: "SOFT" 100;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  em {
+    font-style: italic;
+  }
+  h1 em,
+  h2 em {
+    color: var(--color-sea);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-coral);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
-.gradient-text {
-  background: var(--gradient-main);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+@layer components {
+  /* ---------- TYPOGRAFIA (Fraunces Soft + Figtree) ---------- */
+  .t-hero,
+  .t-display,
+  .t-title,
+  .t-quote,
+  .t-quote-lg,
+  .t-num {
+    font-family: var(--font-display), Georgia, serif;
+    font-variation-settings: "SOFT" 100;
+    font-weight: 500;
+  }
+  .t-hero {
+    font-size: clamp(2.8rem, 5.6vw, 5.2rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .t-display {
+    font-size: clamp(2.15rem, 4vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  .t-title {
+    font-size: clamp(1.35rem, 1.7vw, 1.65rem);
+    line-height: 1.22;
+    letter-spacing: -0.005em;
+  }
+  .t-quote {
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+    line-height: 1.45;
+  }
+  .t-quote-lg {
+    font-weight: 400;
+    font-size: clamp(1.35rem, 2vw, 1.8rem);
+    line-height: 1.42;
+    letter-spacing: -0.01em;
+  }
+  .t-lead {
+    font-size: clamp(1.1rem, 1.3vw, 1.22rem);
+    line-height: 1.62;
+    color: var(--color-ink-soft);
+  }
+  .t-body {
+    font-size: 1.03rem;
+    line-height: 1.7;
+    color: var(--color-ink-soft);
+  }
+  .t-small {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+  }
+  /* etykieta: zdaniowo, bez wersalików i rozstrzelenia */
+  .t-label,
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-sea);
+  }
+  .t-num {
+    font-size: 3.4rem;
+    line-height: 0.9;
+    color: var(--color-coral);
+  }
+
+  /* ---------- PRZYCISKI: wypełnienie rozlewa się od środka ---------- */
+  .btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    padding: 0.95rem 1.6rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+  }
+  .btn:hover::before {
+    transform: scale(1.05);
+  }
+  .btn .arr {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn:hover .arr {
+    transform: translateX(4px);
+  }
+  .btn-primary {
+    background: var(--color-coral);
+    color: #fff;
+  }
+  .btn-primary::before {
+    background: var(--color-ink);
+  }
+  .btn-dark {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .btn-dark::before {
+    background: var(--color-coral);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1.5px var(--color-ink);
+  }
+  .btn-secondary::before {
+    background: var(--color-ink);
+  }
+  .btn-secondary:hover {
+    color: var(--color-paper);
+  }
+  .link-u {
+    font-weight: 700;
+    border-bottom: 1.5px solid currentColor;
+    padding-bottom: 2px;
+  }
+
+  /* ---------- POWIERZCHNIE ---------- */
+  .card {
+    background: #fffdf9;
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+  }
+  .print {
+    background: #fff;
+    padding: 9px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 26px 50px -28px rgba(22, 37, 46, 0.6);
+  }
+
+  /* ---------- FORMULARZE ---------- */
+  .field {
+    width: 100%;
+    border: 0;
+    border-bottom: 1.5px solid var(--color-line);
+    background: transparent;
+    padding: 0.75rem 0;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+    border-radius: 0;
+    transition: border-color 0.25s ease;
+  }
+  .field::placeholder {
+    color: #9aa2a6;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-ink);
+  }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2316252e' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 2px center;
+    padding-right: 1.5rem;
+  }
+
+  /* Maska odsłaniania słów (splitText wrap: clip) nie może ucinać ogonków liter (p, y, ę, ą). */
+  :is(h1, h2, h3, blockquote) span[style*="overflow: clip"] {
+    padding-block: 0.12em 0.16em;
+    margin-block: -0.12em -0.16em;
+  }
 }
 
-.glass {
-  background: var(--color-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.5);
+/* ---------- RUCH ---------- */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(194, 74, 43, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(194, 74, 43, 0);
+  }
+}
+.pulse-dot {
+  animation: pulse-dot 1.8s infinite;
 }
 
-.glass-strong {
-  background: var(--color-glass-strong);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.6);
+/*
+ * Klasa .m (ustawiana inline przed malowaniem, gdy brak reduced-motion) ukrywa elementy hero,
+ * które odsłania anime.js. Failsafe: po 2.5 s wszystko widoczne, nawet gdy JS nie ruszy.
+ */
+@keyframes failsafe {
+  to {
+    opacity: 1;
+  }
+}
+.m [data-hero] {
+  opacity: 0;
+  animation: failsafe 0s 2.5s forwards;
 }
 
-.btn-gradient {
-  background: var(--gradient-btn);
-  color: white;
-  transition: all 0.3s ease;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .pulse-dot {
+    animation: none;
+  }
 }
 
-.btn-gradient:hover {
-  background: var(--gradient-btn-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(168,85,247,0.35);
-}
-
-.card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(168,85,247,0.12);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-}
-
-.animate-float {
-  animation: float 5s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: float 6s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* Floating animations */
-@keyframes sail-across {
-  0% { transform: translateX(110vw); }
-  100% { transform: translateX(-25vw); }
-}
-
-@keyframes ship-bob {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
-}
-
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-20deg); }
-  75% { transform: rotate(20deg); }
-}
-
-@keyframes wave-move {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-@keyframes sun-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(12px); }
-}
-
-@keyframes sun-glow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.85; }
-}
-
-@keyframes flag-wave {
-  0%, 100% { transform: scaleX(1); }
-  50% { transform: scaleX(0.85); }
-}
-
-.animate-sail-across {
-  animation: sail-across 35s linear infinite;
-}
-
-.animate-ship-bob {
-  animation: ship-bob 3s ease-in-out infinite;
-}
-
-.animate-wave-anim {
-  animation: wave 1s ease-in-out infinite;
-}
-
-.animate-wave-move {
-  animation: wave-move 8s linear infinite;
-}
-
-.animate-sun-float {
-  animation: sun-float 6s ease-in-out infinite;
-}
-
-.animate-sun-glow {
-  animation: sun-glow 4s ease-in-out infinite;
-}
-
-.animate-flag-wave {
-  animation: flag-wave 1.5s ease-in-out infinite;
+/* Akcent w nagłówkach sekcji: tylko kolor (kursywa zostaje wyłącznie w H1). */
+@layer base {
+  h2 em,
+  h3 em {
+    font-style: normal;
+  }
 }

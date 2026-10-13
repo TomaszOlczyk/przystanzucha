@@ -30,6 +30,7 @@ export interface SiteSettings {
   heroSubheading?: string;
   heroDescription?: string;
   heroImage?: SanityImage;
+  gallery?: (SanityImage & { caption?: string; alt?: string })[];
   stats?: { value: string; label: string }[];
   benefits?: { icon: string; title: string; desc: string }[];
   testimonial?: { quote: string; author: string; role: string };
@@ -69,6 +70,7 @@ export interface ClassroomsPage {
     description: string;
     features: string[];
   };
+  forestRoom?: { image?: SanityImage; image2?: SanityImage };
   uses: { name: string; icon: string; description: string }[];
   materials: { category: string; icon: string; items: string[] }[];
 }

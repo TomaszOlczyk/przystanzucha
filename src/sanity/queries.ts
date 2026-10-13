@@ -14,6 +14,7 @@ export const staffPageQuery = `*[_type == "staffPage"][0]{
 export const classroomsPageQuery = `*[_type == "classroomsPage"][0]{
   title, subtitle,
   room{name, image, description, features},
+  forestRoom{image, image2},
   uses[]{name, icon, description},
   materials[]{category, icon, items}
 }`;

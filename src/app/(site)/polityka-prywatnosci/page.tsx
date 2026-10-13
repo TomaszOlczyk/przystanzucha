@@ -5,14 +5,15 @@ import { GTM_ID } from "@/lib/analytics";
 import { POLICY_EFFECTIVE_DATE, PRIVACY_ADMIN as A } from "@/content/privacy";
 
 export const metadata: Metadata = {
-  title: "Polityka prywatności — Przystanzucha",
+  title: "Polityka prywatności",
+  alternates: { canonical: "/polityka-prywatnosci/" },
   description:
     "Jak Przystań Zucha sp. z o.o. przetwarza dane osobowe osób korzystających ze strony przedszkola: formularze, kontakt, pliki cookies, analityka i Twoje prawa (RODO).",
 };
 
 const tel = A.phone.replace(/\s/g, "");
 
-const linkCls = "font-semibold text-purple-600 underline underline-offset-2 hover:text-purple-800";
+const linkCls = "font-semibold text-[var(--color-sea-dark)] underline underline-offset-4 hover:text-[var(--color-ink)]";
 
 function Mail() {
   return (
@@ -39,11 +40,11 @@ function Ext({ href, children }: { href: string; children: ReactNode }) {
 }
 
 function UL({ children }: { children: ReactNode }) {
-  return <ul className="list-disc pl-5 space-y-1.5 marker:text-purple-400">{children}</ul>;
+  return <ul className="list-disc pl-5 space-y-1.5 marker:text-[var(--color-sea)]">{children}</ul>;
 }
 
 function H3({ children }: { children: ReactNode }) {
-  return <h3 className="text-lg font-bold text-[var(--color-text)] pt-2">{children}</h3>;
+  return <h3 className="text-lg font-bold text-[var(--color-ink)] pt-2">{children}</h3>;
 }
 
 const cookieRows: { category: string; names: ReactNode; purpose: string }[] = [
@@ -342,13 +343,13 @@ const sections: Section[] = [
               key={row.category}
               className="rounded-2xl border border-white/80 bg-white/50 px-4 py-3 text-sm space-y-1.5"
             >
-              <dt className="font-bold text-[var(--color-text)]">{row.category}</dt>
+              <dt className="font-bold text-[var(--color-ink)]">{row.category}</dt>
               <dd>
-                <span className="font-semibold text-[var(--color-text)]">Nazwy: </span>
+                <span className="font-semibold text-[var(--color-ink)]">Nazwy: </span>
                 {row.names}
               </dd>
               <dd>
-                <span className="font-semibold text-[var(--color-text)]">Cel i czas: </span>
+                <span className="font-semibold text-[var(--color-ink)]">Cel i czas: </span>
                 {row.purpose}
               </dd>
             </dl>
@@ -460,31 +461,31 @@ export default function PrivacyPolicyPage() {
     <section className="pt-12 pb-16 md:pt-20 md:pb-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 md:mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold mb-5">
-            <span className="gradient-text">RODO</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[var(--color-line)] text-sm font-bold mb-5">
+            <span className="text-[var(--color-sea-dark)]">RODO</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-            Polityka <span className="gradient-text">prywatności</span>
+          <h1 className="text-4xl md:text-5xl font-semibold mb-4">
+            Polityka <span className="italic text-[var(--color-sea)]">prywatności</span>
           </h1>
-          <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+          <p className="text-lg text-[var(--color-ink-soft)] max-w-2xl mx-auto">
             Jak przetwarzamy dane osób, które odwiedzają naszą stronę i kontaktują się z
             przedszkolem.
           </p>
-          <p className="text-sm text-[var(--color-text-secondary)] mt-3">
+          <p className="text-sm text-[var(--color-ink-soft)] mt-3">
             Obowiązuje od {POLICY_EFFECTIVE_DATE}
           </p>
         </div>
 
-        <nav aria-labelledby="spis-tresci" className="glass-strong rounded-3xl p-6 md:p-8 mb-8">
+        <nav aria-labelledby="spis-tresci" className="card p-6 md:p-8 mb-8">
           <h2 id="spis-tresci" className="text-lg font-bold mb-3">
             Spis treści
           </h2>
-          <ol className="grid gap-x-8 gap-y-1.5 sm:grid-cols-2 list-decimal pl-5 text-sm marker:text-purple-400">
+          <ol className="grid gap-x-8 gap-y-1.5 sm:grid-cols-2 list-decimal pl-5 text-sm marker:text-[var(--color-sea)]">
             {sections.map((s) => (
               <li key={s.id}>
                 <a
                   href={`#${s.id}`}
-                  className="text-[var(--color-text-secondary)] hover:text-purple-700 transition-colors"
+                  className="text-[var(--color-ink-soft)] hover:text-[var(--color-sea-dark)] transition-colors"
                 >
                   {s.title}
                 </a>
@@ -498,13 +499,13 @@ export default function PrivacyPolicyPage() {
             <article
               key={s.id}
               id={s.id}
-              className="glass-strong rounded-3xl p-6 md:p-8 scroll-mt-24 md:scroll-mt-28"
+              className="card p-6 md:p-8 scroll-mt-24 md:scroll-mt-28"
             >
-              <h2 className="text-2xl font-extrabold mb-4">
-                <span className="gradient-text mr-2">{i + 1}.</span>
+              <h2 className="text-2xl font-semibold mb-4">
+                <span className="text-[var(--color-sea)] mr-2">{i + 1}.</span>
                 {s.title}
               </h2>
-              <div className="space-y-3 text-[15px] leading-relaxed text-[var(--color-text-secondary)] break-words">
+              <div className="space-y-3 text-[15px] leading-relaxed text-[var(--color-ink-soft)] break-words">
                 {s.body}
               </div>
             </article>

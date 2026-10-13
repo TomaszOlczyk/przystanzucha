@@ -24,6 +24,15 @@ export const classroomsPage = defineType({
       ],
     }),
     defineField({
+      name: "forestRoom",
+      title: "Sala Leśna (Grupa 2)",
+      type: "object",
+      fields: [
+        defineField({ name: "image", title: "Zdjęcie główne", type: "image", options: { hotspot: true } }),
+        defineField({ name: "image2", title: "Zdjęcie dodatkowe", type: "image", options: { hotspot: true } }),
+      ],
+    }),
+    defineField({
       name: "uses",
       title: "Zastosowania sali",
       type: "array",

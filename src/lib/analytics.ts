@@ -4,9 +4,10 @@
  * Kontrakt zdarzeń (konfiguracja tagów w GTM opiera się na tych nazwach i parametrach — opis w README):
  *   generate_lead   { form_type: 'rekrutacja' | 'konsultacja', lead_source: 'www', child_age? }
  *   form_start      { form_type }
- *   click_to_call   { link_location }
+ *   click_to_call   { link_location }  (data-loc z linku, np. hero / pasek_mobile / naglowek, inaczej menu|stopka|formularz|tresc)
  *   click_email     { link_location }
  *   click_social    { social_network: 'facebook' | 'instagram', link_location }
+ *   cta_click       { cta: 'umow_wizyte' | 'grupa_2', link_location }  (przyciski z atrybutem data-cta)
  *   consent_update  { consent_analytics, consent_marketing }
  *
  * Zasada: do dataLayer NIE trafiają dane osobowe (imię, e-mail, telefon, treść wiadomości).

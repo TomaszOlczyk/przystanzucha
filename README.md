@@ -57,7 +57,7 @@ publiczne ID).
   deduplikując po `externalId`. Wartości statusów i źródeł to kontrakt — słowniki w `src/sanity/crm.ts`.
 
 Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
-opcjonalnie `CONTACT_FROM` (domena nadawcy musi być zweryfikowana w Resend).
+opcjonalnie `CONTACT_FROM` / `RESEND_FROM_EMAIL` (domena nadawcy musi być zweryfikowana w Resend).
 Stare zgłoszenia na publicznych ID: `SANITY_AUTH_TOKEN=… npx tsx scripts/private-submissions.ts`.
 
 ## Analityka (GTM/GA4)
@@ -108,3 +108,12 @@ oznaczone jako kluczowe; Google Ads — konwersja na `generate_lead` (osobne akc
 wg potrzeb) i ewentualnie `click_to_call`. Strona jest SPA (App Router) — page_view dla przejść
 między podstronami: w GA4 „Pomiar zaawansowany → zmiany historii przeglądania” albo wyzwalacz
 „Zmiana historii” w GTM.
+## Strona (redesign po audycie 13.10.2026)
+
+- **Copy** strony głównej i nawigacja: `src/content/home.ts` (fakty tylko potwierdzone przez placówkę).
+  Z Sanity nadal: kontakt, godziny, kadra, zajęcia, sale, opinia, dokumenty, zdjęcie hero.
+- **Wygląd:** tokeny kolorów w `src/app/globals.css` (paleta z sal: granat, morski, piasek, koral = CTA),
+  fonty Fraunces (nagłówki) + Nunito (treść).
+- **Pomiar:** GTM + Consent Mode v2 (sekcja „Analityka” niżej). Przyciski CTA mają `data-cta` i `data-loc`
+  → zdarzenie `cta_click { cta, link_location }`; `data-loc` nadpisuje też `link_location` w `click_to_call`.
+- **SEO:** `robots.ts`, `sitemap.ts`, canonical na każdej stronie, JSON-LD `Preschool` + `FAQPage` na stronie głównej.

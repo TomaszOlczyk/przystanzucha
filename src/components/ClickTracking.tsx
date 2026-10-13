@@ -22,7 +22,7 @@ function socialNetwork(href: string): "facebook" | "instagram" | null {
   return null;
 }
 
-/** Jeden globalny listener: click_to_call (tel:), click_email (mailto:), click_social (FB/IG). */
+/** Jeden globalny listener: click_to_call (tel:), click_email (mailto:), click_social (FB/IG), cta_click (data-cta). */
 export default function ClickTracking() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -31,7 +31,10 @@ export default function ClickTracking() {
       const link = target.closest("a[href]");
       if (!link) return;
       const href = link.getAttribute("href") ?? "";
-      const link_location = linkLocation(link);
+      // data-loc (np. hero, pasek_mobile) jest dokładniejsze niż położenie wyliczone z DOM.
+      const link_location = link.getAttribute("data-loc") ?? linkLocation(link);
+      const cta = link.getAttribute("data-cta");
+      if (cta) pushEvent("cta_click", { cta, link_location });
       if (/^tel:/i.test(href)) return pushEvent("click_to_call", { link_location });
       if (/^mailto:/i.test(href)) return pushEvent("click_email", { link_location });
       const network = socialNetwork(href);

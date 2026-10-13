@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingToys from "@/components/FloatingToys";
+import StickyCta from "@/components/StickyCta";
+import Motion from "@/components/Motion";
 import AttributionCapture from "@/components/AttributionCapture";
 import GoogleTagManager from "@/components/GoogleTagManager";
 import ClickTracking from "@/components/ClickTracking";
@@ -22,10 +23,11 @@ export default async function SiteLayout({
       <GoogleTagManager />
       <AttributionCapture />
       {GTM_ID && <ClickTracking />}
-      <FloatingToys />
+      <Motion />
       <Navbar siteData={siteData} />
-      <main className="pt-16 md:pt-20">{children}</main>
+      <main className="pt-16 md:pt-[4.5rem]">{children}</main>
       <Footer siteData={siteData} />
+      <StickyCta phone={siteData.phone} />
       {GTM_ID && <CookieConsent />}
     </>
   );
