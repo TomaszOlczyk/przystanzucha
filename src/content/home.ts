@@ -13,6 +13,7 @@ export const nav = [
   { label: "Sale", href: "/sale/" },
   { label: "Zajęcia", href: "/zajecia/" },
   { label: "Pytania", href: "/#pytania" },
+  { label: "Dojazd", href: "/#dojazd" },
 ];
 
 export const hero = {
@@ -117,6 +118,12 @@ export const faq = [
     a: "Rekrutacja trwa przez cały rok, o ile w grupie jest wolne miejsce. Najlepiej zacząć od wizyty: zobaczysz sale i poznasz nauczycielki.",
   },
 ];
+
+export const location = {
+  heading: "Jak do nas trafić.",
+  lead: "Jesteśmy na nowym osiedlu na Retkini, w lokalu U3 na parterze nowego wieżowca przy ul. Maratońskiej 49C.",
+  hint: "Z telefonu najszybciej: kliknij „Nawiguj” i Google Maps poprowadzi Cię pod same drzwi.",
+};
 
 export const contact = {
   lead: "Zostaw numer telefonu. Oddzwonimy w ciągu 24 godzin, odpowiemy na pytania i umówimy spokojną wizytę w przedszkolu.",
