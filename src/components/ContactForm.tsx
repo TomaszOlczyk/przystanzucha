@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { POLICY_PATH } from "@/content/privacy";
 import { useRef, useState } from "react";
 import { getAttribution } from "@/lib/attribution";
 import { trackFormStart, trackLead } from "@/lib/analytics";
@@ -172,6 +174,14 @@ export default function ContactForm({ email, phone, name, recruitmentYear }: Con
         >
           {phone}
         </a>
+      </p>
+      <p className="text-center text-[11px] leading-snug text-[var(--color-text-secondary)] mt-3">
+        Administratorem danych jest Przystań Zucha sp. z o.o. Dane przetwarzamy w celu odpowiedzi
+        na zgłoszenie. Więcej:{" "}
+        <Link href={POLICY_PATH} className="underline underline-offset-2 hover:text-purple-700">
+          Polityka prywatności
+        </Link>
+        .
       </p>
     </form>
   );

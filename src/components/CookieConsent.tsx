@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import Link from "next/link";
+import { POLICY_PATH } from "@/content/privacy";
 import {
   OPEN_CONSENT_EVENT,
   parseConsent,
@@ -56,7 +58,11 @@ export default function CookieConsent() {
           Używamy plików cookies niezbędnych do działania strony. Za Twoją zgodą użyjemy też
           cookies analitycznych (statystyki odwiedzin) i marketingowych (pomiar skuteczności
           reklam, np. Google Ads). Zgodę możesz w każdej chwili zmienić w stopce strony —
-          „Ustawienia cookies”.
+          „Ustawienia cookies”. Szczegóły:{" "}
+          <Link href={POLICY_PATH} className="font-semibold underline underline-offset-2">
+            Polityka prywatności
+          </Link>
+          .
         </p>
 
         {showSettings && (
