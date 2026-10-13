@@ -47,7 +47,7 @@ export async function notifySubmission(kind: "recruitment" | "consultation", dat
         to: to.split(",").map((a) => a.trim()).filter(Boolean),
         reply_to: data.email,
         subject: `${title}: ${data.parentName ?? ""}`.trim(),
-        html: `<h2>${title}</h2><table>${rows}</table><p style="color:#999">Zgłoszenie zapisane też w panelu /studio → Zgłoszenia.</p>`,
+        html: `<h2>${title}</h2><table>${rows}</table><p style="color:#999">Zgłoszenie zapisane też w panelu /studio → CRM — Leady.</p>`,
       }),
     });
     if (!res.ok) {

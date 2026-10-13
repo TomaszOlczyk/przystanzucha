@@ -7,6 +7,33 @@ import { notifySubmission } from "@/lib/notify";
 // (dataset jest publiczny, a zgłoszenia zawierają dane osobowe).
 const privateId = () => `submission.${randomUUID()}`;
 
+const MAX_LEN = 200;
+const LANGUAGES = ["pl", "en", "uk", "inny"];
+
+/** Przycięty string albo undefined (nie ufamy danym z przeglądarki). */
+function str(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const v = value.trim();
+  return v ? v.slice(0, MAX_LEN) : undefined;
+}
+
+/** Pola CRM wspólne dla obu formularzy: język i atrybucja (UTM, gclid, fbclid). */
+function crmFields(body: Record<string, unknown>) {
+  const rawUtm = (body.utm && typeof body.utm === "object" ? body.utm : {}) as Record<string, unknown>;
+  const utm = {
+    source: str(rawUtm.source),
+    medium: str(rawUtm.medium),
+    campaign: str(rawUtm.campaign),
+  };
+  const language = str(body.language);
+  return {
+    language: language && LANGUAGES.includes(language) ? language : "pl",
+    ...(utm.source || utm.medium || utm.campaign ? { utm } : {}),
+    ...(str(body.gclid) ? { gclid: str(body.gclid) } : {}),
+    ...(str(body.fbclid) ? { fbclid: str(body.fbclid) } : {}),
+  };
+}
+
 export async function POST(request: Request) {
   try {
     if (!process.env.SANITY_WRITE_TOKEN) {
@@ -33,15 +60,16 @@ export async function POST(request: Request) {
         _id: privateId(),
         _type: "submission",
         type: "consultation",
+        source: "www_konsultacja",
         parentName: name,
         email,
         phone: phone || "",
         preferredTime: preferredTime || "",
         message: message || "",
-        status: "new",
+        status: "nowy",
         submittedAt: new Date().toISOString(),
       };
-      await writeClient.create(doc);
+      await writeClient.create({ ...doc, ...crmFields(body) });
       await notifySubmission("consultation", doc);
     } else {
       const { parentName, childName, childAge, email, phone, recruitmentYear } = body;
@@ -57,16 +85,17 @@ export async function POST(request: Request) {
         _id: privateId(),
         _type: "submission",
         type: "recruitment",
+        source: "www_rekrutacja",
         parentName,
         childName,
         childAge: `${childAge} lat`,
         email,
         phone: phone || "",
         message: `Rekrutacja ${recruitmentYear}`,
-        status: "new",
+        status: "nowy",
         submittedAt: new Date().toISOString(),
       };
-      await writeClient.create(doc);
+      await writeClient.create({ ...doc, ...crmFields(body) });
       await notifySubmission("recruitment", doc);
     }
 
