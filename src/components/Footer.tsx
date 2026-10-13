@@ -5,12 +5,11 @@ import Logo from "./Logo";
 import CookieSettingsLink from "./CookieSettingsLink";
 import { GTM_ID } from "@/lib/analytics";
 import { POLICY_PATH } from "@/content/privacy";
+import { directionsUrl, mapsQuery } from "@/lib/maps";
 
 export default function Footer({ siteData }: { siteData: SiteSettings }) {
   const tel = siteData.phone.replace(/\s/g, "");
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${siteData.name}, ${siteData.address.street}, ${siteData.address.zip} ${siteData.address.city}`,
-  )}`;
+  const mapsUrl = directionsUrl(mapsQuery(siteData.address.street, siteData.address.zip, siteData.address.city));
 
   return (
     <footer className="bg-[var(--color-ink)] text-[var(--color-paper)]/80 pb-24 lg:pb-0">
@@ -42,7 +41,7 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
               {siteData.address.zip} {siteData.address.city}
             </address>
             <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="inline-block mt-3 link-u text-[var(--color-paper)]">
-              Wyznacz trasę
+              Nawiguj do przedszkola
             </a>
           </div>
           <div>

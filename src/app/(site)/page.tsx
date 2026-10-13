@@ -2,11 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
+import MapEmbed from "@/components/MapEmbed";
+import { directionsUrl, mapsQuery } from "@/lib/maps";
 import PhotoSlot from "@/components/PhotoSlot";
 import { getSiteSettings, getStaffPage, getActivitiesPage, getClassroomsPage } from "@/sanity/fetchers";
 import { urlFor } from "@/sanity/image";
 import { bioHighlight, tidy } from "@/lib/copy";
-import { hero, groups, reasons, story, faq, contact, gallery as galleryCopy, SITE_URL } from "@/content/home";
+import { hero, groups, reasons, story, faq, contact, location, gallery as galleryCopy, SITE_URL } from "@/content/home";
 
 export const metadata: Metadata = {
   title: { absolute: "Przedszkole Montessori Łódź Retkinia — kameralne grupy | Przystań Zucha" },
@@ -42,7 +44,8 @@ export default async function Home() {
     : "/images/hero-child.jpg";
   const salaSrc = urlFor({ asset: { _ref: SALA_IMG } }).width(1200).height(900).auto("format").url();
   const activityNames = (activities?.activities ?? []).map((a) => a.name.toLowerCase());
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${siteData.name}, ${siteData.address.street}, ${siteData.address.city}`)}`;
+  const mapQuery = mapsQuery(siteData.address.street, siteData.address.zip, siteData.address.city);
+  const mapsUrl = directionsUrl(mapQuery);
   const galleryImages = siteData.gallery ?? [];
 
   const jsonLd = [
@@ -65,6 +68,7 @@ export default async function Home() {
         addressCountry: "PL",
       },
       areaServed: "Łódź, Retkinia",
+      hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`,
       openingHoursSpecification: {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -374,6 +378,34 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* DOJAZD */}
+      <section id="dojazd" className={`${WRAP} py-20 lg:py-28 grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16 lg:items-center`}>
+        <div>
+          <Label>Dojazd</Label>
+          <h2 data-split className="t-display">{location.heading}</h2>
+          <p className="mt-5 t-lead max-w-[40ch]">{location.lead}</p>
+          <address className="mt-8 not-italic">
+            <span className="block t-title">{siteData.address.street.replace("/U3", "")}, lokal U3</span>
+            <span className="block mt-1 t-body">
+              {siteData.address.zip} {siteData.address.city}, osiedle Retkinia
+            </span>
+          </address>
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a href={mapsUrl} target="_blank" rel="noopener noreferrer" data-cta="nawigacja" data-loc="dojazd" className="btn btn-primary">
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 11l18-8-8 18-2-8-8-2z" />
+              </svg>
+              Nawiguj w Google Maps
+            </a>
+            <a href={`tel:${tel}`} data-loc="dojazd" className="link-u">
+              Zadzwoń, gdy nie możesz trafić
+            </a>
+          </div>
+          <p className="mt-6 t-small max-w-[44ch]">{location.hint}</p>
+        </div>
+        <MapEmbed query={mapQuery} label={`${siteData.name}, ${mapQuery}`} />
+      </section>
+
       {/* KONTAKT */}
       <section id="kontakt" className="bg-[var(--color-paper-deep)]/60">
         <div className={`${WRAP} py-20 lg:py-28 grid gap-14 lg:grid-cols-2 lg:gap-16`}>
@@ -395,7 +427,7 @@ export default async function Home() {
                 <dd className="mt-1 t-body !text-[var(--color-ink)]">
                   {siteData.address.street}, {siteData.address.zip} {siteData.address.city} (Retkinia).{" "}
                   <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="link-u">
-                    Wyznacz trasę
+                    Nawiguj
                   </a>
                 </dd>
               </div>
