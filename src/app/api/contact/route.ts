@@ -34,6 +34,15 @@ function crmFields(body: Record<string, unknown>) {
   };
 }
 
+const GROUPS: Record<string, string> = { grupa_1: "Grupa 1", grupa_2: "Grupa 2 (więcej uwagi)" };
+
+/** „2 lata”, „5 lat” — poprawna odmiana wieku dziecka. */
+function ageLabel(age: string): string {
+  const n = Number.parseInt(age, 10);
+  if (Number.isNaN(n)) return age.slice(0, 20);
+  return `${n} ${n >= 2 && n <= 4 ? "lata" : n === 1 ? "rok" : "lat"}`;
+}
+
 export async function POST(request: Request) {
   try {
     if (!process.env.SANITY_WRITE_TOKEN) {
@@ -49,7 +58,7 @@ export async function POST(request: Request) {
     if (body.type === "consultation") {
       const { name, email, phone, preferredTime, message } = body;
 
-      if (!name || !email) {
+      if (!str(name) || (!str(phone) && !str(email))) {
         return NextResponse.json(
           { error: "Brakuje wymaganych pól" },
           { status: 400 }
@@ -62,7 +71,7 @@ export async function POST(request: Request) {
         type: "consultation",
         source: "www_konsultacja",
         parentName: name,
-        email,
+        email: email || "",
         phone: phone || "",
         preferredTime: preferredTime || "",
         message: message || "",
@@ -73,8 +82,10 @@ export async function POST(request: Request) {
       await notifySubmission("consultation", doc);
     } else {
       const { parentName, childName, childAge, email, phone, recruitmentYear } = body;
+      const group = GROUPS[str(body.group) ?? ""] ?? "grupa do doradzenia";
 
-      if (!parentName || !childName || !childAge || !email) {
+      // Telefon jest głównym kanałem kontaktu; e-mail i imię dziecka są opcjonalne (mniej tarcia w formularzu).
+      if (!str(parentName) || !str(phone) || !str(childAge)) {
         return NextResponse.json(
           { error: "Brakuje wymaganych pól" },
           { status: 400 }
@@ -87,11 +98,11 @@ export async function POST(request: Request) {
         type: "recruitment",
         source: "www_rekrutacja",
         parentName,
-        childName,
-        childAge: `${childAge} lat`,
-        email,
-        phone: phone || "",
-        message: `Rekrutacja ${recruitmentYear}`,
+        childName: childName || "",
+        childAge: ageLabel(String(childAge)),
+        email: email || "",
+        phone,
+        message: `Rekrutacja ${recruitmentYear} · ${group}`,
         status: "nowy",
         submittedAt: new Date().toISOString(),
       };

@@ -1,154 +1,145 @@
 @import "tailwindcss";
 
-:root {
-  --gradient-main: linear-gradient(135deg, #f472b6, #a855f7, #6366f1, #3b82f6);
-  --gradient-hero: linear-gradient(160deg, #fce7f3 0%, #ede9fe 30%, #c7d2fe 60%, #dbeafe 100%);
-  --gradient-btn: linear-gradient(135deg, #ec4899, #a855f7, #6366f1);
-  --gradient-btn-hover: linear-gradient(135deg, #f472b6, #c084fc, #818cf8);
-  --gradient-dark: linear-gradient(135deg, #1e1b4b, #312e81, #1e1b4b);
-  --color-pink: #ec4899;
-  --color-purple: #a855f7;
-  --color-indigo: #6366f1;
-  --color-blue: #3b82f6;
-  --color-text: #1e1b4b;
-  --color-text-secondary: #6b7280;
-  --color-glass: rgba(255, 255, 255, 0.65);
-  --color-glass-strong: rgba(255, 255, 255, 0.82);
-}
-
+/*
+ * „Bezpieczna przystań” — paleta z prawdziwych sal przedszkola:
+ * granat (ink), morski turkus (sea), piasek (sand), koralowy krab (coral, tylko CTA), słońce (sun, drobne akcenty).
+ */
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-}
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-face);
 
-body {
-  background: var(--gradient-hero);
-  background-attachment: fixed;
-  color: var(--color-text);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  min-height: 100vh;
-}
-
-.gradient-text {
-  background: var(--gradient-main);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glass {
-  background: var(--color-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.5);
-}
-
-.glass-strong {
-  background: var(--color-glass-strong);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.6);
-}
-
-.btn-gradient {
-  background: var(--gradient-btn);
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.btn-gradient:hover {
-  background: var(--gradient-btn-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(168,85,247,0.35);
-}
-
-.card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(168,85,247,0.12);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-}
-
-.animate-float {
-  animation: float 5s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: float 6s ease-in-out infinite;
-  animation-delay: 2s;
+  --color-ink: #14324a;
+  --color-ink-soft: #3d5568;
+  --color-muted: #5b6b78;
+  --color-sea: #1f6f7f;
+  --color-sea-dark: #17586a;
+  --color-sea-light: #dcefef;
+  --color-foam: #eef7f6;
+  --color-sand: #fbf6ee;
+  --color-sand-deep: #f3e9da;
+  --color-coral: #c4462e;
+  --color-coral-dark: #a83a25;
+  --color-coral-light: #fbe4dd;
+  --color-sun: #f6c867;
+  --color-line: #e6ddcf;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
 }
 
-/* Floating animations */
-@keyframes sail-across {
-  0% { transform: translateX(110vw); }
-  100% { transform: translateX(-25vw); }
+body {
+  background: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: clip;
 }
 
-@keyframes ship-bob {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
 }
 
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-20deg); }
-  75% { transform: rotate(20deg); }
+:focus-visible {
+  outline: 3px solid var(--color-sun);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
-@keyframes wave-move {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+/* Przyciski */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  font-weight: 800;
+  padding: 0.95rem 1.6rem;
+  line-height: 1.1;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary {
+  background: var(--color-coral);
+  color: #fff;
+  box-shadow: 0 8px 24px -10px rgba(196, 70, 46, 0.6);
+}
+.btn-primary:hover {
+  background: var(--color-coral-dark);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: #fff;
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-line);
+}
+.btn-secondary:hover {
+  border-color: var(--color-sea);
+  color: var(--color-sea-dark);
 }
 
-@keyframes sun-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(12px); }
+/* Karty i etykiety */
+.card {
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-radius: 1.5rem;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-sea);
 }
 
-@keyframes sun-glow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.85; }
+/* Formularze */
+.field {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1.5px solid var(--color-line);
+  background: #fff;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  color: var(--color-ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.field::placeholder {
+  color: #8a96a0;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-sea);
+  box-shadow: 0 0 0 4px rgba(31, 111, 127, 0.15);
 }
 
-@keyframes flag-wave {
-  0%, 100% { transform: scaleX(1); }
-  50% { transform: scaleX(0.85); }
+/* Fala — delikatny ruch tylko dla dekoracji */
+@keyframes wave-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-wave {
+  animation: wave-drift 18s linear infinite;
 }
 
-.animate-sail-across {
-  animation: sail-across 35s linear infinite;
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.animate-ship-bob {
-  animation: ship-bob 3s ease-in-out infinite;
-}
-
-.animate-wave-anim {
-  animation: wave 1s ease-in-out infinite;
-}
-
-.animate-wave-move {
-  animation: wave-move 8s linear infinite;
-}
-
-.animate-sun-float {
-  animation: sun-float 6s ease-in-out infinite;
-}
-
-.animate-sun-glow {
-  animation: sun-glow 4s ease-in-out infinite;
-}
-
-.animate-flag-wave {
-  animation: flag-wave 1.5s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-wave,
+  .animate-rise {
+    animation: none;
+  }
 }

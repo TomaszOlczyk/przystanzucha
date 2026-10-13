@@ -3,92 +3,83 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import type { SiteSettings } from "@/sanity/types";
+import { nav } from "@/content/home";
+import Logo from "./Logo";
 
 export default function Navbar({ siteData }: { siteData: SiteSettings }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const tel = siteData.phone.replace(/\s/g, "");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "glass-strong shadow-lg shadow-purple-500/5"
-          : "bg-transparent"
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow] duration-300 ${
+        scrolled || isOpen ? "bg-[var(--color-sand)]/95 backdrop-blur shadow-[0_1px_0_var(--color-line)]" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl btn-gradient flex items-center justify-center text-white font-bold text-sm">
-              P
-            </div>
-            <span className="text-xl font-extrabold gradient-text">
-              {siteData.name}
-            </span>
-          </Link>
+      <nav aria-label="Główna nawigacja" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
+        <Link href="/" aria-label={`${siteData.name} — strona główna`} onClick={() => setIsOpen(false)}>
+          <Logo name={siteData.name} />
+        </Link>
 
-          <div className="hidden md:flex items-center gap-1">
-            {siteData.navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="px-4 py-2 rounded-full text-sm font-medium text-[var(--color-text)] hover:bg-white/50 transition-all duration-200"
-              >
-                {item.label}
-              </Link>
-            ))}
+        <div className="hidden lg:flex items-center gap-1">
+          {nav.map((item) => (
             <Link
-              href="/#kontakt"
-              className="ml-3 px-6 py-2.5 rounded-full btn-gradient text-sm font-semibold"
+              key={item.href}
+              href={item.href}
+              className="px-3.5 py-2 rounded-full text-[0.95rem] font-semibold text-[var(--color-ink-soft)] hover:text-[var(--color-sea-dark)] hover:bg-[var(--color-foam)] transition-colors"
             >
-              Zapisz dziecko
+              {item.label}
             </Link>
-          </div>
+          ))}
+          <a href={`tel:${tel}`} data-loc="naglowek" className="ml-3 font-bold text-[var(--color-sea-dark)] hover:underline underline-offset-4">
+            {siteData.phone}
+          </a>
+          <Link href="/#kontakt" data-cta="umow_wizyte" data-loc="naglowek" className="btn btn-primary ml-4 !py-2.5 !px-5 text-sm">
+            Umów wizytę
+          </Link>
+        </div>
 
+        <div className="flex items-center gap-2 lg:hidden">
+          <a
+            href={`tel:${tel}`}
+            data-loc="naglowek"
+            aria-label={`Zadzwoń: ${siteData.phone}`}
+            className="w-11 h-11 rounded-full bg-[var(--color-foam)] text-[var(--color-sea-dark)] flex items-center justify-center"
+          >
+            <PhoneIcon />
+          </a>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-xl hover:bg-white/40 transition-colors"
-            aria-label="Menu"
+            className="w-11 h-11 rounded-full flex items-center justify-center hover:bg-[var(--color-foam)]"
+            aria-label={isOpen ? "Zamknij menu" : "Otwórz menu"}
+            aria-expanded={isOpen}
+            aria-controls="menu-mobile"
           >
-            <div className="w-6 h-5 flex flex-col justify-between">
-              <span
-                className={`block h-0.5 w-6 bg-[var(--color-text)] transition-all duration-300 ${
-                  isOpen ? "rotate-45 translate-y-2" : ""
-                }`}
-              />
-              <span
-                className={`block h-0.5 w-6 bg-[var(--color-text)] transition-all duration-300 ${
-                  isOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`block h-0.5 w-6 bg-[var(--color-text)] transition-all duration-300 ${
-                  isOpen ? "-rotate-45 -translate-y-2" : ""
-                }`}
-              />
-            </div>
+            <span className="w-6 h-4 flex flex-col justify-between" aria-hidden="true">
+              <span className={`block h-0.5 w-6 bg-[var(--color-ink)] transition-transform ${isOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+              <span className={`block h-0.5 w-6 bg-[var(--color-ink)] transition-opacity ${isOpen ? "opacity-0" : ""}`} />
+              <span className={`block h-0.5 w-6 bg-[var(--color-ink)] transition-transform ${isOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
+            </span>
           </button>
         </div>
-      </div>
+      </nav>
 
-      <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="px-4 pb-4 space-y-1 glass-strong mx-2 rounded-2xl mt-1">
-          {siteData.navigation.map((item) => (
+      <div id="menu-mobile" hidden={!isOpen} className="lg:hidden border-t border-[var(--color-line)] bg-[var(--color-sand)]">
+        <div className="px-4 py-4 space-y-1 max-w-6xl mx-auto">
+          {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-3 rounded-xl text-[var(--color-text)] hover:bg-white/50 font-medium transition-colors"
+              className="block px-4 py-3 rounded-xl text-lg font-semibold hover:bg-[var(--color-foam)]"
             >
               {item.label}
             </Link>
@@ -96,12 +87,22 @@ export default function Navbar({ siteData }: { siteData: SiteSettings }) {
           <Link
             href="/#kontakt"
             onClick={() => setIsOpen(false)}
-            className="block text-center px-4 py-3 rounded-xl btn-gradient font-semibold mt-2"
+            data-cta="umow_wizyte"
+            data-loc="menu"
+            className="btn btn-primary w-full mt-3"
           >
-            Zapisz dziecko
+            Umów bezpłatną wizytę
           </Link>
         </div>
       </div>
-    </nav>
+    </header>
+  );
+}
+
+export function PhoneIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
+    </svg>
   );
 }

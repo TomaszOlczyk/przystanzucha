@@ -59,3 +59,15 @@ publiczne ID).
 Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
 opcjonalnie `CONTACT_FROM` / `RESEND_FROM_EMAIL` (domena nadawcy musi być zweryfikowana w Resend).
 Stare zgłoszenia na publicznych ID: `SANITY_AUTH_TOKEN=… npx tsx scripts/private-submissions.ts`.
+
+## Strona (redesign po audycie 13.10.2026)
+
+- **Copy** strony głównej i nawigacja: `src/content/home.ts` (fakty tylko potwierdzone przez placówkę).
+  Z Sanity nadal: kontakt, godziny, kadra, zajęcia, sale, opinia, dokumenty, zdjęcie hero.
+- **Wygląd:** tokeny kolorów w `src/app/globals.css` (paleta z sal: granat, morski, piasek, koral = CTA),
+  fonty Fraunces (nagłówki) + Nunito (treść).
+- **Pomiar:** `src/components/Analytics.tsx` (gtag GA4 + Google Ads, Consent Mode v2, piksel Meta po zgodzie),
+  baner zgód `ConsentBanner.tsx`, zdarzenia w `src/lib/track.ts`:
+  `generate_lead` (formularz), `click_tel`, `click_email`, `form_start`, `cta_click`, `file_download`.
+  ID tagów w zmiennych `NEXT_PUBLIC_*` — lista w `.env.example`; bez ID tag się nie ładuje.
+- **SEO:** `robots.ts`, `sitemap.ts`, canonical na każdej stronie, JSON-LD `Preschool` + `FAQPage` na stronie głównej.

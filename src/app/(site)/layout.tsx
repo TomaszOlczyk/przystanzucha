@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingToys from "@/components/FloatingToys";
+import StickyCta from "@/components/StickyCta";
+import Analytics from "@/components/Analytics";
+import ConsentBanner from "@/components/ConsentBanner";
 import AttributionCapture from "@/components/AttributionCapture";
 import { getSiteSettings } from "@/sanity/fetchers";
 
@@ -16,10 +18,12 @@ export default async function SiteLayout({
   return (
     <>
       <AttributionCapture />
-      <FloatingToys />
+      <Analytics />
       <Navbar siteData={siteData} />
       <main className="pt-16 md:pt-20">{children}</main>
       <Footer siteData={siteData} />
+      <StickyCta phone={siteData.phone} />
+      <ConsentBanner />
     </>
   );
 }
