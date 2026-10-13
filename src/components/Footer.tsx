@@ -1,11 +1,11 @@
-"use client";
-
 import Link from "next/link";
 import type { SiteSettings } from "@/sanity/types";
 import { nav } from "@/content/home";
 import Logo from "./Logo";
 import Wave from "./Wave";
-import { OPEN_CONSENT_EVENT } from "./ConsentBanner";
+import CookieSettingsLink from "./CookieSettingsLink";
+import { GTM_ID } from "@/lib/analytics";
+import { POLICY_PATH } from "@/content/privacy";
 
 export default function Footer({ siteData }: { siteData: SiteSettings }) {
   const tel = siteData.phone.replace(/\s/g, "");
@@ -84,9 +84,12 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
         <div className="border-t border-white/10">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row gap-3 justify-between text-xs text-white/60">
             <p>&copy; {new Date().getFullYear()} Przystań Zucha Sp. z o.o.</p>
-            <button onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))} className="text-left underline underline-offset-4 hover:text-white">
-              Ustawienia cookies
-            </button>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              <Link href={POLICY_PATH} className="underline underline-offset-4 hover:text-white">
+                Polityka prywatności
+              </Link>
+              {GTM_ID && <CookieSettingsLink className="text-left underline underline-offset-4 hover:text-white" />}
+            </div>
           </div>
         </div>
       </div>

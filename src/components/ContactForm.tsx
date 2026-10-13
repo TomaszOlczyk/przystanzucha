@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { getAttribution } from "@/lib/attribution";
-import { track, trackLead } from "@/lib/track";
+import { trackFormStart, trackLead } from "@/lib/analytics";
+import { POLICY_PATH } from "@/content/privacy";
 
 interface ContactFormProps {
   email: string;
@@ -26,7 +28,7 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
   const onFocus = () => {
     if (started.current) return;
     started.current = true;
-    track("form_start", { form: "rekrutacja" });
+    trackFormStart("rekrutacja");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,7 +45,7 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
 
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Błąd wysyłania");
-      trackLead("rekrutacja", { group: formData.group || "nie_wiem" });
+      trackLead("rekrutacja", { child_age: formData.childAge });
       setSubmitted(true);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Nieznany błąd";
@@ -133,7 +135,11 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
         {sending ? "Wysyłanie…" : "Umów bezpłatną wizytę"}
       </button>
       <p className="text-center text-xs text-[var(--color-muted)] mt-3 leading-relaxed">
-        Oddzwonimy w ciągu 24 godzin. Dane wykorzystamy tylko do kontaktu w sprawie rekrutacji.
+        Administratorem danych jest Przystań Zucha sp. z o.o. Dane przetwarzamy w celu odpowiedzi na zgłoszenie.{" "}
+        <Link href={POLICY_PATH} className="underline underline-offset-4">
+          Polityka prywatności
+        </Link>
+        .
         <br />
         Wolisz napisać? <a href={`mailto:${email}`} data-loc="formularz" className="underline underline-offset-4">{email}</a>
       </p>

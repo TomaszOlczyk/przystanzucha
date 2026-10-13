@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { getAttribution } from "@/lib/attribution";
-import { track, trackLead } from "@/lib/track";
+import { trackFormStart, trackLead } from "@/lib/analytics";
+import { POLICY_PATH } from "@/content/privacy";
 
 interface ConsultationFormProps {
   email: string;
@@ -25,7 +27,7 @@ export default function ConsultationForm({ email, phone }: ConsultationFormProps
   const onFocus = () => {
     if (started.current) return;
     started.current = true;
-    track("form_start", { form: "konsultacja" });
+    trackFormStart("konsultacja");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -123,7 +125,13 @@ export default function ConsultationForm({ email, phone }: ConsultationFormProps
       <button type="submit" disabled={sending} className="btn btn-primary w-full mt-6 text-lg disabled:opacity-60">
         {sending ? "Wysyłanie…" : "Umów spotkanie"}
       </button>
-      <p className="text-center text-xs text-[var(--color-muted)] mt-3">
+      <p className="text-center text-xs text-[var(--color-muted)] mt-3 leading-relaxed">
+        Administratorem danych jest Przystań Zucha sp. z o.o. Dane przetwarzamy w celu odpowiedzi na zgłoszenie.{" "}
+        <Link href={POLICY_PATH} className="underline underline-offset-4">
+          Polityka prywatności
+        </Link>
+        .
+        <br />
         Wolisz napisać? <a href={`mailto:${email}`} data-loc="konsultacja" className="underline underline-offset-4">{email}</a>
       </p>
     </form>

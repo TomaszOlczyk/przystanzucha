@@ -1,9 +1,11 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StickyCta from "@/components/StickyCta";
-import Analytics from "@/components/Analytics";
-import ConsentBanner from "@/components/ConsentBanner";
 import AttributionCapture from "@/components/AttributionCapture";
+import GoogleTagManager from "@/components/GoogleTagManager";
+import ClickTracking from "@/components/ClickTracking";
+import CookieConsent from "@/components/CookieConsent";
+import { GTM_ID } from "@/lib/analytics";
 import { getSiteSettings } from "@/sanity/fetchers";
 
 export const revalidate = 60;
@@ -17,13 +19,14 @@ export default async function SiteLayout({
 
   return (
     <>
+      <GoogleTagManager />
       <AttributionCapture />
-      <Analytics />
+      {GTM_ID && <ClickTracking />}
       <Navbar siteData={siteData} />
       <main className="pt-16 md:pt-20">{children}</main>
       <Footer siteData={siteData} />
       <StickyCta phone={siteData.phone} />
-      <ConsentBanner />
+      {GTM_ID && <CookieConsent />}
     </>
   );
 }
