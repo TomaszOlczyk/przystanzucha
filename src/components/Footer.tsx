@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { SiteSettings } from "@/sanity/types";
 import CookieSettingsLink from "@/components/CookieSettingsLink";
 import { GTM_ID } from "@/lib/analytics";
+import { POLICY_PATH } from "@/content/privacy";
 
 export default function Footer({ siteData }: { siteData: SiteSettings }) {
   return (
@@ -111,9 +112,17 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
             &copy; {new Date().getFullYear()} {siteData.name}. Wszelkie prawa
             zastrzeżone.
           </p>
-          {GTM_ID && (
-            <CookieSettingsLink className="mt-2 underline underline-offset-2 hover:text-white transition-colors" />
-          )}
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <Link
+              href={POLICY_PATH}
+              className="underline underline-offset-2 hover:text-white transition-colors"
+            >
+              Polityka prywatności
+            </Link>
+            {GTM_ID && (
+              <CookieSettingsLink className="underline underline-offset-2 hover:text-white transition-colors" />
+            )}
+          </div>
         </div>
       </div>
     </footer>
