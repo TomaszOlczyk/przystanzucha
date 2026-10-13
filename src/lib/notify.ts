@@ -1,7 +1,7 @@
 /**
  * Powiadomienie mailowe o nowym zgłoszeniu (Resend, bez dodatkowej zależności).
  * Wymaga: RESEND_API_KEY, CONTACT_EMAIL (adresaci, po przecinku),
- * opcjonalnie CONTACT_FROM (domena musi być zweryfikowana w Resend).
+ * opcjonalnie CONTACT_FROM / RESEND_FROM_EMAIL (domena musi być zweryfikowana w Resend).
  * Błąd wysyłki nie blokuje zapisu zgłoszenia — zwracamy false i logujemy.
  */
 type Submission = Record<string, string | undefined>;
@@ -43,7 +43,7 @@ export async function notifySubmission(kind: "recruitment" | "consultation", dat
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: process.env.CONTACT_FROM || "Przystań Żucha <formularz@przystanzucha.pl>",
+        from: process.env.CONTACT_FROM || process.env.RESEND_FROM_EMAIL || "Przystań Zucha <formularz@przystanzucha.pl>",
         to: to.split(",").map((a) => a.trim()).filter(Boolean),
         reply_to: data.email,
         subject: `${title}: ${data.parentName ?? ""}`.trim(),
