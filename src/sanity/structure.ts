@@ -1,22 +1,21 @@
-import { AddIcon } from "@sanity/icons";
+import { AddIcon, EarthGlobeIcon } from "@sanity/icons";
 import type { SanityClient } from "sanity";
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
 import { concat, debounceTime, map, of, switchMap } from "rxjs";
 import { CLOSED_STATUSES, INITIAL_STATUS } from "./crm";
 
-export const singletonTypes = new Set([
-  "siteSettings",
-  "staffPage",
-  "classroomsPage",
-  "activitiesPage",
-]);
+/** Singletony strony WWW — kolejność = kolejność w sekcji „Strona WWW” w Studio. */
+export const singletony: { type: string; title: string }[] = [
+  { type: "homePage", title: "Strona główna" },
+  { type: "staffPage", title: "Kadra" },
+  { type: "classroomsPage", title: "Sale" },
+  { type: "activitiesPage", title: "Zajęcia" },
+  { type: "consultationPage", title: "Konsultacja" },
+  { type: "privacyPage", title: "Polityka prywatności" },
+  { type: "siteSettings", title: "Ustawienia strony" },
+];
 
-const singletonLabels: Record<string, string> = {
-  siteSettings: "Ustawienia strony",
-  staffPage: "Kadra",
-  classroomsPage: "Sala i materiały",
-  activitiesPage: "Zajęcia",
-};
+export const singletonTypes = new Set(singletony.map((s) => s.type));
 
 const API_VERSION = "2024-01-01";
 
@@ -145,16 +144,29 @@ function crmList(S: StructureBuilder, awaiting: number) {
     ]);
 }
 
+/** „Strona WWW”: każdy singleton otwiera się od razu jako dokument o stałym ID (= nazwa typu). */
+function stronaWww(S: StructureBuilder) {
+  return S.listItem()
+    .id("strona-www")
+    .title("Strona WWW")
+    .icon(EarthGlobeIcon)
+    .child(
+      S.list()
+        .id("strona-www-lista")
+        .title("Strona WWW")
+        .items(
+          singletony.map(({ type, title }) =>
+            S.listItem()
+              .id(type)
+              .title(title)
+              .schemaType(type)
+              .child(S.document().schemaType(type).documentId(type).title(title))
+          )
+        )
+    );
+}
+
 export const structure: StructureResolver = (S, context) =>
   S.list()
     .title("Treści")
-    .items([
-      ...[...singletonTypes].map((type) =>
-        S.listItem()
-          .title(singletonLabels[type] || type)
-          .id(type)
-          .child(S.document().schemaType(type).documentId(type))
-      ),
-      S.divider(),
-      crmSection(S, context.getClient({ apiVersion: API_VERSION })),
-    ]);
+    .items([stronaWww(S), S.divider(), crmSection(S, context.getClient({ apiVersion: API_VERSION }))]);

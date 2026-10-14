@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { POLICY_PATH } from "@/content/privacy";
+import { POLICY_PATH } from "@/lib/site";
 import {
   OPEN_CONSENT_EVENT,
   parseConsent,

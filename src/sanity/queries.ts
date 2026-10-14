@@ -1,25 +1,14 @@
-export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
+import { defineQuery } from "next-sanity";
+
+/** Singletony mają stałe ID = nazwa typu (np. „homePage”). W podglądzie perspektywa „drafts” nakłada wersję roboczą. */
+export const siteSettingsQuery = defineQuery(`*[_id == "siteSettings"][0]{
   ...,
-  documents[]{
-    title,
-    "fileUrl": file.asset->url
-  }
-}`;
+  documents[]{ _key, title, "fileUrl": file.asset->url }
+}`);
 
-export const staffPageQuery = `*[_type == "staffPage"][0]{
-  title, subtitle, columns,
-  members[]{name, role, image, description, qualifications}
-}`;
-
-export const classroomsPageQuery = `*[_type == "classroomsPage"][0]{
-  title, subtitle,
-  room{name, image, description, features},
-  forestRoom{image, image2},
-  uses[]{name, icon, description},
-  materials[]{category, icon, items}
-}`;
-
-export const activitiesPageQuery = `*[_type == "activitiesPage"][0]{
-  title, subtitle, badge, heroImage,
-  activities[]{name, icon, description, frequency, duration, image}
-}`;
+export const homePageQuery = defineQuery(`*[_id == "homePage"][0]`);
+export const staffPageQuery = defineQuery(`*[_id == "staffPage"][0]`);
+export const classroomsPageQuery = defineQuery(`*[_id == "classroomsPage"][0]`);
+export const activitiesPageQuery = defineQuery(`*[_id == "activitiesPage"][0]`);
+export const consultationPageQuery = defineQuery(`*[_id == "consultationPage"][0]`);
+export const privacyPageQuery = defineQuery(`*[_id == "privacyPage"][0]`);
