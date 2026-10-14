@@ -28,7 +28,7 @@ export default async function SiteLayout({
       <GoogleTagManager />
       <AttributionCapture />
       {GTM_ID && <ClickTracking />}
-      <Motion />
+      <Motion podglad={podglad} />
       <Navbar siteData={siteData} />
       <main className="pt-16 md:pt-[4.5rem]">{children}</main>
       <Footer siteData={siteData} />

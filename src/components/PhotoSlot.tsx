@@ -95,6 +95,7 @@ export default function PhotoSlot({
   className = "",
   ratio = "aspect-[4/5]",
   priority = false,
+  pole,
 }: {
   image?: SanityImage;
   src?: string;
@@ -107,12 +108,14 @@ export default function PhotoSlot({
   className?: string;
   ratio?: string;
   priority?: boolean;
+  /** Atrybut `data-sanity` z `polaDokumentu` — klik w podglądzie Studio otwiera pole zdjęcia (także pustego). */
+  pole?: string;
 }) {
   const radius = shape === "arch" ? "rounded-t-full rounded-b-[10px]" : shape === "round" ? "rounded-full" : "rounded-[10px]";
   const url = src ?? (image?.asset ? urlFor(image).width(1000).auto("format").url() : undefined);
 
   return (
-    <figure className={`relative ${className}`}>
+    <figure className={`relative ${className}`} data-sanity={pole}>
       <div className={`relative overflow-hidden ${ratio} ${radius}`} style={url ? undefined : { background: TINTS[motif] }}>
         {url ? (
           <Image src={url} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" style={src ? undefined : { objectPosition: pozycjaHotspotu(image) }} />
