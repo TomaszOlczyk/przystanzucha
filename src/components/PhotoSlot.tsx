@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { urlFor } from "@/sanity/image";
+import { pozycjaHotspotu, urlFor } from "@/sanity/image";
 import type { SanityImage } from "@/sanity/types";
 
 type Motif = "wave" | "forest" | "sun" | "boat" | "blocks" | "book";
@@ -115,7 +115,7 @@ export default function PhotoSlot({
     <figure className={`relative ${className}`}>
       <div className={`relative overflow-hidden ${ratio} ${radius}`} style={url ? undefined : { background: TINTS[motif] }}>
         {url ? (
-          <Image src={url} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+          <Image src={url} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" style={src ? undefined : { objectPosition: pozycjaHotspotu(image) }} />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3" role="img" aria-label={alt}>
             {initials ? (

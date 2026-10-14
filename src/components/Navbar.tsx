@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { stegaClean } from "next-sanity";
 import type { SiteSettings } from "@/sanity/types";
-import { nav } from "@/content/home";
 import Logo from "./Logo";
 
 export default function Navbar({ siteData }: { siteData: SiteSettings }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const tel = siteData.phone.replace(/\s/g, "");
+  const tel = stegaClean(siteData.phone).replace(/\s/g, "");
+  const nav = siteData.navigation.filter((item) => item?.label && item?.href);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -32,13 +33,13 @@ export default function Navbar({ siteData }: { siteData: SiteSettings }) {
       }`}
     >
       <nav aria-label="Główna nawigacja" className="max-w-[1200px] mx-auto px-5 lg:px-10 flex items-center justify-between h-16 md:h-[4.5rem]">
-        <Link href="/" aria-label={`${siteData.name}, strona główna`} onClick={() => setIsOpen(false)}>
+        <Link href="/" aria-label={`${stegaClean(siteData.name)}, strona główna`} onClick={() => setIsOpen(false)}>
           <Logo name={siteData.name} />
         </Link>
 
         <div className="hidden lg:flex items-center gap-7 text-[0.92rem] font-semibold">
           {nav.map((item) => (
-            <Link key={item.href} href={item.href} className="group relative py-1">
+            <Link key={item._key ?? item.href} href={stegaClean(item.href)} className="group relative py-1">
               {item.label}
               <span className="absolute left-0 right-0 -bottom-0.5 h-[1.5px] bg-[var(--color-coral)] scale-x-0 origin-left transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-x-100" />
             </Link>
@@ -50,7 +51,7 @@ export default function Navbar({ siteData }: { siteData: SiteSettings }) {
             {siteData.phone.replace("+48 ", "")}
           </a>
           <Link href="/#kontakt" data-cta="umow_wizyte" data-loc="naglowek" className="btn btn-dark hidden sm:inline-flex !py-3 !px-5 text-[0.92rem]">
-            Umów wizytę <span className="arr">→</span>
+            {siteData.header.ctaText} <span className="arr">→</span>
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -71,9 +72,9 @@ export default function Navbar({ siteData }: { siteData: SiteSettings }) {
         <div className="px-5 pt-8 pb-28 flex flex-col h-full">
           <ol className="space-y-1">
             {nav.map((item, i) => (
-              <li key={item.href}>
-                <Link href={item.href} onClick={() => setIsOpen(false)} className="flex items-baseline gap-4 py-2">
-                  <span className="t-label !text-[var(--color-coral)] w-7">0{i + 1}</span>
+              <li key={item._key ?? item.href}>
+                <Link href={stegaClean(item.href)} onClick={() => setIsOpen(false)} className="flex items-baseline gap-4 py-2">
+                  <span className="t-label !text-[var(--color-coral)] w-7">{String(i + 1).padStart(2, "0")}</span>
                   <span className="t-display !text-[2.5rem]">{item.label}</span>
                 </Link>
               </li>

@@ -128,10 +128,75 @@ między podstronami: w GA4 „Pomiar zaawansowany → zmiany historii przegląda
 „Zmiana historii” w GTM.
 ## Strona (redesign po audycie 13.10.2026)
 
-- **Copy** strony głównej i nawigacja: `src/content/home.ts` (fakty tylko potwierdzone przez placówkę).
-  Z Sanity nadal: kontakt, godziny, kadra, zajęcia, sale, opinia, dokumenty, zdjęcie hero.
+- **Treści:** wszystkie w Sanity — patrz „Edycja treści (Sanity)” niżej (fakty tylko potwierdzone przez placówkę).
 - **Wygląd:** tokeny kolorów w `src/app/globals.css` (paleta z sal: granat, morski, piasek, koral = CTA),
   fonty Fraunces (nagłówki) + Nunito (treść).
 - **Pomiar:** GTM + Consent Mode v2 (sekcja „Analityka” niżej). Przyciski CTA mają `data-cta` i `data-loc`
   → zdarzenie `cta_click { cta, link_location }`; `data-loc` nadpisuje też `link_location` w `click_to_call`.
 - **SEO:** `robots.ts`, `sitemap.ts`, canonical na każdej stronie, JSON-LD `Preschool` + `FAQPage` na stronie głównej.
+
+## Edycja treści (Sanity)
+
+Każdy tekst i zdjęcie strony edytujemy w **/studio** (https://www.przystanzucha.pl/studio/) → **Strona WWW**
+(nad „CRM — Leady”). Interfejs Studio jest po polsku (`@sanity/locale-pl-pl`). Dokumenty to singletony
+o stałym ID = nazwa typu (bez „Utwórz”/„Duplikuj”/„Usuń”):
+
+| Studio → Strona WWW | Typ / ID | Gdzie na stronie |
+|---|---|---|
+| Strona główna | `homePage` | `/` — sekcje w stałej kolejności: góra (hero + pieczątka), pas zajęć, Grupy, Adaptacja, Dzień w Przystani, Opinie, Dlaczego my, Kadra, Pytania, Dojazd, Wizyta |
+| Kadra | `staffPage` | `/kadra/` + zapowiedź kadry na `/` (pierwsze N osób, pole „Cytat na stronę główną”) |
+| Sale | `classroomsPage` | `/sale/` — Sala Morska, Sala Leśna, Wyposażenie, Strefy, Materiały |
+| Zajęcia | `activitiesPage` | `/zajecia/` + pas z nazwami zajęć i liczba zajęć na `/` |
+| Konsultacja | `consultationPage` | `/konsultacja/` (pola formularza są w kodzie) |
+| Polityka prywatności | `privacyPage` | `/polityka-prywatnosci/` — sekcje w Portable Text, dane administratora, data obowiązywania, tabela cookies |
+| Ustawienia strony | `siteSettings` | wszędzie: telefon, e-mail, adres (→ mapa i „Nawiguj”), godziny, social, menu, nagłówek, stopka, pasek na telefonie, dokumenty, SEO domyślne i og:image |
+
+- **Układ jest stały** (bez page buildera). Każda sekcja ma przełącznik **„Pokaż sekcję”**, a elementy w sekcjach
+  (karty grup, dni adaptacji, zdjęcia galerii, opinie, powody, pytania FAQ, osoby, zajęcia, strefy, materiały,
+  sekcje polityki) dodaje się, usuwa i przestawia przeciąganiem. Teksty mają limity długości tam, gdzie dłuższy
+  tekst rozjeżdża układ (ostrzeżenie albo blokada publikacji przy twardych limitach, np. znak w pieczątce).
+- **Wyróżnienie w nagłówkach:** fragment w `*gwiazdkach*` dostaje kolor (np. `Ludzie, którym *powierzasz* dziecko.`).
+  `{liczba}` w tytule Zajęć i w zdaniu „W ramach czesnego…” zamienia się na liczbę zajęć z listy.
+- **Zdjęcia:** pole obrazka z punktem centralnym (hotspot — kadrowanie wokół niego) i wymaganym opisem **alt**.
+  Puste zdjęcie = ilustracja kreską (komponent `PhotoSlot`).
+- **Polityka prywatności:** treść sekcji to Portable Text (akapity, śródtytuły H3, listy, pogrubienie, linki).
+  Wstawki „Dane administratora” podstawiają pola z zakładki „Dane administratora” (KRS, NIP, e-mail, telefon,
+  data obowiązywania…), „Link: ustawienia cookies” — przycisk otwierający baner zgód, blok „Tabela cookies” —
+  karty z listy „Pliki cookies (tabela)”. Numeracja i spis treści tworzą się same.
+- **SEO:** każdy dokument strony ma zakładkę SEO (tytuł + opis). Na podstronach Next dopisuje „| Przystań Zucha”,
+  tytuł strony głównej jest pełny. Domyślne SEO i obrazek do udostępniania — Ustawienia strony → SEO domyślne.
+
+### Podgląd na żywo (Presentation)
+
+`/studio` → **Podgląd strony**: strona obok edytora, **wersje robocze widoczne od razu** (bez publikowania),
+klik w tekst lub zdjęcie na podglądzie otwiera właściwe pole. Nad edytorem widać listę „Używane na stronach”.
+
+- Studio włącza tryb podglądu przez `/api/draft-mode/enable` (`defineEnableDraftMode` — sprawdza jednorazowy
+  sekret z Studio, bez niego draft mode się nie włączy), wyłącza przez `/api/draft-mode/disable`.
+- Dane: `src/sanity/live.ts` (`defineLive`) — w podglądzie perspektywa `drafts` + **stega** (niewidoczne znaczniki
+  w tekstach, z których `VisualEditing` robi klikalne nakładki). Do logiki (href, `tel:`, porównania, JSON-LD)
+  zawsze `stegaClean(...)`; metadane pobieramy z `stega: false`.
+- Mapowanie stron ↔ dokumentów: `src/sanity/presentation.ts` (`mainDocuments` + `locations`).
+- Token do wersji roboczych (tylko serwer): `SANITY_API_READ_TOKEN` (token **Viewer**), a do czasu jego dodania
+  w Vercel — `SANITY_WRITE_TOKEN` (`src/sanity/client.ts → previewToken`). Do przeglądarki nie trafia żaden token
+  (`browserToken: false`) — podgląd wersji roboczych działa w Presentation tool.
+- Otwarty poza Studio podgląd pokazuje przycisk „Podgląd wersji roboczych — wyłącz”.
+- Podgląd/Studio wymaga, żeby origin był na liście CORS projektu Sanity (jest `https://www.przystanzucha.pl`
+  i `http://localhost:3000`; podglądów Vercel `*.vercel.app` nie ma).
+
+### Odświeżanie po publikacji
+
+Strony są statyczne (ISR, `revalidate = 60`). `<SanityLive />` w layoucie nasłuchuje zmian (Live Content API)
+i unieważnia cache tagami zaraz po publikacji; awaryjnie cache odświeża się co 60 s. Zostaje też
+`POST /api/revalidate` (`revalidatePath("/", "layout")`) — do ręcznego wymuszenia albo webhooka.
+
+### Bezpiecznik i migracja
+
+- `src/content/domyslne.ts` i `domyslnaPolityka.ts` = treści ze stanu 14.10.2026. Służą (1) migracji i
+  (2) jako bezpiecznik w `src/sanity/fetchers.ts` (`zDomyslnymi`): puste pole w Sanity → wartość domyślna,
+  żeby strona się nie wysypała. Listy z Sanity (nawet puste) wygrywają w całości. **Treści zmieniamy w Studio,
+  nie w tych plikach.**
+- `scripts/migracja-cms.ts` — jednorazowe przeniesienie treści do Sanity (backup do pliku poza repo,
+  `createOrReplace` singletonów, CRM `submission` nietknięty); `--na-sucho` bez zapisu,
+  `--usun-stare-pola` usuwa pola starego schematu po wdrożeniu.
+

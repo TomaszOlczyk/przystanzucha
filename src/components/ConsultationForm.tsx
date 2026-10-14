@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { getAttribution } from "@/lib/attribution";
 import { trackFormStart, trackLead } from "@/lib/analytics";
-import { POLICY_PATH } from "@/content/privacy";
+import { POLICY_PATH } from "@/lib/site";
 
 interface ConsultationFormProps {
   email: string;
