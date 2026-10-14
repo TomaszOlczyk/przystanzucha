@@ -32,6 +32,8 @@ function crmFields(body: Record<string, unknown>) {
     ...(utm.source || utm.medium || utm.campaign ? { utm } : {}),
     ...(str(body.gclid) ? { gclid: str(body.gclid) } : {}),
     ...(str(body.fbclid) ? { fbclid: str(body.fbclid) } : {}),
+    // Zgoda marketingowa w chwili zgłoszenia — lead-hub wysyła konwersję do Google Ads tylko przy "granted".
+    adConsent: body.consentMarketing === true ? "granted" : "denied",
   };
 }
 

@@ -75,6 +75,7 @@ export async function POST(request: Request) {
       ...(utm.source || utm.medium || utm.campaign ? { utm } : {}),
       ...(gclid ? { gclid } : {}),
       ...(fbclid ? { fbclid } : {}),
+      adConsent: body.consentMarketing === true ? "granted" : "denied",
     });
     return NextResponse.json({ success: true });
   } catch (error) {
