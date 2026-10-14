@@ -13,8 +13,14 @@ export const LEAD_SOURCES = [
   { title: "Dodany ręcznie", value: "recznie" },
 ] as const;
 
+/**
+ * Statusy leada. Każde nowe zgłoszenie (WWW, lead-hub: FB Lead Ads / e-mail, ręcznie w Studio)
+ * zaczyna od `do_weryfikacji`; w Studio przyciskami „To lead” / „To spam” przechodzi do `nowy`
+ * albo `spam`. Dokument bez pola `status` (bardzo stare zgłoszenia) traktujemy jak `do_weryfikacji`.
+ */
 export const LEAD_STATUSES = [
-  { title: "🆕 Nowy", value: "nowy" },
+  { title: "🔍 Do weryfikacji", value: "do_weryfikacji" },
+  { title: "🆕 Lead — nowy", value: "nowy" },
   { title: "📞 Kontakt", value: "kontakt" },
   { title: "📅 Wizyta umówiona", value: "wizyta_umowiona" },
   { title: "🧸 Adaptacja", value: "adaptacja" },
@@ -35,7 +41,11 @@ export const LEAD_LANGUAGES = [
   { title: "Inny", value: "inny" },
 ] as const;
 
+/** Status początkowy każdego nowego zgłoszenia (kontrakt z lead-hub). */
+export const INITIAL_STATUS = "do_weryfikacji";
+
 export const STATUS_EMOJI: Record<string, string> = {
+  do_weryfikacji: "🔍",
   nowy: "🆕",
   new: "🆕",
   kontakt: "📞",

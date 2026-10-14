@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { getWriteClient } from "@/sanity/client";
 import { notifySubmission } from "@/lib/notify";
+import { INITIAL_STATUS } from "@/sanity/crm";
 
 // ID z kropką = "ścieżka" w Sanity: dokument niewidoczny dla publicznego API
 // (dataset jest publiczny, a zgłoszenia zawierają dane osobowe).
@@ -75,7 +76,8 @@ export async function POST(request: Request) {
         phone: phone || "",
         preferredTime: preferredTime || "",
         message: message || "",
-        status: "nowy",
+        // Każde zgłoszenie najpierw do weryfikacji w Studio (lead czy spam).
+        status: INITIAL_STATUS,
         submittedAt: new Date().toISOString(),
       };
       await writeClient.create({ ...doc, ...crmFields(body) });
@@ -103,7 +105,7 @@ export async function POST(request: Request) {
         email: email || "",
         phone,
         message: `Rekrutacja ${recruitmentYear} · ${group}`,
-        status: "nowy",
+        status: INITIAL_STATUS,
         submittedAt: new Date().toISOString(),
       };
       await writeClient.create({ ...doc, ...crmFields(body) });

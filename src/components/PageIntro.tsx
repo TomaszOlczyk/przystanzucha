@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Akcent } from "@/lib/akcent";
 
 /** Nagłówek podstrony w stylu „dziennika”: linia meta, wielki szeryf, lead. */
 export default function PageIntro({ eyebrow, title, lead }: { eyebrow: string; title: React.ReactNode; lead?: string }) {
@@ -25,19 +26,19 @@ export default function PageIntro({ eyebrow, title, lead }: { eyebrow: string; t
   );
 }
 
-/** Pas zamykający podstronę: zaproszenie na wizytę. */
-export function VisitCta({ heading, text }: { heading: React.ReactNode; text: string }) {
+/** Pas zamykający podstronę: zaproszenie na wizytę. Nagłówek z CMS: fragment w *gwiazdkach* = wyróżnienie. */
+export function VisitCta({ heading, text, buttonText }: { heading: string; text: string; buttonText: string }) {
   return (
     <section className="bg-[var(--color-paper-deep)]/70 border-t border-[var(--color-line)]">
       <div className="max-w-[1200px] mx-auto px-5 lg:px-10 py-20 lg:py-28 grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_auto] lg:items-end">
         <div>
           <h2 data-split className="t-display max-w-[15ch]">
-            {heading}
+            <Akcent tekst={heading} />
           </h2>
           <p className="mt-5 t-lead max-w-[48ch]">{text}</p>
         </div>
         <Link href="/#kontakt" data-cta="umow_wizyte" data-loc="podstrona" className="btn btn-primary justify-self-start">
-          Umów bezpłatną wizytę <span className="arr">→</span>
+          {buttonText} <span className="arr">→</span>
         </Link>
       </div>
     </section>

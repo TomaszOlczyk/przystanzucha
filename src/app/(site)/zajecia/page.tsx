@@ -1,42 +1,35 @@
 import type { Metadata } from "next";
-import { getActivitiesPage } from "@/sanity/fetchers";
+import { getActivitiesPage, getSiteSettings } from "@/sanity/fetchers";
 import PageIntro, { VisitCta } from "@/components/PageIntro";
+import { Akcent, zLiczba } from "@/lib/akcent";
+import { metadaneStrony } from "@/lib/metadane";
 
-export const metadata: Metadata = {
-  title: "Zajęcia w ramach czesnego — angielski, rytmika, logopedia",
-  description:
-    "10 zajęć w ramach czesnego, bez dopłat: angielski, rytmika, plastyka, gimnastyka korekcyjna, logopedia, sensoryka, terapia ręki, robotyka, przyroda, teatrzyk.",
-  alternates: { canonical: "/zajecia/" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getActivitiesPage({ stega: false });
+  return metadaneStrony(seo, "/zajecia/");
+}
 
 export default async function ZajeciaPage() {
-  const data = await getActivitiesPage();
-  const count = data.activities.length;
+  const [data, siteData] = await Promise.all([getActivitiesPage(), getSiteSettings()]);
+  const activities = data.activities.filter((a) => a?.name);
+  const { intro, tableHeaders: th } = data;
 
   return (
     <>
-      <PageIntro
-        eyebrow="Zajęcia"
-        title={
-          <>
-            {count} zajęć <em className="text-[var(--color-sea)]">w ramach czesnego</em>.
-          </>
-        }
-        lead="Bez dopłat i bez popołudniowego wożenia dziecka na zajęcia. Program dopasowujemy do grupy tak, żeby wspierać dzieci, a nie je przemęczać."
-      />
+      <PageIntro eyebrow={intro.eyebrow} title={<Akcent tekst={zLiczba(intro.title, activities.length)} />} lead={intro.lead} />
 
       <section className="max-w-[1200px] mx-auto px-5 lg:px-10 pb-24">
         <div className="hidden md:grid grid-cols-[80px_minmax(0,1fr)_minmax(0,1.4fr)_160px_120px] gap-8 pb-3 eyebrow border-b-[1.5px] border-[var(--color-ink)]">
-          <span>Nr</span>
-          <span>Zajęcia</span>
-          <span>Na czym polegają</span>
-          <span>Jak często</span>
-          <span>Ile trwają</span>
+          <span>{th.no}</span>
+          <span>{th.name}</span>
+          <span>{th.description}</span>
+          <span>{th.frequency}</span>
+          <span>{th.duration}</span>
         </div>
         <ol data-stagger className="border-t-[1.5px] border-[var(--color-ink)] md:border-t-0">
-          {data.activities.map((a, i) => (
+          {activities.map((a, i) => (
             <li
-              key={a.name}
+              key={a._key ?? i}
               className="group grid gap-2 md:gap-8 py-7 border-b border-[var(--color-line)] md:grid-cols-[80px_minmax(0,1fr)_minmax(0,1.4fr)_160px_120px] md:items-baseline"
             >
               <span className="t-label !text-[var(--color-coral)]">{String(i + 1).padStart(2, "0")}</span>
@@ -47,19 +40,10 @@ export default async function ZajeciaPage() {
             </li>
           ))}
         </ol>
-        <p className="mt-10 max-w-[62ch] t-lead">
-          Nasze nauczycielki mają kwalifikacje z pedagogiki specjalnej, dlatego dostosowujemy zajęcia także do dzieci, które potrzebują dodatkowego wsparcia.
-        </p>
+        <p className="mt-10 max-w-[62ch] t-lead">{data.note}</p>
       </section>
 
-      <VisitCta
-        heading={
-          <>
-            Zobacz zajęcia <em className="text-[var(--color-sea)]">od środka</em>.
-          </>
-        }
-        text="Umów wizytę. Opowiemy o planie dnia i o tym, jak dobieramy zajęcia do dziecka."
-      />
+      <VisitCta heading={data.visitCta.heading} text={data.visitCta.text} buttonText={siteData.visitCtaButton} />
     </>
   );
 }

@@ -1,9 +1,10 @@
-import { draftMode } from "next/headers";
-import { redirect } from "next/navigation";
+import { defineEnableDraftMode } from "next-sanity/draft-mode";
+import { client, previewToken } from "@/sanity/client";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const redirectTo = searchParams.get("redirect") || "/";
-  (await draftMode()).enable();
-  redirect(redirectTo);
-}
+/**
+ * Włączenie podglądu wersji roboczych z Presentation tool w Studio. Studio podaje jednorazowy sekret,
+ * a ta trasa sprawdza go w Sanity (tokenem serwerowym) — bez ważnego sekretu draft mode się nie włączy.
+ */
+export const { GET } = defineEnableDraftMode({
+  client: client.withConfig({ token: previewToken, useCdn: false }),
+});

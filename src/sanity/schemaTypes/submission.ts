@@ -1,5 +1,6 @@
 import { defineType, defineField, defineArrayMember } from "sanity";
 import {
+  INITIAL_STATUS,
   LEAD_LANGUAGES,
   LEAD_SOURCES,
   LEAD_STATUSES,
@@ -29,7 +30,7 @@ export const submission = defineType({
       type: "string",
       group: ["lead", "crm"],
       options: { list: [...LEAD_STATUSES], layout: "dropdown" },
-      initialValue: "nowy",
+      initialValue: INITIAL_STATUS,
     }),
     defineField({
       name: "source",
@@ -171,7 +172,7 @@ export const submission = defineType({
       date: "submittedAt",
     },
     prepare({ parentName, email, phone, status, source, type, date }) {
-      const emoji = STATUS_EMOJI[status ?? "nowy"] ?? "•";
+      const emoji = STATUS_EMOJI[status ?? INITIAL_STATUS] ?? "•";
       const dateStr = date ? new Date(date).toLocaleDateString("pl-PL") : "";
       return {
         title: parentName || email || phone || "Brak danych kontaktowych",

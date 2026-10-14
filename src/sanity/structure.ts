@@ -1,20 +1,21 @@
-import { AddIcon } from "@sanity/icons";
+import { AddIcon, EarthGlobeIcon } from "@sanity/icons";
+import type { SanityClient } from "sanity";
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
-import { CLOSED_STATUSES } from "./crm";
+import { concat, debounceTime, map, of, switchMap } from "rxjs";
+import { CLOSED_STATUSES, INITIAL_STATUS } from "./crm";
 
-export const singletonTypes = new Set([
-  "siteSettings",
-  "staffPage",
-  "classroomsPage",
-  "activitiesPage",
-]);
+/** Singletony strony WWW — kolejność = kolejność w sekcji „Strona WWW” w Studio. */
+export const singletony: { type: string; title: string }[] = [
+  { type: "homePage", title: "Strona główna" },
+  { type: "staffPage", title: "Kadra" },
+  { type: "classroomsPage", title: "Sale" },
+  { type: "activitiesPage", title: "Zajęcia" },
+  { type: "consultationPage", title: "Konsultacja" },
+  { type: "privacyPage", title: "Polityka prywatności" },
+  { type: "siteSettings", title: "Ustawienia strony" },
+];
 
-const singletonLabels: Record<string, string> = {
-  siteSettings: "Ustawienia strony",
-  staffPage: "Kadra",
-  classroomsPage: "Sala i materiały",
-  activitiesPage: "Zajęcia",
-};
+export const singletonTypes = new Set(singletony.map((s) => s.type));
 
 const API_VERSION = "2024-01-01";
 
@@ -84,52 +85,88 @@ function endOfToday() {
   return d.toISOString();
 }
 
-function crmSection(S: StructureBuilder) {
+// Do weryfikacji: status `do_weryfikacji` albo brak statusu (bardzo stare zgłoszenia sprzed CRM —
+// nie wiemy, czy ktoś je przejrzał, więc trafiają do weryfikacji, a nie od razu do „Nowe”).
+const DO_WERYFIKACJI = `!defined(status) || status == "${INITIAL_STATUS}"`;
+
+/**
+ * Liczba zgłoszeń do weryfikacji, odświeżana na żywo (listen). Szkic i opublikowana wersja
+ * tego samego dokumentu liczą się raz (ID bez prefiksu `drafts.`).
+ */
+function awaitingCount$(client: SanityClient) {
+  const query = `*[${BASE} && !(_id in path("versions.**")) && (${DO_WERYFIKACJI})]._id`;
+  return concat(
+    of(null),
+    client.listen(query, {}, { includeResult: false, visibility: "query" }).pipe(debounceTime(800))
+  ).pipe(
+    switchMap(() => client.observable.fetch<string[]>(query)),
+    map((ids) => new Set(ids.map((id) => id.replace(/^drafts\./, ""))).size)
+  );
+}
+
+function crmSection(S: StructureBuilder, client: SanityClient) {
   return S.listItem()
     .id("crm")
     .title("CRM — Leady")
+    .child(() => awaitingCount$(client).pipe(map((count) => crmList(S, count))));
+}
+
+function crmList(S: StructureBuilder, awaiting: number) {
+  return S.list()
+    .id("crm-lista")
+    .title("CRM — Leady")
+    .items([
+      leadList(S, "do-weryfikacji", `🔍 Do weryfikacji (${awaiting})`, DO_WERYFIKACJI),
+      S.divider(),
+      // Parametry liczone przy każdym otwarciu listy, żeby "dziś" nie zastygło po północy.
+      leadList(
+        S,
+        "do-kontaktu-dzis",
+        "Do kontaktu dziś",
+        `defined(nextContactAt) && dateTime(nextContactAt) <= dateTime($koniecDnia) && !(coalesce(status, "${INITIAL_STATUS}") in $zamkniete)`,
+        () => ({ koniecDnia: endOfToday(), zamkniete: CLOSED_STATUSES }),
+        [{ field: "nextContactAt", direction: "asc" }]
+      ),
+      S.divider(),
+      // Stare statusy: new → Nowe, in_progress → W kontakcie (brak statusu → Do weryfikacji).
+      leadList(S, "leady-nowe", "Nowe", `status in ["nowy", "new"]`),
+      leadList(
+        S,
+        "leady-w-kontakcie",
+        "W kontakcie",
+        `status in ["kontakt", "wizyta_umowiona", "in_progress"]`
+      ),
+      leadList(S, "leady-adaptacja", "Adaptacja", `status == "adaptacja"`),
+      leadList(S, "leady-umowy", "Umowy", `status == "umowa"`),
+      leadList(S, "leady-rezygnacje", "Rezygnacje / spam", `status in ["rezygnacja", "spam"]`),
+      S.divider(),
+      leadList(S, "leady-wszystkie", "Wszystkie", "true"),
+    ]);
+}
+
+/** „Strona WWW”: każdy singleton otwiera się od razu jako dokument o stałym ID (= nazwa typu). */
+function stronaWww(S: StructureBuilder) {
+  return S.listItem()
+    .id("strona-www")
+    .title("Strona WWW")
+    .icon(EarthGlobeIcon)
     .child(
       S.list()
-        .id("crm-lista")
-        .title("CRM — Leady")
-        .items([
-          // Parametry liczone przy każdym otwarciu listy, żeby "dziś" nie zastygło po północy.
-          leadList(
-            S,
-            "do-kontaktu-dzis",
-            "Do kontaktu dziś",
-            `defined(nextContactAt) && dateTime(nextContactAt) <= dateTime($koniecDnia) && !(coalesce(status, "nowy") in $zamkniete)`,
-            () => ({ koniecDnia: endOfToday(), zamkniete: CLOSED_STATUSES }),
-            [{ field: "nextContactAt", direction: "asc" }]
-          ),
-          S.divider(),
-          // Stare statusy: new → Nowe, in_progress → W kontakcie, brak statusu → Nowe.
-          leadList(S, "leady-nowe", "Nowe", `!defined(status) || status in ["nowy", "new"]`),
-          leadList(
-            S,
-            "leady-w-kontakcie",
-            "W kontakcie",
-            `status in ["kontakt", "wizyta_umowiona", "in_progress"]`
-          ),
-          leadList(S, "leady-adaptacja", "Adaptacja", `status == "adaptacja"`),
-          leadList(S, "leady-umowy", "Umowy", `status == "umowa"`),
-          leadList(S, "leady-rezygnacje", "Rezygnacje / spam", `status in ["rezygnacja", "spam"]`),
-          S.divider(),
-          leadList(S, "leady-wszystkie", "Wszystkie", "true"),
-        ])
+        .id("strona-www-lista")
+        .title("Strona WWW")
+        .items(
+          singletony.map(({ type, title }) =>
+            S.listItem()
+              .id(type)
+              .title(title)
+              .schemaType(type)
+              .child(S.document().schemaType(type).documentId(type).title(title))
+          )
+        )
     );
 }
 
-export const structure: StructureResolver = (S) =>
+export const structure: StructureResolver = (S, context) =>
   S.list()
     .title("Treści")
-    .items([
-      ...[...singletonTypes].map((type) =>
-        S.listItem()
-          .title(singletonLabels[type] || type)
-          .id(type)
-          .child(S.document().schemaType(type).documentId(type))
-      ),
-      S.divider(),
-      crmSection(S),
-    ]);
+    .items([stronaWww(S), S.divider(), crmSection(S, context.getClient({ apiVersion: API_VERSION }))]);
