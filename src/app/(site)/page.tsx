@@ -67,6 +67,7 @@ export default async function Home() {
       telephone: stegaClean(siteData.phone),
       email: stegaClean(siteData.email),
       image: salaSrc,
+      logo: `${SITE_URL}/brand/przystan-zucha-logo.png`,
       description: seo.description,
       address: {
         "@type": "PostalAddress",

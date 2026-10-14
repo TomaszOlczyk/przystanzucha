@@ -1,13 +1,24 @@
-/** Sygnet rysowany kreską: żaglówka na fali w kole (przystań). */
-export function LogoMark({ className = "w-9 h-9", light = false }: { className?: string; light?: boolean }) {
+/** Sygnet: żaglówka na fali w kole (przystań). Źródło: przystanzucha-ops/docs/brand/logo. */
+export function LogoMark({ className = "w-10 h-10", light = false }: { className?: string; light?: boolean }) {
   const ink = light ? "#f6f0e6" : "#16252e";
   return (
-    <svg viewBox="0 0 40 40" className={className} fill="none" stroke={ink} strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-      <circle cx="20" cy="20" r="18.5" />
-      <path d="M20 8v17H10.5z" fill={ink} />
-      <path d="M22.5 12v13H30c-1.2-6-3.6-10-7.5-13z" fill="#f3c35a" />
-      <path d="M10 27.5h20l-2.5 3.5h-15z" fill="#c24a2b" stroke="none" />
-      <path d="M7 34c2.2-1.5 4.3 1.5 6.5 0s4.3 1.5 6.5 0 4.3 1.5 6.5 0 4.3 1.5 6.5 0" />
+    <svg viewBox="0 0 512 512" className={className} aria-hidden="true">
+      <circle cx="256" cy="256" r="236" fill="none" stroke={ink} strokeWidth="18" />
+      <g transform="translate(0 -14)">
+        <rect x="254" y="86" width="9" height="244" rx="2" fill={ink} />
+        <path d="M248 96 L248 318 L142 318 Z" fill={ink} />
+        <path d="M270 150 L270 318 L342 318 Z" fill="#f3c35a" />
+        <path d="M116 332 H396 L382 360 H130 Z" fill="#c24a2b" />
+        <path d="M130 360 H382 L356 394 H156 Z" fill={ink} />
+        <path
+          d="M126 424 q 21 -16 42 0 t 42 0 t 42 0 t 42 0 t 42 0 t 42 0 M168 456 q 22 -14 44 0 t 44 0 t 44 0 t 44 0"
+          fill="none"
+          stroke={ink}
+          strokeWidth="13"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
     </svg>
   );
 }
