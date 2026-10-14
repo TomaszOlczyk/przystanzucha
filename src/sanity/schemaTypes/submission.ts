@@ -142,6 +142,23 @@ export const submission = defineType({
     defineField({ name: "gclid", title: "gclid (Google Ads)", type: "string", group: "atrybucja" }),
     defineField({ name: "fbclid", title: "fbclid (Facebook)", type: "string", group: "atrybucja" }),
     defineField({
+      name: "adConsent",
+      title: "Zgoda na cookies marketingowe",
+      type: "string",
+      group: "atrybucja",
+      readOnly: true,
+      options: { list: [{ title: "Tak", value: "granted" }, { title: "Nie", value: "denied" }] },
+      description: "Stan w chwili zgłoszenia. Tylko przy „Tak” lead-hub wysyła potwierdzonego leada (z gclid) do Google Ads.",
+    }),
+    defineField({
+      name: "googleConversion",
+      title: "Konwersja w Google Ads",
+      type: "string",
+      group: "atrybucja",
+      readOnly: true,
+      description: "Ustawia lead-hub: kiedy i z jakim wynikiem wysłano potwierdzonego leada do Google Ads.",
+    }),
+    defineField({
       name: "externalId",
       title: "Zewnętrzne ID",
       type: "string",

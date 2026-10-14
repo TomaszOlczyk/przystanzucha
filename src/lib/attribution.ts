@@ -8,7 +8,11 @@ export type Attribution = {
   utm?: { source?: string; medium?: string; campaign?: string };
   gclid?: string;
   fbclid?: string;
+  /** Zgoda na cookies marketingowe w chwili zgłoszenia — warunek wysłania konwersji z CRM do Google Ads. */
+  consentMarketing?: boolean;
 };
+
+import { parseConsent, readConsentRaw } from "./analytics";
 
 const STORAGE_KEY = "pz_atrybucja";
 const MAX_LEN = 200;
@@ -58,5 +62,6 @@ export function captureAttribution(): void {
 export function getAttribution(): Attribution {
   if (typeof window === "undefined") return {};
   captureAttribution();
-  return readStored() ?? fromUrl() ?? {};
+  const consentMarketing = parseConsent(readConsentRaw())?.marketing === true;
+  return { ...(readStored() ?? fromUrl() ?? {}), consentMarketing };
 }
