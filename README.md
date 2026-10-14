@@ -42,11 +42,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 przyciskiem „Nowy lead” w liście CRM (globalne „Utwórz” i „Duplikuj” są wyłączone, bo nadałyby
 publiczne ID).
 
-- **Listy:** Do kontaktu dziś (`nextContactAt` ≤ koniec dnia, status nie umowa/rezygnacja/spam),
-  Nowe, W kontakcie (kontakt + wizyta_umowiona), Adaptacja, Umowy, Rezygnacje / spam, Wszystkie.
-- **Statusy (`status`):** `nowy`, `kontakt`, `wizyta_umowiona`, `adaptacja`, `umowa`, `rezygnacja`,
-  `spam`. Stare wartości `new` / `in_progress` / `done` zostają na liście jako „(stare) …”
-  (new → Nowe, in_progress → W kontakcie, done → tylko Wszystkie).
+- **Listy:** 🔍 Do weryfikacji (N) — licznik na żywo, Do kontaktu dziś (`nextContactAt` ≤ koniec dnia,
+  status nie umowa/rezygnacja/spam), Nowe, W kontakcie (kontakt + wizyta_umowiona), Adaptacja, Umowy,
+  Rezygnacje / spam, Wszystkie.
+- **Statusy (`status`):** `do_weryfikacji` (start KAŻDEGO zgłoszenia — WWW, lead-hub, ręcznie), `nowy`
+  („Lead — nowy”), `kontakt`, `wizyta_umowiona`, `adaptacja`, `umowa`, `rezygnacja`, `spam`.
+  Stare wartości `new` / `in_progress` / `done` zostają na liście jako „(stare) …”
+  (new → Nowe, in_progress → W kontakcie, done → tylko Wszystkie). Dokument **bez pola `status`**
+  (zgłoszenia sprzed CRM) trafia do „Do weryfikacji” — nie wiemy, czy ktoś go przejrzał.
+- **Weryfikacja:** w dokumencie ze statusem `do_weryfikacji` (lub bez statusu) główne przyciski to
+  **✅ To lead** (`status: "nowy"` + publikacja) i **🚫 To spam** (`status: "spam"` + publikacja).
+  W innych statusach te same akcje są w menu „…” obok „Opublikuj”.
 - **Źródło (`source`):** `www_rekrutacja`, `www_konsultacja`, `facebook_lead_ads`, `google_business`,
   `email`, `telefon`, `recznie`. Stare zgłoszenia bez `source` — liczone z `type`.
 - **Pola:** `language` (pl/en/uk/inny), `childBirthDate`, `nextContactAt`, `notes[]` ({text, at, author}),
@@ -55,6 +61,18 @@ publiczne ID).
   z adresu — pierwszy kontakt w sesji) i wysyła mail przez Resend.
 - **FB Lead Ads / e-mail:** leady zapisuje do Sanity `przystanzucha-ops/lead-hub` na FRIDAY,
   deduplikując po `externalId`. Wartości statusów i źródeł to kontrakt — słowniki w `src/sanity/crm.ts`.
+
+### Link do zgłoszenia w Studio (kontrakt dla lead-hub / Telegrama)
+
+```
+https://www.przystanzucha.pl/studio/intent/edit/id=<_id>;type=submission/
+```
+
+`<_id>` to opublikowane ID dokumentu, np. `submission.3f2c…` (bez prefiksu `drafts.`; kropki i myślniki
+nie wymagają kodowania). Studio ma `basePath: "/studio"` (`sanity.config.ts`) — bez tego router Studio
+nie rozpoznaje adresów `/studio/…`. Końcowy `/` wynika z `trailingSlash: true` w Next.js (wersja bez
+ukośnika dostaje 308 na wersję z ukośnikiem — też działa). Niezalogowany użytkownik widzi ekran
+logowania Sanity, a po zalogowaniu wraca pod ten sam adres i otwiera się dokument.
 
 Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
 opcjonalnie `CONTACT_FROM` / `RESEND_FROM_EMAIL` (domena nadawcy musi być zweryfikowana w Resend).
