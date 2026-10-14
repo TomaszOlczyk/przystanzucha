@@ -70,8 +70,8 @@ https://www.przystanzucha.pl/studio/intent/edit/id=<_id>;type=submission/
 
 `<_id>` to opublikowane ID dokumentu, np. `submission.3f2c…` (bez prefiksu `drafts.`; kropki i myślniki
 nie wymagają kodowania). Studio ma `basePath: "/studio"` (`sanity.config.ts`) — bez tego router Studio
-nie rozpoznaje adresów `/studio/…`. Końcowy `/` wynika z `trailingSlash: true` w Next.js (wersja bez
-ukośnika dostaje 308 na wersję z ukośnikiem — też działa). Niezalogowany użytkownik widzi ekran
+nie rozpoznaje adresów `/studio/…`. Końcowy `/` to kanoniczna forma przy `trailingSlash: true` w Next.js
+(wersja bez ukośnika też zwraca 200 i otwiera Studio). Niezalogowany użytkownik widzi ekran
 logowania Sanity, a po zalogowaniu wraca pod ten sam adres i otwiera się dokument.
 
 Zmienne w Vercel: `SANITY_WRITE_TOKEN`, `RESEND_API_KEY`, `CONTACT_EMAIL` (adresaci po przecinku),
