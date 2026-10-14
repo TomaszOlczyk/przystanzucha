@@ -14,8 +14,8 @@ function reportPhoneClick(link_location: string) {
   const body = JSON.stringify({ link_location, path: window.location.pathname, ...getAttribution() });
   try {
     // sendBeacon przeżyje przejście do aplikacji telefonu; fetch keepalive jako zapas.
-    if (navigator.sendBeacon?.("/api/klik-telefon", new Blob([body], { type: "application/json" }))) return;
-    void fetch("/api/klik-telefon", { method: "POST", body, keepalive: true, headers: { "Content-Type": "application/json" } });
+    if (navigator.sendBeacon?.("/api/klik-telefon/", new Blob([body], { type: "application/json" }))) return;
+    void fetch("/api/klik-telefon/", { method: "POST", body, keepalive: true, headers: { "Content-Type": "application/json" } });
   } catch {
     // brak raportu nie może blokować połączenia
   }
