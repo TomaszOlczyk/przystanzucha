@@ -43,13 +43,14 @@ export const submission = defineType({
     }),
     defineField({
       name: "type",
-      title: "Typ (formularz WWW)",
+      title: "Typ (zgłoszenie WWW)",
       type: "string",
       group: "lead",
       options: {
         list: [
           { title: "Rekrutacja", value: "recruitment" },
           { title: "Konsultacja", value: "consultation" },
+          { title: "Kliknięcie telefonu", value: "phone_click" },
         ],
       },
     }),
