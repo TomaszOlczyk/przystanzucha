@@ -6,6 +6,7 @@ import PhotoSlot from "@/components/PhotoSlot";
 import { Akcent } from "@/lib/akcent";
 import { metadaneStrony } from "@/lib/metadane";
 import { maZdjecie } from "@/sanity/image";
+import { element, polaDokumentu } from "@/sanity/edycja";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getStaffPage({ stega: false });
@@ -23,7 +24,7 @@ const inicjaly = (name: string) =>
     .slice(0, 2);
 
 export default async function KadraPage() {
-  const [staffData, siteData] = await Promise.all([getStaffPage(), getSiteSettings()]);
+  const [staffData, siteData, pole] = await Promise.all([getStaffPage(), getSiteSettings(), polaDokumentu("staffPage")]);
   const { intro, visitCta } = staffData;
 
   return (
@@ -45,6 +46,7 @@ export default async function KadraPage() {
                 <div className="lg:sticky lg:top-28 lg:self-start max-w-[260px]">
                   <PhotoSlot
                     image={member.image}
+                    pole={pole(["members", element(member, i), "image"])}
                     alt={member.image?.alt || `${stegaClean(member.name)}${rola ? `, ${rola.toLowerCase()}` : ""}`}
                     shape="arch"
                     ratio="aspect-[4/5]"

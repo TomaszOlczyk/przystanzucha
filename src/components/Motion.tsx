@@ -17,11 +17,14 @@ import { animate, createDrawable, createScope, createTimeline, splitText, stagge
  *   data-spin / data-bob  pętle dekoracji
  * Przy prefers-reduced-motion nic się nie animuje (klasa .m nie jest ustawiana — patrz layout).
  */
-export default function Motion() {
+export default function Motion({ podglad = false }: { podglad?: boolean }) {
   const pathname = usePathname();
 
   useEffect(() => {
     const root = document.documentElement;
+    // W podglądzie Studio bez animacji: splitText tnie nagłówki na słowa i gubi znaczniki stega (klik w tekst
+    // przestaje otwierać pole), a ukryte na start elementy utrudniają edycję. Zdejmujemy klasę .m — wszystko widoczne od razu.
+    if (podglad) root.classList.remove("m");
     if (!root.classList.contains("m")) return;
 
     // splitText nie jest cofany przez scope.revert() — pilnujemy podziałów sami (StrictMode, zmiana strony).
@@ -108,7 +111,7 @@ export default function Motion() {
       scope.revert();
       splits.forEach((s) => s.revert());
     };
-  }, [pathname]);
+  }, [pathname, podglad]);
 
   return null;
 }

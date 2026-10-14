@@ -8,6 +8,7 @@ import Chapter from "@/components/Chapter";
 import PhotoSlot from "@/components/PhotoSlot";
 import { Akcent } from "@/lib/akcent";
 import { metadaneStrony } from "@/lib/metadane";
+import { polaDokumentu } from "@/sanity/edycja";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getClassroomsPage({ stega: false });
@@ -15,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SalePage() {
-  const [data, siteData] = await Promise.all([getClassroomsPage(), getSiteSettings()]);
+  const [data, siteData, pole] = await Promise.all([getClassroomsPage(), getSiteSettings(), polaDokumentu("classroomsPage")]);
   const { intro, seaRoom, forestRoom, features, zones, learningMaterials: materials, visitCta } = data;
   const zdjeciaMorskiej = (seaRoom.images ?? []).filter(maZdjecie).slice(0, 2);
   const wyposazenie = (features.items ?? []).filter(Boolean);
@@ -35,7 +36,7 @@ export default async function SalePage() {
               </h2>
               <p className="mt-5 t-lead max-w-[40ch]">{seaRoom.lead}</p>
             </div>
-            <div className="grid gap-12 sm:grid-cols-[1.3fr_0.7fr] sm:items-end">
+            <div className="grid gap-12 sm:grid-cols-[1.3fr_0.7fr] sm:items-end" data-sanity={pole(["seaRoom", "images"])}>
               {zdjeciaMorskiej.map((img, i) => (
                 <figure key={img.asset._ref} data-photo className={`print relative ${i ? "sm:mb-10 rotate-[3deg]" : "rotate-[-1.5deg]"}`}>
                   <div className="relative aspect-[4/3] overflow-hidden bg-[var(--color-sea-light)]">
@@ -62,6 +63,7 @@ export default async function SalePage() {
             <div className="grid gap-6 grid-cols-[1.3fr_0.7fr] items-end order-2 lg:order-1">
               <PhotoSlot
                 image={forestRoom.image}
+                pole={pole(["forestRoom", "image"])}
                 alt={forestRoom.image?.alt || "Sala Leśna"}
                 motif="forest"
                 ratio="aspect-[4/3]"
@@ -69,6 +71,7 @@ export default async function SalePage() {
               />
               <PhotoSlot
                 image={forestRoom.image2}
+                pole={pole(["forestRoom", "image2"])}
                 alt={forestRoom.image2?.alt || "Sala Leśna, kącik zabaw"}
                 motif="blocks"
                 ratio="aspect-[3/4]"

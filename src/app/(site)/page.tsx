@@ -11,6 +11,7 @@ import { maZdjecie, pozycjaHotspotu, urlFor } from "@/sanity/image";
 import { SITE_URL } from "@/lib/site";
 import { zAkcentem, zLiczba } from "@/lib/akcent";
 import { metadaneStrony } from "@/lib/metadane";
+import { element, polaDokumentu } from "@/sanity/edycja";
 
 export async function generateMetadata(): Promise<Metadata> {
   const strona = await getHomePage({ stega: false });
@@ -38,7 +39,14 @@ function Label({ children }: { children: React.ReactNode }) {
 }
 
 export default async function Home() {
-  const [siteData, strona, staff, activities] = await Promise.all([getSiteSettings(), getHomePage(), getStaffPage(), getActivitiesPage()]);
+  const [siteData, strona, staff, activities, pole, poleKadry] = await Promise.all([
+    getSiteSettings(),
+    getHomePage(),
+    getStaffPage(),
+    getActivitiesPage(),
+    polaDokumentu("homePage"),
+    polaDokumentu("staffPage"),
+  ]);
   const { hero, activitiesStrip, groups, adaptation: story, gallery, testimonials, reasons, staff: staffSection, faq, location, contact } = strona;
   const tel = stegaClean(siteData.phone).replace(/\s/g, "");
   const adres = stegaClean(siteData.address);
@@ -142,7 +150,7 @@ export default async function Home() {
         </div>
 
         <div className="relative w-full max-w-[540px] justify-self-center aspect-[1/1.02]">
-          <figure data-photo className="print absolute left-[3%] top-[3%] w-[60%] h-[74%] !p-2.5 rounded-t-full rounded-b-md">
+          <figure data-photo data-sanity={pole(["hero", "image"])} className="print absolute left-[3%] top-[3%] w-[60%] h-[74%] !p-2.5 rounded-t-full rounded-b-md">
             <div className="relative w-full h-full rounded-t-full rounded-b-sm overflow-hidden">
               <Image
                 src={heroSrc}
@@ -154,7 +162,7 @@ export default async function Home() {
               />
             </div>
           </figure>
-          <figure data-photo className="print absolute right-0 bottom-[6%] w-[50%] h-[40%] rotate-[4deg]">
+          <figure data-photo data-sanity={pole(["hero", "secondImage"])} className="print absolute right-0 bottom-[6%] w-[50%] h-[40%] rotate-[4deg]">
             <div className="relative w-full h-full overflow-hidden">
               <Image
                 src={salaSrc}
@@ -217,6 +225,7 @@ export default async function Home() {
               <article key={g._key ?? i}>
                 <PhotoSlot
                   image={g.image}
+                  pole={pole(["groups", "items", element(g, i), "image"])}
                   alt={g.image?.alt || stegaClean(g.tag ?? "").split("·").pop()?.trim() || "Sala"}
                   motif={stegaClean(g.motif) ?? "sun"}
                   ratio="aspect-[4/3]"
@@ -309,6 +318,7 @@ export default async function Home() {
               <PhotoSlot
                 key={item._key ?? i}
                 image={item.image}
+                pole={pole(["gallery", "items", element(item, i), "image"])}
                 alt={item.image?.alt || stegaClean(item.caption) || "Zdjęcie z przedszkola"}
                 caption={item.caption}
                 motif={stegaClean(item.motif) ?? "sun"}
@@ -384,6 +394,7 @@ export default async function Home() {
                 <article key={m._key ?? i}>
                   <PhotoSlot
                     image={m.image}
+                    pole={poleKadry(["members", element(m, i), "image"])}
                     alt={m.image?.alt || stegaClean(m.name)}
                     shape="arch"
                     ratio="aspect-[1/1]"
