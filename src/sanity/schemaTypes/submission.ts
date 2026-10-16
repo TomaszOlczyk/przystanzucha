@@ -61,6 +61,7 @@ export const submission = defineType({
     defineField({ name: "phone", title: "Telefon", type: "string", group: "lead" }),
     defineField({ name: "childName", title: "Dziecko", type: "string", group: "lead" }),
     defineField({ name: "childAge", title: "Wiek dziecka", type: "string", group: "lead" }),
+    defineField({ name: "startWhen", title: "Od kiedy szuka miejsca", type: "string", group: "lead" }),
     defineField({
       name: "childBirthDate",
       title: "Data urodzenia dziecka",

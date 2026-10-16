@@ -12,7 +12,15 @@ interface ContactFormProps {
   recruitmentYear: string;
 }
 
-const EMPTY = { parentName: "", phone: "", childAge: "", group: "", email: "" };
+const EMPTY = { parentName: "", phone: "", childAge: "", group: "", startWhen: "", email: "" };
+
+/** Od kiedy rodzic szuka miejsca — najważniejsza informacja dla rekrutacji. Etykiety bez dat, żeby się nie starzały. */
+const START_OPTIONS = [
+  { value: "asap", label: "Jak najszybciej" },
+  { value: "3m", label: "W ciągu 3 miesięcy" },
+  { value: "wrzesien", label: "Od września (nowy rok szkolny)" },
+  { value: "nie_wiem", label: "Jeszcze nie wiem" },
+];
 
 export default function ContactForm({ email, phone, recruitmentYear }: ContactFormProps) {
   const [formData, setFormData] = useState(EMPTY);
@@ -45,7 +53,7 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
 
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || "Błąd wysyłania");
-      trackLead("rekrutacja", { child_age: formData.childAge });
+      trackLead("rekrutacja", { child_age: formData.childAge, start_when: formData.startWhen || undefined });
       setSubmitted(true);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Nieznany błąd";
@@ -114,6 +122,17 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
               <option value="grupa_2">Grupa 2 (więcej uwagi)</option>
             </select>
           </div>
+        </div>
+        <div>
+          <label htmlFor="cf-start" className="t-label !flex">Od kiedy szukasz miejsca?</label>
+          <select id="cf-start" value={formData.startWhen} onChange={set("startWhen")} className="field">
+            <option value="">Wybierz (opcjonalnie)</option>
+            {START_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label htmlFor="cf-email" className="t-label !flex">

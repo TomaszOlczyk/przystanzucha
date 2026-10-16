@@ -52,7 +52,7 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
           </div>
           <div>
             <p className="t-label !text-[var(--color-paper)]/60 mb-4">{footer.contactLabel}</p>
-            <a href={`mailto:${stegaClean(siteData.email)}`} data-loc="stopka" className="block hover:text-[var(--color-paper)]">
+            <a href={`mailto:${stegaClean(siteData.email)}`} data-loc="stopka" className="cel block hover:text-[var(--color-paper)]">
               {siteData.email}
             </a>
             <p className="mt-2">{siteData.hours}</p>
@@ -63,10 +63,10 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
           </div>
           <div>
             <p className="t-label !text-[var(--color-paper)]/60 mb-4">{footer.linksLabel}</p>
-            <ul className="space-y-1.5">
+            <ul className="lg:space-y-1.5">
               {nav.map((item) => (
                 <li key={item._key ?? item.href}>
-                  <Link href={stegaClean(item.href)} className="hover:text-[var(--color-paper)]">
+                  <Link href={stegaClean(item.href)} className="inline-block py-3 lg:py-0 hover:text-[var(--color-paper)]">
                     {item.label}
                   </Link>
                 </li>
@@ -75,7 +75,7 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
                 ?.filter((doc) => doc?.title && doc.fileUrl)
                 .map((doc) => (
                   <li key={doc._key ?? doc.title}>
-                    <a href={`${doc.fileUrl}?dl=`} className="hover:text-[var(--color-paper)]">
+                    <a href={`${doc.fileUrl}?dl=`} className="inline-block py-3 lg:py-0 hover:text-[var(--color-paper)]">
                       {doc.title}
                     </a>
                   </li>
@@ -87,10 +87,10 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
         <div className="mt-12 py-6 border-t border-white/12 flex flex-col sm:flex-row gap-3 justify-between text-xs text-[var(--color-paper)]/55">
           <p>&copy; {new Date().getFullYear()} {siteData.legalName}</p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link href={POLICY_PATH} className="hover:text-[var(--color-paper)] underline underline-offset-4">
+            <Link href={POLICY_PATH} className="cel hover:text-[var(--color-paper)] underline underline-offset-4">
               {footer.privacyLinkText}
             </Link>
-            {GTM_ID && <CookieSettingsLink className="text-left hover:text-[var(--color-paper)] underline underline-offset-4" />}
+            {GTM_ID && <CookieSettingsLink className="cel text-left hover:text-[var(--color-paper)] underline underline-offset-4" />}
           </div>
         </div>
       </div>
