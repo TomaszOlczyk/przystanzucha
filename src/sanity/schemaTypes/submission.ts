@@ -1,3 +1,4 @@
+import { StatusInput } from "../components/StatusInput";
 import { defineType, defineField, defineArrayMember } from "sanity";
 import {
   INITIAL_STATUS,
@@ -31,6 +32,7 @@ export const submission = defineType({
       group: ["lead", "crm"],
       options: { list: [...LEAD_STATUSES], layout: "dropdown" },
       initialValue: INITIAL_STATUS,
+      components: { input: StatusInput },
     }),
     defineField({
       name: "source",
