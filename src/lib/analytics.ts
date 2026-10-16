@@ -63,8 +63,8 @@ export function pushEvent(event: string, params: EventParams = {}): void {
   window.dataLayer.push({ event, ...clean });
 }
 
-export function trackLead(formType: FormType, extra: { child_age?: string } = {}): void {
-  pushEvent("generate_lead", { form_type: formType, lead_source: "www", child_age: extra.child_age });
+export function trackLead(formType: FormType, extra: { child_age?: string; start_when?: string } = {}): void {
+  pushEvent("generate_lead", { form_type: formType, lead_source: "www", child_age: extra.child_age, start_when: extra.start_when });
 }
 
 export function trackFormStart(formType: FormType): void {

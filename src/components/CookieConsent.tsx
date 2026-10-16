@@ -50,17 +50,30 @@ export default function CookieConsent() {
       aria-labelledby="cookie-consent-title"
       className="fixed inset-x-0 bottom-[4.5rem] lg:bottom-0 z-[70] p-3 sm:p-5 pointer-events-none"
     >
+      {/* Na telefonie zwarty (ok. 1/5 ekranu zamiast połowy): krótszy tekst, „Ustawienia” jako link,
+          dwa równorzędne przyciski obok siebie — odrzucenie tak samo łatwe jak zgoda. */}
       <div className="card pointer-events-auto shadow-2xl p-4 md:p-6 max-w-2xl lg:ml-3 lg:mr-auto max-h-[calc(100dvh-6rem)] overflow-y-auto">
-        <h2 id="cookie-consent-title" className="text-lg font-semibold mb-1.5">
+        <h2 id="cookie-consent-title" className="text-base sm:text-lg font-semibold mb-1 sm:mb-1.5">
           Pliki cookies
         </h2>
         <p className="text-sm text-[var(--color-muted)] leading-relaxed">
-          Niezbędne cookies zapewniają działanie strony. Analityczne i marketingowe (np. Google Ads)
-          włączymy tylko za Twoją zgodą. Zmienisz ją w stopce, w „Ustawieniach cookies”.{" "}
-          <Link href={POLICY_PATH} className="font-semibold underline underline-offset-2">
+          <span className="sm:hidden">Analityczne i reklamowe cookies włączymy tylko za Twoją zgodą. </span>
+          <span className="max-sm:hidden">
+            Niezbędne cookies zapewniają działanie strony. Analityczne i marketingowe (np. Google Ads)
+            włączymy tylko za Twoją zgodą. Zmienisz ją w stopce, w „Ustawieniach cookies”.{" "}
+          </span>
+          <Link href={POLICY_PATH} className="cel font-semibold underline underline-offset-2">
             Polityka prywatności
           </Link>
-          .
+          {!showSettings && (
+            <>
+              <span className="sm:hidden" aria-hidden="true"> · </span>
+              <button type="button" onClick={() => setShowSettings(true)} className="cel sm:hidden font-semibold underline underline-offset-2">
+                Ustawienia
+              </button>
+            </>
+          )}
+          <span className="max-sm:hidden">.</span>
         </p>
 
         {showSettings && (
@@ -86,12 +99,12 @@ export default function CookieConsent() {
           </div>
         )}
 
-        <div className="mt-4 flex flex-wrap gap-2 sm:justify-end">
+        <div className="mt-3 sm:mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
           {showSettings ? (
             <button
               type="button"
               onClick={() => decide(draft)}
-              className="btn btn-secondary !py-2.5 !px-5 text-sm"
+              className="btn btn-secondary !py-2.5 !px-5 text-sm justify-center min-h-[44px] max-sm:col-span-2"
             >
               Zapisz wybór
             </button>
@@ -99,7 +112,7 @@ export default function CookieConsent() {
             <button
               type="button"
               onClick={() => setShowSettings(true)}
-              className="btn btn-secondary !py-2.5 !px-5 text-sm"
+              className="btn btn-secondary !py-2.5 !px-5 text-sm max-sm:hidden"
             >
               Ustawienia
             </button>
@@ -107,14 +120,14 @@ export default function CookieConsent() {
           <button
             type="button"
             onClick={() => decide({ analytics: false, marketing: false })}
-            className="btn btn-secondary !py-2.5 !px-5 text-sm"
+            className="btn btn-secondary !py-2.5 !px-3 sm:!px-5 text-sm justify-center min-h-[44px]"
           >
             Tylko niezbędne
           </button>
           <button
             type="button"
             onClick={() => decide({ analytics: true, marketing: true })}
-            className="btn btn-primary !py-2.5 !px-5 text-sm"
+            className="btn btn-primary !py-2.5 !px-3 sm:!px-5 text-sm justify-center min-h-[44px]"
           >
             Akceptuję wszystkie
           </button>

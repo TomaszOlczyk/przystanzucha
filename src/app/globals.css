@@ -219,6 +219,20 @@
     border-bottom: 1.5px solid currentColor;
     padding-bottom: 2px;
   }
+  /* Pole dotyku ok. 44 px na ekranach dotykowych bez zmiany wyglądu: samodzielne linki (nie w akapicie — tam
+     wystarcza odstęp między wierszami) i elementy z klasą .cel dostają niewidoczny, większy obszar kliknięcia. */
+  @media (pointer: coarse) {
+    .link-u:not(p .link-u),
+    .cel {
+      position: relative;
+    }
+    .link-u:not(p .link-u)::before,
+    .cel::before {
+      content: "";
+      position: absolute;
+      inset: -14px -6px;
+    }
+  }
 
   /* ---------- POWIERZCHNIE ---------- */
   .card {

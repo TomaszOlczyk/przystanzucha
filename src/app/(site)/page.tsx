@@ -495,7 +495,7 @@ export default async function Home() {
                 <div>
                   <dt className="t-small">{contact.phoneLabel}</dt>
                   <dd className="mt-1">
-                    <a href={`tel:${tel}`} data-loc="kontakt" className="t-title !text-[1.9rem]">
+                    <a href={`tel:${tel}`} data-loc="kontakt" className="cel t-title !text-[1.9rem]">
                       {siteData.phone}
                     </a>
                   </dd>

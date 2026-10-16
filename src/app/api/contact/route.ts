@@ -39,6 +39,14 @@ function crmFields(body: Record<string, unknown>) {
 
 const GROUPS: Record<string, string> = { grupa_1: "Grupa 1", grupa_2: "Grupa 2 (więcej uwagi)" };
 
+/** Od kiedy rodzic szuka miejsca (wartości z ContactForm → START_OPTIONS). */
+const START: Record<string, string> = {
+  asap: "jak najszybciej",
+  "3m": "w ciągu 3 miesięcy",
+  wrzesien: "od września",
+  nie_wiem: "jeszcze nie wie",
+};
+
 /** „2 lata”, „5 lat” — poprawna odmiana wieku dziecka. */
 function ageLabel(age: string): string {
   const n = Number.parseInt(age, 10);
@@ -87,6 +95,7 @@ export async function POST(request: Request) {
     } else {
       const { parentName, childName, childAge, email, phone, recruitmentYear } = body;
       const group = GROUPS[str(body.group) ?? ""] ?? "grupa do doradzenia";
+      const startWhen = START[str(body.startWhen) ?? ""];
 
       // Telefon jest głównym kanałem kontaktu; e-mail i imię dziecka są opcjonalne (mniej tarcia w formularzu).
       if (!str(parentName) || !str(phone) || !str(childAge)) {
@@ -106,7 +115,9 @@ export async function POST(request: Request) {
         childAge: ageLabel(String(childAge)),
         email: email || "",
         phone,
-        message: `Rekrutacja ${recruitmentYear} · ${group}`,
+        // „Od kiedy” także w wiadomości — lead-hub (dashboard, Telegram) czyta `message`.
+        message: `Rekrutacja ${recruitmentYear} · ${group}${startWhen ? ` · start: ${startWhen}` : ""}`,
+        ...(startWhen ? { startWhen } : {}),
         status: INITIAL_STATUS,
         submittedAt: new Date().toISOString(),
       };

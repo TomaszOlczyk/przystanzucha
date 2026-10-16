@@ -10,6 +10,7 @@ const LABELS: Record<string, string> = {
   parentName: "Rodzic",
   childName: "Dziecko",
   childAge: "Wiek dziecka",
+  startWhen: "Od kiedy",
   email: "E-mail",
   phone: "Telefon",
   preferredTime: "Preferowany termin",
