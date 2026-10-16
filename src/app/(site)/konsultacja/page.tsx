@@ -21,7 +21,7 @@ export default async function ConsultationPage() {
         <Link href="/" className="hover:text-[var(--color-ink)]">
           Przystań Zucha
         </Link>
-        <span className="mx-2 text-[var(--color-coral)]">/</span>
+        <span className="mx-2 text-[var(--color-coral-dark)]">/</span>
         {strona.breadcrumb}
       </p>
       <div className="pt-10 lg:pt-16 grid gap-14 lg:grid-cols-2 lg:gap-16 items-start">

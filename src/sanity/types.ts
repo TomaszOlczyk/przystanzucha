@@ -72,6 +72,7 @@ export interface HomePage {
   hero: {
     showBadge: boolean;
     badge: string;
+    kicker: string;
     title: string;
     lead: string;
     primaryCta: string;

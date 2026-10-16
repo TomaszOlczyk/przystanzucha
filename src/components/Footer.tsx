@@ -40,7 +40,7 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
             </p>
           </div>
           <div>
-            <p className="t-label !text-[var(--color-paper)]/50 mb-4">{footer.addressLabel}</p>
+            <p className="t-label !text-[var(--color-paper)]/60 mb-4">{footer.addressLabel}</p>
             <address className="not-italic leading-relaxed">
               {siteData.address.street}
               <br />
@@ -51,7 +51,7 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
             </a>
           </div>
           <div>
-            <p className="t-label !text-[var(--color-paper)]/50 mb-4">{footer.contactLabel}</p>
+            <p className="t-label !text-[var(--color-paper)]/60 mb-4">{footer.contactLabel}</p>
             <a href={`mailto:${stegaClean(siteData.email)}`} data-loc="stopka" className="block hover:text-[var(--color-paper)]">
               {siteData.email}
             </a>
@@ -62,7 +62,7 @@ export default function Footer({ siteData }: { siteData: SiteSettings }) {
             </div>
           </div>
           <div>
-            <p className="t-label !text-[var(--color-paper)]/50 mb-4">{footer.linksLabel}</p>
+            <p className="t-label !text-[var(--color-paper)]/60 mb-4">{footer.linksLabel}</p>
             <ul className="space-y-1.5">
               {nav.map((item) => (
                 <li key={item._key ?? item.href}>

@@ -115,15 +115,22 @@ export default async function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* HERO */}
-      <section className={`${WRAP} pt-8 pb-16 lg:pt-14 lg:pb-24 grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-12 items-center`}>
-        <div>
+      <section className={`${WRAP} pt-6 pb-16 lg:pt-14 lg:pb-24 grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-12 items-center`}>
+        {/* Na telefonie tekst „rozpływa się” w siatkę (contents), żeby zdjęcia stanęły między tytułem a wstępem —
+            twarz dziecka i sala są widoczne bez przewijania. Od lg: dwie kolumny jak dotąd. */}
+        <div className="max-lg:contents">
           {hero.showBadge && hero.badge && (
-            <p data-hero="fade" className="inline-flex items-center gap-2.5 rounded-full bg-white/70 border border-[var(--color-line)] px-4 py-2 text-[0.92rem] font-semibold">
+            <p data-hero="fade" className="order-1 justify-self-start inline-flex items-center gap-2.5 rounded-full bg-white/70 border border-[var(--color-line)] px-4 py-2 text-[0.88rem] sm:text-[0.92rem] font-semibold">
               <span className="w-2 h-2 rounded-full bg-[var(--color-coral)] pulse-dot" aria-hidden="true" />
               {hero.badge}
             </p>
           )}
-          <h1 data-hero="title" className="t-hero mt-6">
+          {hero.kicker && (
+            <p data-hero="fade" className="order-2 mt-5 lg:mt-6 t-label !text-[var(--color-ink-soft)]">
+              {hero.kicker}
+            </p>
+          )}
+          <h1 data-hero="title" className="order-3 t-hero mt-2">
             {zAkcentem(hero.title, (slowo) => (
               <span className="relative inline-block z-0">
                 <em className="not-italic text-[var(--color-sea)]">{slowo}</em>
@@ -133,10 +140,10 @@ export default async function Home() {
               </span>
             ))}
           </h1>
-          <p data-hero="fade" className="mt-6 t-lead max-w-[40ch]">
+          <p data-hero="fade" className="order-5 mt-6 t-lead max-w-[40ch]">
             {hero.lead}
           </p>
-          <div data-hero="fade" className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
+          <div data-hero="fade" className="order-6 mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
             <a href="#kontakt" data-cta="umow_wizyte" data-loc="hero" className="btn btn-primary">
               {hero.primaryCta} <span className="arr">→</span>
             </a>
@@ -144,25 +151,27 @@ export default async function Home() {
               {siteData.phone}
             </a>
           </div>
-          <p data-hero="fade" className="mt-8 t-small">
+          <p data-hero="fade" className="order-7 mt-8 t-small">
             {hero.infoLine}
           </p>
         </div>
 
-        <div className="relative w-full max-w-[540px] justify-self-center aspect-[1/1.02]">
-          <figure data-photo data-sanity={pole(["hero", "image"])} className="print absolute left-[3%] top-[3%] w-[60%] h-[74%] !p-2.5 rounded-t-full rounded-b-md">
+        <div
+          className="order-4 mt-7 lg:mt-0 relative w-full max-lg:aspect-[1.55/1] lg:max-w-[540px] justify-self-center lg:aspect-[1/1.02]"
+        >
+          <figure data-photo data-sanity={pole(["hero", "image"])} className="print absolute left-[3%] top-[3%] w-[44%] h-[94%] lg:w-[60%] lg:h-[74%] !p-2 lg:!p-2.5 rounded-t-full rounded-b-md">
             <div className="relative w-full h-full rounded-t-full rounded-b-sm overflow-hidden">
               <Image
                 src={heroSrc}
                 alt={hero.image?.alt || "Uśmiechnięta przedszkolaczka Przystani Zucha"}
                 fill
                 priority
-                sizes="(min-width: 1024px) 26vw, 56vw"
+                sizes="(min-width: 1024px) 26vw, 42vw"
                 className="object-cover object-[50%_18%]"
               />
             </div>
           </figure>
-          <figure data-photo data-sanity={pole(["hero", "secondImage"])} className="print absolute right-0 bottom-[6%] w-[50%] h-[40%] rotate-[4deg]">
+          <figure data-photo data-sanity={pole(["hero", "secondImage"])} className="print absolute right-[1%] bottom-[4%] w-[50%] h-[62%] lg:right-0 lg:bottom-[6%] lg:h-[40%] rotate-[4deg]">
             <div className="relative w-full h-full overflow-hidden">
               <Image
                 src={salaSrc}
@@ -175,7 +184,7 @@ export default async function Home() {
             </div>
           </figure>
           {hero.stamp.show && (
-            <a href="#grupy" data-hero="pop" aria-label={stegaClean(hero.stamp.label)} className="absolute right-[4%] top-[3%] w-[118px] h-[118px] sm:w-[132px] sm:h-[132px]">
+            <a href="#grupy" data-hero="pop" aria-label={stegaClean(hero.stamp.label)} className="absolute right-[6%] -top-[4%] w-[92px] h-[92px] sm:w-[132px] sm:h-[132px] lg:right-[4%] lg:top-[3%]">
               <svg data-spin viewBox="0 0 132 132" className="absolute inset-0 w-full h-full" aria-hidden="true">
                 <defs>
                   <path id="badge-circle" d="M66 66 m-54 0 a54 54 0 1 1 108 0 a54 54 0 1 1 -108 0" />
@@ -187,7 +196,7 @@ export default async function Home() {
               <span className="absolute inset-[26px] rounded-full bg-[var(--color-coral)] text-white grid place-items-center font-display text-3xl">{hero.stamp.number}</span>
             </a>
           )}
-          <svg data-bob viewBox="0 0 110 80" className="absolute -left-[2%] bottom-[2%] w-[96px] sm:w-[110px]" fill="none" stroke="#16252e" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+          <svg data-bob viewBox="0 0 110 80" className="absolute -left-[2%] bottom-[2%] w-[96px] sm:w-[110px] max-lg:hidden" fill="none" stroke="#16252e" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
             <path data-draw="hero" d="M55 8v42M55 10 25 46h30M59 16v30h24C79 31 70 21 59 16M15 52h80l-10 13H26zM4 74c9-4 15 4 24 0s15 4 24 0 15 4 24 0 15 4 24 0" />
           </svg>
         </div>

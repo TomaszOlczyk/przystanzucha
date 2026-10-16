@@ -58,7 +58,7 @@ export default function ContactForm({ email, phone, recruitmentYear }: ContactFo
   if (submitted) {
     return (
       <div className="bg-[#fffdf9] border border-[var(--color-line)] p-8 md:p-12" role="status">
-        <p className="t-label !text-[var(--color-coral)] mb-3">Zgłoszenie wysłane</p>
+        <p className="t-label !text-[var(--color-coral-dark)] mb-3">Zgłoszenie wysłane</p>
         <h3 className="t-title !text-[2.2rem] mb-4">Dziękujemy, mamy Twoje zgłoszenie</h3>
         <p className="text-[var(--color-muted)]">
           Oddzwonimy w ciągu 24 godzin (w dni robocze). Jeśli wolisz porozmawiać od razu, zadzwoń:{" "}

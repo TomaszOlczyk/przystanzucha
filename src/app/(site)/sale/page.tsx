@@ -105,7 +105,7 @@ export default async function SalePage() {
                 key={i}
                 className={`flex gap-5 items-baseline py-5 border-b border-[var(--color-line)] ${i % 2 ? "md:pl-10 md:border-l" : "md:pr-10"}`}
               >
-                <span className="t-label !text-[var(--color-coral)] w-8 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                <span className="t-label !text-[var(--color-coral-dark)] w-8 shrink-0">{String(i + 1).padStart(2, "0")}</span>
                 <span className="t-body !text-[var(--color-ink)] !text-[1.05rem]">{f}</span>
               </li>
             ))}

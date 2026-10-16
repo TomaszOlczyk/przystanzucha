@@ -20,7 +20,7 @@
   --color-paper-deep: #ece3d4;
   --color-ink: #16252e;
   --color-ink-soft: #4a575f;
-  --color-muted: #66727a;
+  --color-muted: #5b666d; /* AA (≥4,5:1) także na paper-deep i sea-light */
   --color-sea: #22676c;
   --color-sea-dark: #1a5357;
   --color-sea-light: #d7e9e6;

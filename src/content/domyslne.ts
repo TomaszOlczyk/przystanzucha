@@ -69,6 +69,7 @@ export const domyslnaStronaGlowna: HomePage = {
   hero: {
     showBadge: true,
     badge: "Rekrutacja 2026/2027: nabór do Grupy 2",
+    kicker: "Przedszkole Montessori · Retkinia · 2–6 lat",
     title: "Mała przystań dla *dużych* uczuć.",
     lead: "Kameralne przedszkole z elementami pedagogiki Montessori na łódzkiej Retkini. Dwie małe grupy, łagodna adaptacja z rodzicem i nauczycielki, które znają każde dziecko: wiedzą, co je cieszy, a co niepokoi.",
     primaryCta: "Umów bezpłatną wizytę",
