@@ -8,6 +8,7 @@ export const LEAD_SOURCES = [
   { title: "WWW — konsultacja", value: "www_konsultacja" },
   { title: "Facebook Lead Ads", value: "facebook_lead_ads" },
   { title: "Messenger (FB/IG) — wiadomość", value: "messenger" },
+  { title: "Formularz Google Ads", value: "google_lead_form" },
   { title: "Wizytówka Google", value: "google_business" },
   { title: "E-mail", value: "email" },
   { title: "Telefon", value: "telefon" },
