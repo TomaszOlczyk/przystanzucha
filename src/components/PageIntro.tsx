@@ -9,7 +9,7 @@ export default function PageIntro({ eyebrow, title, lead }: { eyebrow: string; t
         <Link href="/" className="hover:text-[var(--color-ink)]">
           Przystań Zucha
         </Link>
-        <span className="mx-2 text-[var(--color-coral)]">/</span>
+        <span className="mx-2 text-[var(--color-coral-dark)]">/</span>
         {eyebrow}
       </p>
       <div className="pt-10 pb-14 lg:pt-16 lg:pb-20 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-end">

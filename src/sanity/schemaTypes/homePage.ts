@@ -49,6 +49,10 @@ export const homePage = defineType({
         initialValue: true,
       }),
       tekst("badge", "Plakietka rekrutacji", { max: 60, opis: "Np. „Rekrutacja 2026/2027: nabór do Grupy 2”." }),
+      tekst("kicker", "Linijka nad tytułem", {
+        max: 60,
+        opis: "Co, gdzie i dla kogo — rodzic z reklamy ma 3 sekundy. Np. „Przedszkole Montessori · Retkinia · 2–6 lat”. Na telefonie zmieści się ok. 45 znaków w jednej linii.",
+      }),
       tekst("title", "Tytuł (H1)", { max: 50, wymagane: true, opis: `${OPIS_AKCENTU} Wyróżnione słowo dostaje żółte podkreślenie.` }),
       tekst("lead", "Wstęp", { max: 260, wiersze: 4 }),
       tekst("primaryCta", "Tekst przycisku", { max: 30, twardyLimit: true, opis: "Przycisk przewija do formularza wizyty." }),

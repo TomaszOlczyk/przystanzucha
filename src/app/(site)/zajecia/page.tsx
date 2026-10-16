@@ -32,7 +32,7 @@ export default async function ZajeciaPage() {
               key={a._key ?? i}
               className="group grid gap-2 md:gap-8 py-7 border-b border-[var(--color-line)] md:grid-cols-[80px_minmax(0,1fr)_minmax(0,1.4fr)_160px_120px] md:items-baseline"
             >
-              <span className="t-label !text-[var(--color-coral)]">{String(i + 1).padStart(2, "0")}</span>
+              <span className="t-label !text-[var(--color-coral-dark)]">{String(i + 1).padStart(2, "0")}</span>
               <h2 className="t-title transition-colors group-hover:text-[var(--color-sea)]">{a.name}</h2>
               <p className="t-body">{a.description}</p>
               <p className="font-semibold">{a.frequency}</p>

@@ -74,7 +74,7 @@ export default function Navbar({ siteData }: { siteData: SiteSettings }) {
             {nav.map((item, i) => (
               <li key={item._key ?? item.href}>
                 <Link href={stegaClean(item.href)} onClick={() => setIsOpen(false)} className="flex items-baseline gap-4 py-2">
-                  <span className="t-label !text-[var(--color-coral)] w-7">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="t-label !text-[var(--color-coral-dark)] w-7">{String(i + 1).padStart(2, "0")}</span>
                   <span className="t-display !text-[2.5rem]">{item.label}</span>
                 </Link>
               </li>
